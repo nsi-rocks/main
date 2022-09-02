@@ -1,1 +1,0 @@
-import{_ as o,o as t,c as s,f as n,F as a,b as r}from"./app.ee4e0c75.js";const c={},l=r("h1",null,"Hello from my test component",-1);function _(e,p,f,m,d,u){return t(),s(a,null,[l,n(e.$slots,"default")],64)}const $=o(c,[["render",_],["__file","CompoTest.vue"]]);export{$ as default};

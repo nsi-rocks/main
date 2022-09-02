@@ -26,6 +26,8 @@ export default defineUserConfig({
         navbar: navbar,
         sidebar: sidebar,
         sidebarDepth: 4,
+        lastUpdated: false,
+        contributors: false,
       },
     },
   }),

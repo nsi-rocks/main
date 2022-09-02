@@ -80,7 +80,7 @@ else:
 Si l'utilisateur indique "1" ou "2", alors la réponse correspondante sera affichée. Pour toute autre valeur tapée par l'utilisateur, le programme indiquera que le choix n'est pas valable.
 
 :::tip
-⚠️ Attention, lorsque l'utilisateur donne une réponse via la commande **input**, c'est un type **str** (chaîne de caractère) qui est créé, il faut donc comparer la réponse à **"1"** et non à **1**.
+Attention, lorsque l'utilisateur donne une réponse via la commande **input**, c'est un type **str** (chaîne de caractère) qui est créé, il faut donc comparer la réponse à **"1"** et non à **1**.
 :::
 
 ## Fonctions : print et input
