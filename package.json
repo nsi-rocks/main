@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-container": "^2.0.0-beta.51",
+    "@vuepress/plugin-register-components": "^2.0.0-beta.51",
+    "eslint": "^8.23.0",
+    "markdown-it-image-size": "^0.4.1",
+    "markdown-it-imsize": "^2.0.1",
+    "prettier": "^2.7.1",
+    "vuepress": "^2.0.0-beta.51",
+    "vuepress-plugin-right-anchor": "^2.1.0-rc.2"
+  },
+  "dependencies": {
+    "glob": "^8.0.3",
+    "markdown-it-named-code-blocks": "^0.1.0"
+  }
+}

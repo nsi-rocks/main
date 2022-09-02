@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-8daa1a0e","path":"/","title":"","lang":"fr-FR","frontmatter":{"home":true,"actions":[{"text":"SNT 2nde","link":"/snt/rsociaux.md","type":"primary"},{"text":"NSI 1\xE8re","link":"/nsi-1ere/python1.md","type":"primary"}]},"excerpt":"","headers":[],"git":{},"filePathRelative":"README.md"}');export{e as data};
