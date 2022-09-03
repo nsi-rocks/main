@@ -36,9 +36,8 @@ Nous avons donc deux blocs d'instructions :
 
 :::consigne
 
-1. Essayer de supprimer l'indentation de la ligne `4` : que se passe-t-il ?
-2. Ajouter d'autres lignes affichant une phrase dans l'un ou l'autre des blocs.
-3. Modifier le programme pour qu'il demande à l'utilisateur une valeur de température. Vous pouvez vous aider de l'activité précédente !
+1. Ajouter d'autres lignes affichant une phrase dans l'un ou l'autre des blocs.
+2. Modifier le programme pour qu'il demande à l'utilisateur une valeur de température. Vous pouvez vous aider de l'activité précédente !
    :::
 
 ## elif : des possibilités supplémentaires

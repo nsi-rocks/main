@@ -35,7 +35,7 @@ Vous pouvez également intégrer de l'interactivité avec la fonction `input()` 
 
 ```python:exemple3
 >>> prenom = input("Quel est ton prénom ? \n")
-// La console attend que vous indiquiez une valeur
+# La console attend que vous indiquiez une valeur
 >>> print("Bonjour ", prenom, " !")
 ```
 
