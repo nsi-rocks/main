@@ -1,25 +1,31 @@
-site_name: My Docs
+site_name: SNT & NSI
+extra_css:
+  - extra.css
 theme:
   name: material
+  language: fr
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.expand
+    - navigation.top
   palette:
-    # Palette toggle for automatic mode
-    - media: '(prefers-color-scheme)'
-      toggle:
-        icon: material/brightness-auto
-        name: Switch to light mode
-
     # Palette toggle for light mode
     - media: '(prefers-color-scheme: light)'
+      primary: teal
+      accent: green
       scheme: default
       toggle:
-        icon: material/brightness-7
+        icon: material/toggle-switch
         name: Switch to dark mode
 
     # Palette toggle for dark mode
     - media: '(prefers-color-scheme: dark)'
+      primary: teal
+      accent: green
       scheme: slate
       toggle:
-        icon: material/brightness-4
+        icon: material/toggle-switch-off-outline
         name: Switch to system preference
 markdown_extensions:
   - attr_list
@@ -27,3 +33,32 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.keys:
+      key_map: { 'enter': 'Entrée' }
+plugins:
+  - search:
+      lang: fr
+  - glightbox
+nav:
+  - Home: index.md
+  - SNT:
+      - Cours:
+          - Les réseaux sociaux: snt/rsociaux.md
+      - Activités:
+          - Réseaux Sociaux: snt/rsociaux-acti.md
+  - NSI:
+      - Cours:
+          - Python: nsi/python1.md
+      - Activités:
+          - Python 1: nsi/python-acti1.md
+          - Python 2: nsi/python-acti2.md

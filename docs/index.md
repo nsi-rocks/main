@@ -1,64 +1,46 @@
-# Welcome to MkDocs
+---
+hide:
+  - navigation
+  - footer
+---
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# Ce site est dédié à l'enseignement de la SNT et de la NSI
 
-## Commands
+## Pour transmettre vos fichiers
+Vous pouvez transmettre vos fichiers de travail en les déposant dans le dossier correspondant à votre classe.
+!!! warning "Attention !"
 
-- `mkdocs new [dir-name]` - Create a new project.
-- `mkdocs serve` - Start the live-reloading docs server.
-- `mkdocs build` - Build the documentation site.
-- `mkdocs -h` - Print help message and exit.
+    Vous ne pouvez modifier ni récupérer le fichier une fois que vous l'avez déposé. Vous pouvez toutefois envoyer une nouvelle version si vous avez complété le fichier depuis l'envoi précédent.
 
-<div class="grid cards" markdown>
+    **Pensez à indiquer vos nom et prénom dans le nom du fichier, ainsi que l'activité liée !**
 
--   :material-clock-fast:{ .lg .middle } __Set up in 5 minutes__
+<div class="grid" markdown>
+!!! info "Pour les classes de 2nde SNT"
+    [:material-cloud-upload: 2nde 4](https://mega.nz/megadrop/aL8zTZPev4g)
 
-    ---
+    [:material-cloud-upload: 2nde 7](https://mega.nz/megadrop/-NVCnJ9jkvE)
 
-    Install [`mkdocs-material`](#) with [`pip`](#) and get up
-    and running in minutes
+    [:material-cloud-upload: 2nde 10](https://mega.nz/megadrop/xMTCGAwsmgE)
 
-    [:octicons-arrow-right-24: Getting started](#)
+    [:material-cloud-upload: 2nde 11](https://mega.nz/megadrop/LZtJXcL7bhw)
+!!! info "Pour les classes de 1ère NSI"
+    [:material-cloud-upload: 1NSI 1 Wallon](https://mega.nz/megadrop/DSsrAHUrVVs)
 
--   :fontawesome-brands-markdown:{ .lg .middle } __It's just Markdown__
+    [:material-cloud-upload: 1NSI 2 Wallon](https://mega.nz/megadrop/ydyhC0D7lxA)
 
-    ---
+    [:material-cloud-upload: 1NSI 1 Watteau](https://mega.nz/megadrop/oajXPsBIWFk)
 
-    Focus on your content and generate a responsive and searchable static site
-
-    [:octicons-arrow-right-24: Reference](#)
-
--   :material-format-font:{ .lg .middle } __Made to measure__
-
-    ---
-
-    Change the colors, fonts, language, icons, logo and more with a few lines
-
-    [:octicons-arrow-right-24: Customization](#)
-
--   :material-scale-balance:{ .lg .middle } __Open Source, MIT__
-
-    ---
-
-    Material for MkDocs is licensed under MIT and available on [GitHub]
-
-    [:octicons-arrow-right-24: License](#)
-
+    [:material-cloud-upload: 1NSI 2 Watteau](https://mega.nz/megadrop/8bs3gXUjiK4)
 </div>
 
+## Informations pratiques
+### Organisation
+- [x] Votre dossier de travailer personnel sur le réseau du lycée (`H:\Travail\NSI`) doit être maintenu correctement organisé
+- [x] L'essentiel de votre travail se fera sur ordinateur
+- [x] Vous aurez des évaluations **numériques** et des évaluations **papier** : les évaluations au format papier devront être soigneusement conservées
+- [x] Vous pourrez avoir besoin de réaliser des brouillons (notamment pour les production d'algorithmes), pensez à avoir sous la main un petit cahier pour les conserver au fil de l'année
+- [x] Si vous avez besoin d'un support papier pour travailler correctement, vous pouvez maintenir un cahier à jour, travailler dessus comme bon vous semble
 
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
-
-<div class="grid cards" markdown>
-
-- :fontawesome-brands-html5: **HTML** for content and structure
-- :fontawesome-brands-js: **JavaScript** for interactivity
-- :fontawesome-brands-css3: **CSS** for text running out of boxes
-- :fontawesome-brands-internet-explorer: **Internet Explorer** ... huh?
-
-</div>
+### En cas de problème
+- Si vous ne parvenez pas à vous connecter sur le réseau informatique du lycée, rapprochez-vous de votre professeur principal **rapidement**
+- Si vous avez la moindre question, en lien avec un cours passé ou une thématique en lien avec le cours, vous pouvez me contacter via la messagerie ProNote ou à l'adresse [contact@nsi.rocks](mailto://contact@nsi.rocks)
