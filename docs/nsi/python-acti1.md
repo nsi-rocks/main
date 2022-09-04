@@ -18,13 +18,13 @@ L'interface de Thonny est très simple, la zone supérieure est l'**éditeur de 
 
 Pour utiliser la console, il suffit de taper les instructions les unes après les autres. Essayons avec quelque chose de simple.
 
-```python
+``` python title="dans la console"
 >>> 3 + 4
 ```
 
 La console a calculé pour vous la somme `3+4`. Vous pouvez utiliser des variables dans la console :
 
-```python
+``` python title="dans la console"
 >>> print("Bonjour")
 >>> temperature = 19
 >>> print("La température est de", temperature, "degrés")
@@ -32,7 +32,7 @@ La console a calculé pour vous la somme `3+4`. Vous pouvez utiliser des variabl
 
 Vous pouvez également intégrer de l'interactivité avec la fonction `input()` :
 
-```python
+``` python title="dans la console"
 >>> prenom = input("Quel est ton prénom ? \n")
 # La console attend que vous indiquiez une valeur
 >>> print("Bonjour ", prenom, " !")
@@ -44,7 +44,7 @@ La console est pratique pour de petites opérations, mais elle se retrouve très
 
 Voici un exemple de programme Python très simple.
 
-```python
+```python title="dans l'éditeur de code"
 print("Bonjour, quel est ton prénom ?")
 prenom = input()
 print("Bonjour ", prenom, ", quel est ton âge ?")

@@ -62,3 +62,4 @@ nav:
       - Activités:
           - Python 1: nsi/python-acti1.md
           - Python 2: nsi/python-acti2.md
+  - changelog: changelog.md
