@@ -16,7 +16,7 @@ _Ajoutons un peu de conditions..._
 
 Dans notre programme, nous pouvons décider de réaliser une action ou une autre selon le résultat de certains tests.
 
-```python
+```python linenums="1"
 temperature = 19
 if temperature > 0:
     print("Il ne fait pas si froid que ça !")
@@ -47,7 +47,7 @@ Résumons notre [programme précédent](#if-else-introduire-des-conditions) :
 
 Ce `else` ne permet pas beaucoup de nuances : il exécutera simplement son code dans le cas où la condition précédente n'est pas vérifiée. Il existe un autre mot-clé pour affiner les conditions : **sinon, si** que l'on traduirait en anglais par **else, if**, et qui est symbolisé en python par la contraction des deux mots, ce qui donne `elif` :
 
-```python
+```python linenums="1"
 temperature = 19
 if temperature > 15:
     print("Il ne fait pas si froid que ça !")
