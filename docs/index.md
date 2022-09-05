@@ -35,10 +35,10 @@ Vous pouvez transmettre vos fichiers de travail en les déposant dans le dossier
 
 ## Informations pratiques
 ### Organisation
-- [x] Votre dossier de travailer personnel sur le réseau du lycée (`H:\Travail\NSI`) doit être maintenu correctement organisé
+- [x] Votre dossier de travail personnel sur le réseau du lycée (`H:\Travail\NSI`) doit être maintenu correctement organisé
 - [x] L'essentiel de votre travail se fera sur ordinateur
 - [x] Vous aurez des évaluations **numériques** et des évaluations **papier** : les évaluations au format papier devront être soigneusement conservées
-- [x] Vous pourrez avoir besoin de réaliser des brouillons (notamment pour les production d'algorithmes), pensez à avoir sous la main un petit cahier pour les conserver au fil de l'année
+- [x] Vous pourrez avoir besoin de réaliser des brouillons (notamment pour les production d'algorithmes), pensez à avoir sous la main un petit cahier/carnet tout au long de l'année
 - [x] Si vous avez besoin d'un support papier pour travailler correctement, vous pouvez maintenir un cahier à jour, travailler dessus comme bon vous semble
 
 ### En cas de problème
