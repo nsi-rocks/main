@@ -1,6 +1,5 @@
 ---
-prev: /nsi-1ere/python-acti1.md
-next: /nsi-1ere/python1.md
+icon: material/help-network
 ---
 
 # Les conditions : réalisation d'un mini quizz

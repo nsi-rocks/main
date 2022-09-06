@@ -1,3 +1,6 @@
+---
+icon: material/card-bulleted-settings-outline
+---
 # Python : les bases
 
 Un ordinateur, sans programme, ne sait rien faire.

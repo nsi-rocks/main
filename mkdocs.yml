@@ -57,9 +57,8 @@ nav:
       - Activités:
           - Réseaux Sociaux: snt/rsociaux-acti.md
   - NSI:
-      - Cours:
+      - Python 1:
           - Python: nsi/python1.md
-      - Activités:
           - Python 1: nsi/python-acti1.md
           - Python 2: nsi/python-acti2.md
   - changelog: changelog.md

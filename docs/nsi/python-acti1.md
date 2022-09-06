@@ -1,5 +1,5 @@
 ---
-next: /nsi-1ere/python-acti2.md
+icon: material/help-network
 ---
 
 # Utilisation de Thonny
