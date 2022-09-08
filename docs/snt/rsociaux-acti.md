@@ -1,3 +1,8 @@
+---
+icon: octicons/git-commit-24
+hide:
+  - footer
+---
 # Différents réseaux sociaux
 
 ## Activité 1.1

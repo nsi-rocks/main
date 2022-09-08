@@ -1,3 +1,18 @@
+### 08/09/2022
+#### ajouts
+- NSI : cours sur les fonctions et les boucles while
+- NSI : correction du mini-quizz
+- NSI : activités boucles while et fonctions
+- SNT : cours sur les graphes
+- SNT : activités sur les graphes
+
+#### modifications
+- NSI : modification de la structure du cours "Python1" qui est désormais découpé en plusieurs chapitres
+- NSI : modification du cours sur les consitions et tests, davantage d'exemples
+- SNT & NSI : mise en place d'un code pour identifier facilement chaque activité. Exemple, si l'élève DUPONT veut envoyer son document pour l'activité "Python Fonctions 2", son fichier se nommera "dupont-pf2.py".
+
+***
+
 ### 04/09/2022
 - changement du générateur de site statique pour [mkdocs-material](https://squidfunk.github.io/mkdocs-material/)
 - ajout des informations pratiques générales

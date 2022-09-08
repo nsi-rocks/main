@@ -9,6 +9,8 @@ theme:
     - navigation.indexes
     - navigation.expand
     - navigation.top
+    - navigation.sections
+    - content.code.annotate
   palette:
     # Palette toggle for light mode
     - media: '(prefers-color-scheme: light)'
@@ -38,13 +40,18 @@ markdown_extensions:
   - tables
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+        custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.keys:
       key_map: { 'enter': 'Entrée' }
+  - def_list
 plugins:
   - search:
       lang: fr
@@ -52,13 +59,22 @@ plugins:
 nav:
   - Home: index.md
   - SNT:
-      - Cours:
-          - Les réseaux sociaux: snt/rsociaux.md
-      - Activités:
-          - Réseaux Sociaux: snt/rsociaux-acti.md
+      - Les Réseaux Sociaux:
+          - Repères, chiffres et dates: snt/rsociaux.md
+          - Recherche documentaire: snt/rsociaux-acti.md
+          - Les graphes: snt/rs-graphes.md
+          - Activité graphes: snt/acti-graphes.md
   - NSI:
-      - Python 1:
-          - Python: nsi/python1.md
-          - Python 1: nsi/python-acti1.md
-          - Python 2: nsi/python-acti2.md
+      - Python:
+          - Variables et types natifs: nsi/python1.md
+          - Thonny: nsi/python-acti1.md
+          - Conditions et tests: nsi/python-tests.md
+          - Mini-quizz: nsi/python-acti2.md
+          - Mini-quizz (c): nsi/python-acti2-c.md
+          - Boucles while: nsi/python-while.md
+          - Compte à rebours: nsi/python-while-acti.md
+          - Fonctions: nsi/python-fonctions.md
+          #- Types construits: nsi/python-types.md
+          #- Activités supp.: nsi/python-acti2-p.md
+          - Activités fonctions: nsi/python-func-acti.md
   - changelog: changelog.md

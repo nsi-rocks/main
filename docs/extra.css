@@ -2,6 +2,58 @@
   color: green;
 }
 
+.red {
+  color: red;
+}
+
 .md-typeset .admonition {
   font-size: 0.8rem;
+}
+
+.def code {
+  font-size: 1rem;
+  background-color: unset;
+  font-family: var(--md-text-font-family);
+  color: var(--md-typeset-a-color);
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+
+dt {
+  grid-column-start: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.md-typeset dd, p {
+  grid-column-start: 2;
+  margin: 0;
+}
+
+
+[dir="ltr"] .md-typeset dd {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.md-typeset dd, dt {
+  border-bottom: 1px solid var(--md-typeset-a-color);
+}
+
+dl dd:first-of-type, dt:first-of-type {
+  border-bottom: 1px solid var(--md-typeset-a-color);
+  border-top: 1px solid var(--md-typeset-a-color);
+}
+
+.md-tooltip__inner {
+  font-size: 0.7rem;
+}
+
+.md-typeset table:not([class]) td {
+  font-size: 0.7rem;
+  padding: 0.6rem;
 }

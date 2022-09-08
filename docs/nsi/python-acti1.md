@@ -1,5 +1,7 @@
 ---
-icon: material/help-network
+icon: octicons/git-commit-24
+hide:
+  - footer
 ---
 
 # Utilisation de Thonny

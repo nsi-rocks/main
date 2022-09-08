@@ -1,3 +1,8 @@
+---
+icon: octicons/info-24
+hide:
+  - footer
+---
 # Les réseaux sociaux
 
 ## Repères historiques
