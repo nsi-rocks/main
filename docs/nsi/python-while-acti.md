@@ -4,7 +4,7 @@ hide:
   - footer
 ---
 # Compte à rebours sur commande
-_PW pour Python While
+_PW pour Python While_
 ## PW 1
 !!! example "Consigne"
     Réaliser un compte à rebours commençant à 10 et se terminant à 1.
