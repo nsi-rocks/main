@@ -64,6 +64,7 @@ nav:
           - Recherche documentaire: snt/rsociaux-acti.md
           - Les graphes: snt/rs-graphes.md
           - Activité graphes: snt/acti-graphes.md
+          - Le Petit Monde: snt/petit-monde.md
   - NSI:
       - Python:
           - Variables et types natifs: nsi/python1.md
@@ -77,4 +78,5 @@ nav:
           #- Types construits: nsi/python-types.md
           #- Activités supp.: nsi/python-acti2-p.md
           - Activités fonctions: nsi/python-func-acti.md
+          - Activités fonctions (c): nsi/python-func-acti-c.md
   - changelog: changelog.md
