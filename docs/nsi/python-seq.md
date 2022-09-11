@@ -10,6 +10,8 @@ Ce type de structure est appelé une __séquence__. De façon plus précise, nou
 Il existe deux types de séquences en Python : les __tuples__ et les __listes__.
 
 ## Les tuples
+En mathématiques, on appelle __uplets__ des "collections ordonnées d'objets". Plus précisément, on appellera n-uple ou n-uplet une collection contenant _n_ objets. Vous trouverez davantage d'informations sur la page [:material-wikipedia: Uplet - Wikipedia](https://fr.wikipedia.org/wiki/Uplet).  
+Le terme courant en programmation est l'anglicisme correspondant, le __tuple__.  
 Commençons par un exemple simple :
 
 ``` python 
@@ -75,7 +77,7 @@ print(addition(12, 8))
     :warning:   Un tuple ne peut pas être modifié une fois créé.
 
 ## Les listes (ou tableaux)
-Dans tous les langages de programmation, ces objets sont appelés __tableaux__. En Python, le terme retenu est __listes__. Par convention, nous appellerons ces objets des tableaux, mais il est important de savoir que le terme exact en Python est __listes__.
+Dans tous les langages de programmation, ces objets sont appelés __tableaux__ (_arrays_). En Python, le terme retenu est __listes__. Par convention, nous appellerons ces objets des tableaux, mais il est important de savoir que le terme exact en Python est __listes__.
 
 !!! info "Différences entre les tuples et les tableaux"
     - création d'un tuple : `#!python mon_tuple = (1, 2, 3)`
