@@ -4,6 +4,9 @@ extra_css:
   - extra.css
 extra:
   generator: false
+  analytics:
+    provider: google
+    property: G-82YG19J1ZT
 theme:
   name: material
   language: fr
