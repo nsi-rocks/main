@@ -2,7 +2,6 @@
 icon: octicons/info-24
 hide:
   - footer
-  - toc
 ---
 # Python : boucles
 La notion de boucle est fondamentale en informatique. Une boucle permet d'exécuter plusieurs fois des instructions, soit tant qu'une condition est réalisée (utilisation de la boucle `while`), soit en déterminant le nombre d'__itérations__ qui devront être réalisées (utilisation de la boucle `for`).
