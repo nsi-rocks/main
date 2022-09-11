@@ -1,6 +1,7 @@
 ### 11/09/2022
 #### ajouts
-- correction de l'activité portant sur le "couteau-suisse" (fonctions), non publiée pour l'instant
+- correction de l'activité portant sur le "couteau-suisse" (fonctions)
+- cours et activités portant sur les séquences : tuples et tableaux, et itération sur les séquences à l'aide de la boucle `for`.
 
 
 #### modifications

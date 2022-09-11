@@ -28,7 +28,7 @@ hide:
     ``` python
     def addition(int_a, int_b):
         if type(int_a) == type(int_b) == type(1):
-            return temp + 273.15
+            return int_a + int_b
         else:
             return "ERREUR DE TYPE"
     ```
