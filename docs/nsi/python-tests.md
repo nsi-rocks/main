@@ -124,7 +124,7 @@ On trouve aussi le *not* comme opérateur logique avec la table de vérité suiv
 | True  | False     |
 | False | True      |
 
-``` python title="Exemple d'utilisation" linenums="1"
+``` python title="Exemples d'utilisation" linenums="1"
 a = 2
 b = 3
 c = 3

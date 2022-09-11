@@ -1,3 +1,13 @@
+### 11/09/2022
+#### ajouts
+- correction de l'activité portant sur le "couteau-suisse" (fonctions), non publiée pour l'instant
+
+
+#### modifications
+- NSI : modification du cours sur les boucles, ajout des boucles `for` et de la fonction `range`
+- NSI : suppression d'une activité pouvant porter à confusion pour les fonctions
+- NSI : ajout du lien pointant vers le site de Thonny : le logiciel n'étant pas toujours disponible sur les ordinateurs du lycée, une version portable peut être téléchargée et utilisée si besoin
+
 ### 08/09/2022
 #### ajouts
 - NSI : cours sur les fonctions et les boucles while

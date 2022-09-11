@@ -29,22 +29,24 @@ dt {
   justify-content: center;
 }
 
-.md-typeset dd, p {
+.md-typeset dd,
+p {
   grid-column-start: 2;
   margin: 0;
 }
 
-
-[dir="ltr"] .md-typeset dd {
+[dir='ltr'] .md-typeset dd {
   margin: 0;
   padding-left: 1rem;
 }
 
-.md-typeset dd, dt {
+.md-typeset dd,
+dt {
   border-bottom: 1px solid var(--md-typeset-a-color);
 }
 
-dl dd:first-of-type, dt:first-of-type {
+dl dd:first-of-type,
+dt:first-of-type {
   border-bottom: 1px solid var(--md-typeset-a-color);
   border-top: 1px solid var(--md-typeset-a-color);
 }
@@ -56,4 +58,8 @@ dl dd:first-of-type, dt:first-of-type {
 .md-typeset table:not([class]) td {
   font-size: 0.7rem;
   padding: 0.6rem;
+}
+
+html .md-typeset :is(.admonition, details) > :only-child {
+  margin-top: 0.6rem;
 }

@@ -1,6 +1,9 @@
 site_name: SNT & NSI
+copyright: Réalisé par M. NICOLAS
 extra_css:
   - extra.css
+extra:
+  generator: false
 theme:
   name: material
   language: fr
@@ -41,7 +44,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences:
-        custom_fences:
+      custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
@@ -49,6 +52,11 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.keys:
       key_map: { 'enter': 'Entrée' }
   - def_list
@@ -66,17 +74,18 @@ nav:
           - Activité graphes: snt/acti-graphes.md
           - Le Petit Monde: snt/petit-monde.md
   - NSI:
-      - Python:
+      - Bases du Python:
           - Variables et types natifs: nsi/python1.md
           - Thonny: nsi/python-acti1.md
           - Conditions et tests: nsi/python-tests.md
           - Mini-quizz: nsi/python-acti2.md
           - Mini-quizz (c): nsi/python-acti2-c.md
-          - Boucles while: nsi/python-while.md
+          - Boucles while / for: nsi/python-while.md
           - Compte à rebours: nsi/python-while-acti.md
           - Fonctions: nsi/python-fonctions.md
           #- Types construits: nsi/python-types.md
           #- Activités supp.: nsi/python-acti2-p.md
           - Activités fonctions: nsi/python-func-acti.md
-          - Activités fonctions (c): nsi/python-func-acti-c.md
+          #- Activités fonctions (c): nsi/python-func-acti-c.md
+          #- Séquences et boucles for: nsi/python-seq.md
   - changelog: changelog.md

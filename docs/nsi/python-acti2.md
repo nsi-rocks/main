@@ -34,7 +34,7 @@ Nous avons donc deux blocs d'instructions :
 - le premier est constitué des lignes 3 et 4, et sera exécuté si la température est supérieure à 0
 - le second est constitué de la ligne 6, et sera exécuté si la température n'est pas inférieure à 0 (_else_)
 
-!!!example
+!!!example "Consigne"
 
     1. Ajouter d'autres lignes affichant une phrase dans l'un ou l'autre des blocs.
     2. Modifier le programme pour qu'il demande à l'utilisateur une valeur de température. Vous pouvez vous aider de l'activité précédente !
@@ -65,7 +65,7 @@ La lecture du code nous donne donc :
 - Sinon, si la température est supérieure à 0 (et donc inférieure à 15), exécuter la ligne 6
 - Sinon, exécuter la ligne 8
 
-!!!example
+!!!example "Consigne"
     À l'aide de la [fiche mémo](python1.md) et des exemples vus aujourd'hui, réaliser un mini-quizz comportant cinq questions.
 
     Chaque question doit se dérouler ainsi :
@@ -75,3 +75,5 @@ La lecture du code nous donne donc :
     - le programme répond "Gagné" ou "Perdu"
 
     Vous pouvez simplifier les tests en proposant des questions à choix multiples !
+
+    :octicons-arrow-right-24: Déposez le fichier avec le nom `votre_nom-PMQ.py` (_P pour Python, MQ pour Mini-Quizz_)

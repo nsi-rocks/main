@@ -6,8 +6,11 @@ hide:
 
 # Utilisation de Thonny
 
+Thonny est téléchargeable gratuitement depuis cette adresse :  
+[https://thonny.org/](https://thonny.org/)
+
 !!!example "Consigne"
-    Thonny est un interpréteur Python **gratuit, open-source, et multi-plateformes**.
+    Thonny est un interpréteur Python **gratuit, open-source, et multi-plateformes**.  
     Que signifient ces termes ?
 
 ## Interface de Thonny
