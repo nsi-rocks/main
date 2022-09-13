@@ -89,7 +89,7 @@ nav:
           #- Types construits: nsi/python-types.md
           #- Activités supp.: nsi/python-acti2-p.md
           - Activités fonctions: nsi/python-func-acti.md
-          - Activités fonctions (c): nsi/python-func-acti-c.md
-          - Séquences et boucles for: nsi/python-seq.md
-          - Activités séquences: nsi/python-seq-acti.md
+          #- Activités fonctions (c): nsi/python-func-acti-c.md
+          #- Séquences et boucles for: nsi/python-seq.md
+          #- Activités séquences: nsi/python-seq-acti.md
   - changelog: changelog.md
