@@ -5,9 +5,20 @@ hide:
 ---
 
 # Ce site est dédié à l'enseignement de la SNT et de la NSI
-<div class="grid cards" markdown>
-- [:fontawesome-solid-graduation-cap: ProNote Wallon](https://0590221v.index-education.net/pronote/professeur.html)
-- [:fontawesome-solid-graduation-cap: ProNote Watteau](https://0590222w.index-education.net/pronote/professeur.html)
+<div class="grid cards acenter" markdown>
+-   ProNote  Wallon
+
+    ---
+
+    [:fontawesome-solid-user:{ .big }](https://0590221v.index-education.net/pronote/eleve.html)
+    [:fontawesome-solid-school:{ .big }](https://0590221v.index-education.net/pronote/professeur.html)
+
+-   ProNote Watteau
+
+    ---
+
+    [:fontawesome-solid-user:{ .big }](https://0590222w.index-education.net/pronote/eleve.html)
+    [:fontawesome-solid-school:{ .big }](https://0590222w.index-education.net/pronote/professeur.html)
 </div>
 
 ## Pour transmettre vos fichiers

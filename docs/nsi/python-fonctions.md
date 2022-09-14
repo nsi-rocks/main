@@ -4,35 +4,85 @@ hide:
   - footer
 ---
 # Python : fonctions
-## Fonctions : print et input
+## Utilité d'une fonction
+L'utilisation de fonctions est une base incontournable de la programmation modulaire. On peut faire l'analogie avec notre quotidien en se demandant pourquoi sur les paquets de pâtes on ne trouve pas toutes les étapes nécessaires à leur cuisson.
 
-Une fonction est un d'outil qui permet de réaliser une action précise. Il existe de nombreuses fonctions prédéfinies dans Python, et nous en avons déjà rencontré deux dans l'[activité 1](python-acti1.md) : `print()` et `input()`.
+- on lit sur les paquets de pâtes l'instruction __"x minutes de cuisson"__, et rien d'autre.
+- dans votre cerveau, c'est la seule information nécessaire.
 
-Voici comment nous les avons utilisées :
-
-```python
-print("Bonjour")
-print("La température est de", temperature, "degrés")
-input("Quel est ton prénom ? \n")
-input()
+Pourquoi ?  
+Parce que dans votre cerveau, il existe une fonction "préparer les pâtes" qui ressemble à ceci :
+``` hl_lines="8" linenums="1"
+- prendre une casserole
+- remplir la casserole d'eau
+- allumer la plaque chauffante
+- poser la casserole sur la plaque 
+- attendre que l'eau soit à ébullition
+- mettre les pâtes dans l'eau
+- regarder l'heure
+- ajouter x minutes
+- noter l'heure à laquelle les pâtes seront cuites
 ```
 
-On peut remarquer qu'elles n'ont pas toutes été appelées de la même façon.
+Ainsi, vous n'avez qu'à appeler votre fonction "préparer des pâtes" après avoir lu le temps de cuisson sur le paquet pour pouvoir vous préparer des pâtes.
+Et vous pourrez appeler cette même fonction à chaque fois que vous aurez besoin d'elle, c'est-à-dire à chaque fois que vous aurez besoin de préparer des pâtes.
 
-- à la ligne 1, nous avons appelé `print` en passant l'argument `"Bonjour"`
-- à la ligne 2, nous avons appelé `print` en passant les arguments successifs :
-  - `"La température est de"`
-  - `temperature`
-  - `"degrés"`
-- à la ligne 3, nous avons appelé `input` en passant l'argument `"Quel est ton prénom ? \n")`
-- à la ligne 4, nous n'avons passé aucun argument à la fonction `input`
+!!! check "à savoir"
+    Une fonction a pour mission de réaliser une tâche précise. Pour ce faire, il faut lui fournir différents éléments lors de sa création :
 
-Ces quatre cas de figure fonctionnent, et pourtant ils ne sont pas tous identiques.
+    - quelles données le programme qui l'appelle doit-il lui fournir ?  
+      :octicons-arrow-right-24: _dans notre exemple, le nombre de minutes nécessaires à la cuisson_
+    - quelles instructions doit-elle exécuter ?  
+      :octicons-arrow-right-24: _dans notre exemple, les lignes 1 à 6_
+    - quelles données renvoie-t-elle au programme qui l'a appelée ?  
+      :octicons-arrow-right-24: _dans notre exemple, c'est le résultat de "heure actuelle passée de x minutes"_
 
-!!!tip "à savoir"
-    Lorsque l'on appelle une fonction, on peut avoir besoin d'indiquer des **arguments**.
+    On pourrait alors définir une autre fonction, qui aurait pour tâche précise :  
+     __régler une alarme à hh:mm__
 
-    Chaque fonction est différente, et il convient de vérifier son fonctionnement (quels sont les arguments nécessaires ? que fait-elle ? est-ce qu'elle renvoie une valeur ?) à l'aide de la documentation avant de l'utiliser.
+
+## Fonctions print et input
+
+Il existe de nombreuses fonctions prédéfinies dans Python, et nous en avons déjà rencontré deux dans l'[activité 1](python-acti1.md) : `print()` et `input()`.
+
+Étudions-les.
+
+### étude de print
+
+:octicons-arrow-right-24: quelles données faut-il lui fournir ?
+
+> les chaînes de caractère et variables à afficher
+
+:octicons-arrow-right-24: quelles instructions exécute-t-elle ?
+
+> elle affiche dans la console les éléments fournis
+
+:octicons-arrow-right-24: quelles données renvoie-t-elle au programme ?
+
+> aucune
+
+### étude de input
+
+quelles données faut-il lui fournir ?
+
+> [optionnel] le texte à afficher juste avant (la question posée par exemple)
+
+:octicons-arrow-right-24: quelles instructions exécute-t-elle ?
+
+> elle met le programme en pause  
+> elle collecte la chaîne de caractère tapée par l'utilisateur  
+> elle laisse le programme continuer quand ++enter++ est pressée
+
+:octicons-arrow-right-24: quelles données renvoie-t-elle au programme ?
+
+> la chaîne de caractères que l'utilisateur a tapée au clavier 
+
+!!! check  "à savoir"
+    Les données que l'on doit fournir à certaines fonctions au moment où on les appelle sont les __arguments__.  
+    Les données que la fonction renvoie au programme sont les __valeurs de retour__.  
+    Selon les fonctions, on peut avoir zéro, un ou plusieurs arguments.  
+    Selon les fonctions, on peut avoir zéro, une ou plusieurs valeurs de retour.  
+    
 
 ## Création d'une fonction
 Il existe donc de nombreuses fonctions prédéfinies qui permettent de réaliser des actions basiques, communes à beaucoup de programmes.  
@@ -98,5 +148,6 @@ TypeError: can only concatenate str (not "int") to str
 ```
 </div>
 
-On remarque que malgré le fait que l'on a appelé nos variables `int_a` et `int_b`, rien ne nous empêche d'appeler la fonction addition avec des chaînes de caractère. L'opération d'addition pour deux chaînes de caractère s'appelle la **concaténation**.
+On remarque que malgré le fait que l'on a appelé nos variables `int_a` et `int_b`, rien ne nous empêche d'appeler la fonction addition avec des chaînes de caractères.  
+L'opération d'addition pour deux chaînes de caractère s'appelle la **concaténation**.  
 D'ailleurs, la fonction addition **ne fonctionne pas** si l'on cherche à additionner une variable de type `STR` avec une variable de type `INT`.

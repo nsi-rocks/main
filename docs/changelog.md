@@ -1,3 +1,7 @@
+---
+hide:
+    - navigation
+--- 
 ### 11/09/2022
 #### ajouts
 - correction de l'activité portant sur le "couteau-suisse" (fonctions)
