@@ -128,6 +128,7 @@ Il y a 4 éléments dans le tableau
 
 !!! info "à retenir"
     - l'instruction `#!python del` permet de supprimer un élément d'un tableau
+    - la fonction mon_tableau.`#!python append()` permet d'ajouter un élément à la fin d'un tableau
     - la fonction `#!python len()` permet d'obtenir la longueur d'un tuple ou d'un tableau
     - on peut modifier un tableau : `#!python tableau[2] = "maison"`
     - les opérations sur les tuples sont légèrement plus rapides : si vous savez que vous n'aurez pas besoin de modifier votre séquence, préférez le tuple au tableau

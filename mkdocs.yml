@@ -43,6 +43,7 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.tasklist:
       custom_checkbox: true
+      clickable_checkbox: true
   - tables
   - admonition
   - pymdownx.details
@@ -92,5 +93,6 @@ nav:
           - Activités fonctions (c): nsi/python-func-acti-c.md
           - Séquences et boucles for: nsi/python-seq.md
           - Activités séquences: nsi/python-seq-acti.md
-          # - Fiches mémo: nsi/python-bases-memo.md
+          - Bilan: nsi/python-bases-bilan.md
+          - Projet: nsi/python-projet.md
   - changelog: changelog.md

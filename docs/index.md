@@ -19,6 +19,15 @@ hide:
 
     [:fontawesome-solid-user:{ .big }](https://0590222w.index-education.net/pronote/eleve.html)
     [:fontawesome-solid-school:{ .big }](https://0590222w.index-education.net/pronote/professeur.html)
+
+-   Outils divers
+
+    ---
+
+    <a href="https://excalidraw.com" title="Accéder à Excalidraw">
+    ![Excalidraw](/images/logo.svg#only-light){ width="40" .off-glb .green }
+    ![Excalidraw](/images/logo.svg#only-dark){ width="40" .off-glb }
+    </a>
 </div>
 
 ## Pour transmettre vos fichiers

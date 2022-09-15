@@ -2,6 +2,16 @@
 hide:
     - navigation
 --- 
+### 16/09/2022
+#### ajouts
+- NSI : ajout de la fiche mémo "bilan"
+- NSI : ajout de l'activité "Projet"
+
+### modifications
+- NSI : exemple de la vie courante ajouté sur le cours relatif aux fonctions
+- page d'accueil : icône vers Excalidraw
+
+
 ### 11/09/2022
 #### ajouts
 - correction de l'activité portant sur le "couteau-suisse" (fonctions)
