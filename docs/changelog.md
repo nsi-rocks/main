@@ -2,6 +2,10 @@
 hide:
     - navigation
 --- 
+### 18/09/2022
+#### ajouts
+- SNT : ajout des activités relatives au module "Internet"
+
 ### 16/09/2022
 #### ajouts
 - NSI : ajout de la fiche mémo "bilan"

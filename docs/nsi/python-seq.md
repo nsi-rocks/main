@@ -15,21 +15,22 @@ Le terme courant en programmation est l'anglicisme correspondant, le __tuple__.
 Commençons par un exemple simple :
 
 ``` python 
-premier_tuple = (3, 6, 1, 9)
+premier_tuple = (1, 9, 42, 13, 24)
 ```
+<figure markdown>
+![](/images/tuple.png#only-light){ width="500" }
+![](/images/tuple-d.png#only-dark){ width="500" }
+<figcaption>On peut représenter ce tuple par un schéma basique.</figcaption>
+</figure>
 
-On peut représenter ce tuple par un schéma basique.
-
-| Valeur | **3** | **6** | **1** | **9** |
-|--------|:-----:|:-----:|:-----:|:-----:|
-| indice |  _0_  |  _1_  |  _2_  |  _3_  |
 
 Ainsi, dans la variable `premier_tuple`, on a :
 
-- la __valeur 3__ en position _0_
-- la __valeur 6__ en position _1_
-- la __valeur 1__ en position _2_
-- la __valeur 9__ en position _3_
+- la __valeur 1__ en position _0_
+- la __valeur 9__ en position _1_
+- la __valeur 42__ en position _2_
+- la __valeur 13__ en position _3_
+- la __valeur 24__ en position _3_
 
 Pour accéder à ces valeurs, on utilise une notation à base de __crochets__. Le code ci-dessous permet d'analyser chaque élément du tuple. On remarque que l'on peut sans problème faire cohabiter différents types natifs entre eux au sein d'un même tuple.
 
@@ -50,6 +51,8 @@ print(type(mon_tuple[3]), ":", mon_tuple[3])
 <class 'int'> : 12
 <class 'bool'> : True
 ```
+![](/images/tuple1.png#only-light){ width="500" }
+![](/images/tuple1-d.png#only-dark){ width="500" }
 </div>
 
 !!! info ""

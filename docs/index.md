@@ -25,8 +25,8 @@ hide:
     ---
 
     <a href="https://excalidraw.com" title="Accéder à Excalidraw">
-    ![Excalidraw](/images/logo.svg#only-light){ width="40" .off-glb .green }
-    ![Excalidraw](/images/logo.svg#only-dark){ width="40" .off-glb }
+    ![Excalidraw](/images/logo.svg#only-light){ width="30" .off-glb .green }
+    ![Excalidraw](/images/logo.svg#only-dark){ width="30" .off-glb }
     </a>
 </div>
 

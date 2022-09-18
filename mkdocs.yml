@@ -77,6 +77,9 @@ nav:
           - Les graphes: snt/rs-graphes.md
           - Activité graphes: snt/acti-graphes.md
           - Le Petit Monde: snt/petit-monde.md
+      - Internet:
+          - Introduction: snt/internet-1.md
+          - Protocole TCP/IP: snt/internet-2.md
   - NSI:
       - Bases du Python:
           - Variables et types natifs: nsi/python1.md
