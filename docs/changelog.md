@@ -5,6 +5,7 @@ hide:
 ### 18/09/2022
 #### ajouts
 - SNT : ajout des activités relatives au module "Internet"
+- SNT : ajout de l'activité "Excaligraphes"
 
 ### 16/09/2022
 #### ajouts
