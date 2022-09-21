@@ -81,22 +81,26 @@ nav:
       - Internet:
           - Introduction: snt/internet-1.md
           - Protocole TCP/IP: snt/internet-2.md
+          # - Routage des paquets : snt/internet-3.md
   - NSI:
       - Bases du Python:
-          - Variables et types natifs: nsi/python1.md
-          - Thonny: nsi/python-acti1.md
-          - Conditions et tests: nsi/python-tests.md
-          - Mini-quizz: nsi/python-acti2.md
-          - Mini-quizz (c): nsi/python-acti2-c.md
-          - Boucles while / for: nsi/python-while.md
-          - Compte à rebours: nsi/python-while-acti.md
-          - Fonctions: nsi/python-fonctions.md
-          #- Types construits: nsi/python-types.md
-          #- Activités supp.: nsi/python-acti2-p.md
-          - Activités fonctions: nsi/python-func-acti.md
-          - Activités fonctions (c): nsi/python-func-acti-c.md
-          - Séquences et boucles for: nsi/python-seq.md
-          - Activités séquences: nsi/python-seq-acti.md
-          - Bilan: nsi/python-bases-bilan.md
-          - Projet: nsi/python-projet.md
+          - Variables et types natifs: nsi/python-bases/python1.md
+          - Thonny: nsi/python-bases/python-acti1.md
+          - Conditions et tests: nsi/python-bases/python-tests.md
+          - Mini-quizz: nsi/python-bases/python-acti2.md
+          - Mini-quizz (c): nsi/python-bases/python-acti2-c.md
+          - Boucles while / for: nsi/python-bases/python-while.md
+          - Compte à rebours: nsi/python-bases/python-while-acti.md
+          - Fonctions: nsi/python-bases/python-fonctions.md
+          #- Types construits: nsi/python-bases/python-types.md
+          #- Activités supp.: nsi/python-bases/python-acti2-p.md
+          - Activités fonctions: nsi/python-bases/python-func-acti.md
+          - Activités fonctions (c): nsi/python-bases/python-func-acti-c.md
+          - Séquences et boucles for: nsi/python-bases/python-seq.md
+          - Activités séquences: nsi/python-bases/python-seq-acti.md
+          - Bilan: nsi/python-bases/python-bases-bilan.md
+          - Projet: nsi/python-bases/python-projet.md
+      # - Représentation des types:
+      #     - Entiers positifs: nsi/types-base/entiers.md
+      #     - Entiers - activité: nsi/types-base/entiers-acti.md
   - changelog: changelog.md
