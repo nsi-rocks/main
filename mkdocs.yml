@@ -78,9 +78,9 @@ nav:
           - Activité graphes: snt/acti-graphes.md
           - Excaligraphes: snt/excaligraphes.md
           - Le Petit Monde: snt/petit-monde.md
-          - Analyse d'un RS: snt/rs-analyse.md
       - Internet:
           - Introduction: snt/internet-1.md
+          - Enquête Internet: snt/enquete-internet.md
           - Protocole TCP/IP: snt/internet-2.md
           # - Routage des paquets : snt/internet-3.md
   - NSI:
