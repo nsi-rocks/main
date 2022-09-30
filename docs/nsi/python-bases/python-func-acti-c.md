@@ -52,7 +52,7 @@ hide:
     ```
 
     ```python title="couteau-suisse.py" linenums="1"
-    --8<-- "docs/nsi/couteau-suisse.py"
+    --8<-- "docs/nsi/python-bases/couteau-suisse.py"
     ```
 
     1. La fonction `#!python range()` est nouvelle pour nous. Elle a pour effet de créer une séquence basée sur les arguments donnés.  

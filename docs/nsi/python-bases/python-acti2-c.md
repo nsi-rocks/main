@@ -8,7 +8,7 @@ hide:
 
 ## Correction
 ```python title="mini-quiz.py" linenums="1"
---8<-- "docs/nsi/mini-quiz.py"
+--8<-- "docs/nsi/python-bases/mini-quiz.py"
 ```
 
 1. Ici, la fonction `#!python .lower()` permet d'afficher la variable `reponse` avec toutes les lettres en minuscule. Cela permet de faciliter la comparaison, car cela valide les réponses paris, Paris, pAris, etc...
