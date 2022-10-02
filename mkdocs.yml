@@ -10,6 +10,7 @@ extra:
 theme:
   name: material
   language: fr
+  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.indexes
@@ -41,6 +42,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+      options:
+        custom_icons:
+          - overrides/.icons
   - pymdownx.tasklist:
       custom_checkbox: true
       clickable_checkbox: true
@@ -71,6 +75,11 @@ plugins:
 nav:
   - Home: index.md
   - SNT:
+      - Internet:
+          - Introduction: snt/internet-1.md
+          - Enquête Internet: snt/enquete-internet.md
+          - Protocole TCP/IP: snt/internet-2.md
+          - Routage des paquets: snt/internet-3.md
       - Les Réseaux Sociaux:
           - Repères, chiffres et dates: snt/rsociaux.md
           - Recherche documentaire: snt/rsociaux-acti.md
@@ -79,12 +88,10 @@ nav:
           - Analyse d'un RS: snt/rs-analyse.md
           - Excaligraphes: snt/excaligraphes.md
           - Le Petit Monde: snt/petit-monde.md
-      - Internet:
-          - Introduction: snt/internet-1.md
-          - Enquête Internet: snt/enquete-internet.md
-          - Protocole TCP/IP: snt/internet-2.md
-          # - Routage des paquets : snt/internet-3.md
   - NSI:
+      - Représentation des types:
+          - Entiers positifs: nsi/types-base/entiers.md
+          - Entiers - activité: nsi/types-base/entiers-acti.md
       - Bases du Python:
           - Variables et types natifs: nsi/python-bases/python1.md
           - Thonny: nsi/python-bases/python-acti1.md
@@ -102,7 +109,4 @@ nav:
           - Activités séquences: nsi/python-bases/python-seq-acti.md
           - Bilan: nsi/python-bases/python-bases-bilan.md
           - Projet: nsi/python-bases/python-projet.md
-      # - Représentation des types:
-      #     - Entiers positifs: nsi/types-base/entiers.md
-      #     - Entiers - activité: nsi/types-base/entiers-acti.md
-  - changelog: changelog.md
+  #- changelog: changelog.md

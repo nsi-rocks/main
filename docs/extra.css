@@ -15,7 +15,18 @@
   text-align: center;
 }
 
+.md-typeset .grid2 {
+  grid-gap: 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  margin: 1em 0;
+}
+
 .md-typeset .admonition {
+  font-size: 0.8rem;
+}
+
+.md-typeset details {
   font-size: 0.8rem;
 }
 
@@ -72,12 +83,11 @@ html .md-typeset :is(.admonition, details) > :only-child {
   margin-top: 0.6rem;
 }
 
-
 .md-typeset .help > .admonition-title::before,
 .md-typeset .help > summary::before {
   display: none;
 }
 
-[dir="ltr"] .md-typeset .help :is(.admonition-title, summary) {
+[dir='ltr'] .md-typeset .help :is(.admonition-title, summary) {
   padding-left: 1rem;
 }

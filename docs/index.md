@@ -5,7 +5,7 @@ hide:
 ---
 
 # Ce site est dédié à l'enseignement de la SNT et de la NSI
-<div class="grid cards acenter" markdown>
+<div class="grid2 grid cards acenter" markdown>
 -   ProNote  Wallon
 
     ---
@@ -19,20 +19,17 @@ hide:
 
     [:fontawesome-solid-user:{ .big }](https://0590222w.index-education.net/pronote/eleve.html)
     [:fontawesome-solid-school:{ .big }](https://0590222w.index-education.net/pronote/professeur.html)
+    
 
 -   Outils divers
 
     ---
 
-    <a href="https://excalidraw.com" title="Accéder à Excalidraw">
-    ![Excalidraw](/images/logo.svg#only-light){ width="30" .off-glb .green }
-    ![Excalidraw](/images/logo.svg#only-dark){ width="30" .off-glb }
-    </a>
+    [:icones-logo:{ .big }](https://excalidraw.com)
 </div>
 
 ## Pour transmettre vos fichiers
-Vous pouvez transmettre vos fichiers de travail en les déposant dans le dossier correspondant à votre classe.
-!!! warning "Attention !"
+??? warning "Attention !"
 
     Vous ne pouvez modifier ni récupérer le fichier une fois que vous l'avez déposé. Vous pouvez toutefois envoyer une nouvelle version si vous avez complété le fichier depuis l'envoi précédent.
 
