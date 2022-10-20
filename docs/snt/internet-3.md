@@ -3,6 +3,7 @@ icon: octicons/git-commit-24
 hide:
   - footer
 ---
+
 # Routage des paquets
 
 Précédemment, nous avons vu qu’internet est un « réseau de réseaux ». Nous avons aussi vu que les données sont transférées d'une machine à une autre sous forme de paquet de données. Comment ces paquets de données trouvent leur chemin entre deux ordinateurs ?
@@ -19,7 +20,7 @@ Nous avons sur ce schéma les éléments suivants :
 
 Un switch est une sorte de « multiprise intelligente » qui permet de relier entre eux tous les ordinateurs appartenant à un même réseau, que nous appelerons "local" (nous verrons des exemples un peu plus bas). Pour ce faire, un switch est composé d’un nombre plus ou moins important de prises RJ45 femelles (un câble ethernet (souvent appelé « câble réseau ») possède 2 prises RJ45 mâles à ses 2 extrémités).
 
-![switch](/images//switch.png "différents switchs")
+![switch](/images//switch.png 'différents switchs')
 
 Un routeur permet de relier ensemble plusieurs réseaux, il est composé d’un nombre plus ou moins important d’interfaces réseau (cartes réseau). Les routeurs les plus simples que l’on puisse rencontrer permettent de relier ensemble deux réseaux (ils possèdent alors 2 interfaces réseau), mais il existe des routeurs capables de relier ensemble une dizaine de réseaux.
 
@@ -27,14 +28,22 @@ Revenons maintenant à l’analyse de notre schéma :
 
 Nous avons 6 réseaux locaux, chaque réseau local possède son propre switch (dans la réalité, un réseau local est souvent composé de plusieurs switchs si le nombre d’ordinateurs appartenant à ce réseau devient important).
 
+
+### Activité 3.1
+!!! consigne
+    Compléter la liste ci-dessous avec les réseaux locaux 3, 4, 5 et 6.
+
 Les ordinateurs M1, M2 et M3 appartiennent au réseau local 1. Les ordinateurs M4, M5 et M6 appartiennent au réseau local 2. Nous pouvons synthétiser tout cela comme suit :
 
 - réseau local 1 : M1, M2 et M3
 - réseau local 2 : M4, M5 et M6
 
-### Activité 3.1
-Complétez la liste ci-dessus avec les réseaux locaux 3, 4, 5 et 6
-***
+---
+
+### Activité 3.2
+!!! consigne
+    Déterminer un chemin possible permettant d’établir une connexion entre la machine M4 et M14.
+
 
 Voici quelques exemples de communications entre 2 ordinateurs :
 
@@ -68,10 +77,10 @@ ou encore : M13 → R6 → Routeur G → Routeur F → Routeur H → Routeur C �
 
 On pourrait penser que le chemin "Routeur F → Routeur E" est plus rapide et donc préférable au chemin "Routeur F → Routeur H", cela est sans doute vrai, mais imaginez qu’il y ait un problème technique entre le Routeur F et le Routeur E, l’existence du chemin "Routeur F → Routeur H" permettra tout de même d’établir une communication entre M13 et M9. Parfois, on entend certains politiques ou journalistes évoquer « la coupure d’internet », peut être comprendrez-vous mieux maintenant que cela n’a aucun sens, car même si une autorité quelconque décidait de couper une partie des infrastructures, les paquets pourraient passer par un autre chemin.
 
-### Activité 3.2
-
-Déterminer un chemin possible permettant d’établir une connexion entre la machine M4 et M14.
-***
+---
+### Activité 3.3
+!!! consigne
+    En partant des exemples ci-dessous, donnez une adresse IP possible pour les ordinateurs suivants : M1 (en partant du principe que l'adresse de M2 est 192.168.1.3), M6 (en partant du principe que l'adresse de M4 est 192.168.2.1) et M8 (en partant du principe que l'adresse de M7 est 192.168.3.1).
 
 On peut se poser la question : comment les switchs ou les routeurs procèdent pour amener les paquets à bon port. Sans entrer dans les détails, car cela dépasse notre objectif, vous devez tout de même savoir qu’ils utilisent les adresses IP des ordinateurs.
 
@@ -81,9 +90,11 @@ Exemple : Soit un ordinateur M4 ayant pour adresse IP 192.168.2.1 Dans cette adr
 
 En analysant la partie réseau des adresses IP des machines souhaitant rentrer en communication, les switchs et les routeurs sont capables d’aiguiller un paquet dans la bonne direction. Imaginons que le switch R2 reçoive un paquet qui est destiné à l’ordinateur M7 (adresse IP de M7 : 192.168.3.1). R2 "constate" que M7 n’est pas sur le même réseau que lui (R2 appartient au réseau d’adresse 192.168.2.0 alors que M7 appartient au réseau d’adresse 192.168.3.0), il envoie donc le paquet vers le routeur B...
 
-### Activité 3.3
-En partant des exemples ci-dessus, donnez une adresse IP possible pour les ordinateurs suivants : M1 (en partant du principe que l'adresse de M2 est 192.168.1.3), M6 (en partant du principe que l'adresse de M4 est 192.168.2.1) et M8 (en partant du principe que l'adresse de M7 est 192.168.3.1).
-***
+---
+### Activité 3.4
+!!! consigne
+    Soit un ordinateur A d'adresse IP 172.15.22.3/16 et un ordinateur B d'adresse IP 172.16.22.4/16. Les ordinateurs A et B sont-ils sur le même réseau local ? Justifiez votre réponse
+
 
 **Attention**, les adresses IP (a.b.c.d) n’ont forcément pas les parties a, b et c consacrées à l’identification du réseau et la partie d consacrées à l’identification des machines sur le réseau : on rajoute souvent à l'adresse IP un "/" suivit du nombre 8, 16 ou 24
 
@@ -91,13 +102,13 @@ si ce nombre est 8 (exemple : 192.168.2.1/8), cela signifie que pour une adresse
 si ce nombre est 16 (exemple : 192.168.2.1/16), cela signifie que pour une adresse a.b.c.d/16, les parties a et b sont consacrées à l'adresse réseau, le reste (c, d) est consacré à la partie machine de l'adresse IP. On aura donc une adresse réseau de la forme a.b.0.0
 si ce nombre est 24 (exemple : 192.168.2.1/24), cela signifie que pour une adresse a.b.c.d/24, les parties a, b et c sont consacrées à l'adresse réseau, le reste (d) est consacré à la partie machine de l'adresse IP. On aura donc une adresse réseau de la forme a.b.c.0
 
-### Activité 3.4
-Soit un ordinateur A d'adresse IP 172.15.22.3/16 et un ordinateur B d'adresse IP 172.16.22.4/16. Les ordinateurs A et B sont-ils sur le même réseau local ? Justifiez votre réponse
-***
+---
 
 ### Activité 3.5
-A et B sont 2 ordinateurs se trouvant sur le même réseau local. Sachant que l'adresse IP de A est 5.3.2.1/8, donnez une adresse IP possible pour B
-***
+!!! consigne
+    A et B sont 2 ordinateurs se trouvant sur le même réseau local. Sachant que l'adresse IP de A est 5.3.2.1/8, donnez une adresse IP possible pour B
+
+---
 
 Il est possible d'avoir autre chose que /8, /16 ou /24 (on peut par exemple trouver /10 ou /17...), mais ces cas font intervenir la notion de masque de sous-réseau qui n'est pas au programme de SNT.
 
