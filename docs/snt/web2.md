@@ -1,6 +1,7 @@
 ---
 icon: octicons/info-24
 hide:
+  - toc
   - footer
 ---
 # Structure de fichiers

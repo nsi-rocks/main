@@ -2,6 +2,7 @@
 icon: octicons/git-commit-24
 title: 'TP : ligne de commande'
 hide:
+  - toc
   - footer
 ---
 # TP : ligne de commande
