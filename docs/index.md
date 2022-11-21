@@ -25,7 +25,7 @@ hide:
     [:icones-logo:{ .big }](https://excalidraw.com)
     [:icones-python:{ .big }](https://basthon.fr)
 
-  </div>
+</div>
 
 ## Pour transmettre vos fichiers
 
@@ -46,7 +46,7 @@ hide:
     [:material-cloud-upload: 2nde 11](https://mega.nz/megadrop/LZtJXcL7bhw)
 
 !!! info "Pour les classes de 1ère NSI"
-[:material-cloud-upload: 1NSI 1 Wallon](https://mega.nz/megadrop/DSsrAHUrVVs)
+    [:material-cloud-upload: 1NSI 1 Wallon](https://mega.nz/megadrop/DSsrAHUrVVs)
 
     [:material-cloud-upload: 1NSI 2 Wallon](https://mega.nz/megadrop/ydyhC0D7lxA)
 

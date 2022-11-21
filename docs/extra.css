@@ -26,6 +26,10 @@
   font-size: 0.8rem;
 }
 
+table * {
+  font-size: 0.8rem;
+}
+
 .md-typeset details {
   font-size: 0.8rem;
 }
