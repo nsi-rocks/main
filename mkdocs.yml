@@ -100,6 +100,8 @@ nav:
           - Excaligraphes: snt/excaligraphes.md
           - Le Petit Monde: snt/petit-monde.md
   - NSI:
+      - Web:
+          - Créer une page Web: nsi/web/web4.md
       - Représentation des types:
           - Entiers positifs: nsi/types-base/entiers.md
           - Entiers - activité: nsi/types-base/entiers-acti.md
