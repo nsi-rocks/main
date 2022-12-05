@@ -86,7 +86,8 @@ nav:
           - Introduction: snt/web1.md
           - Arborescence de fichiers: snt/web2.md
           - TP fichiers: snt/web2-tp.md
-          - Créer une page Web: snt/web4.md
+          - nsi/web/web4.md
+          - nsi/web/web5.md
       - Internet:
           - Introduction: snt/internet-1.md
           - Enquête Internet: snt/enquete-internet.md
