@@ -3,372 +3,150 @@ icon: octicons/info-24
 hide:
   - footer
 ---
-# Créer une page web
-## HTML et CSS
+# Page Web : HTML
 
 Nous allons nous intéresser à un acteur fondamental du développement web, le couple HTML+CSS (Hyper Text Markup Langage et Cascading Style Sheets).
 
-Dans un premier temps, nous allons exclusivement nous intéresser au HTML. Qu'est-ce que le HTML, voici la définition que nous en donne Wikipedia :
-
-*L’Hypertext Markup Language, généralement abrégé HTML, est le format de données conçu pour représenter les pages web. C’est un langage de balisage permettant d’écrire de l’hypertexte, d’où son nom. HTML permet également de structurer sémantiquement et de mettre en forme le contenu des pages, d’inclure des ressources multimédias, dont des images, des formulaires de saisie, et des programmes informatiques. Il permet de créer des documents interopérables avec des équipements très variés de manière conforme aux exigences de l’accessibilité du web. Il est souvent utilisé conjointement avec des langages de programmation (JavaScript) et des formats de présentation (feuilles de style en cascade).*
-
-Pour l'instant, nous allons retenir deux éléments de cette définition «conçu pour représenter les pages web» et «un langage de balisage».
+Dans un premier temps, nous allons exclusivement nous intéresser au HTML. Pour l'instant, retenons que le HTML est "conçu pour représenter les pages web" et "un langage de balisage".
 
 Grâce au HTML vous allez pouvoir, dans votre navigateur (Firefox, Chrome, Opera,....), afficher du texte, afficher des images, proposer des hyperliens (liens vers d'autres pages web), afficher des formulaires et même maintenant afficher des vidéos (grâce à la dernière version du HTML, l'HTML5).
 
-HTML n'est pas un langage de programmation (comme le Python par exemple), ici, pas question de conditions, de boucles....c'est un langage de description.
+!!!warning ""
+    HTML n'est pas un langage de programmation (comme le Python par exemple), ici, pas question de conditions, de boucles...  
+    C'est un langage de description, qui permet de définir les éléments et le contenu d'une page web.
 
-Pour aborder le HTML, nous allons, dans un premier temps utiliser le site jsfiddle.net.
+## Structure d'un site web
+Un site web développé en HTML contient toujours au moins un élément : `index.html`. C'est le fichier que le serveur va chercher lorsque vous cherchez à afficher un site web.  
+Chaque page supplémentaire peut être nommée comme vous le voulez, mais par convention on essaie d'éviter au maximum les **accents et les espaces**. Ainsi, si vous voulez faire une page qui parle de la télévision, il vaut mieux `fonctionnement_tv.html` que `fonctionnement d'une télé.html`.  
+Un site web utilise souvent des images. On les rangera toutes dans un même sous-dossier, que l'on nomme en général `images` ou `img`.  
+Enfin, il est important de garder toujours à l'esprit la structure de notre dossier de site web. En effet, si vous cherchez à afficher une image depuis une page, il faudra fournir le **chemin relatif de l'image**, en partant de l'emplacement de la page.
 
-Après avoir lancé votre navigateur web, tapez http://jsfiddle.net/ dans la barre d'adresse.
 
-Vous devriez voir apparaître ceci
+## Pour bien commencer
+### Activité 1
+!!! consigne
+    L'important pour bien commencer est de préparer son environnement de travail : vous pouvez donc créer un dossier `web` dans lequel vous rangerez tous les documents de votre site, ainsi qu'un sous-dossier `images` dans lequel vous collecterez les images que vous voulez utiliser. Préparez également avec un **éditeur de texte** (notepad++, visual studio code sont les plus courants) le fichier principal : `index.html`
 
-![](/images/jsfiddle.png)
+<figure markdown>
+  ![](/images/web1.png#only-light){ width="500" }
+  ![](/images/web1-d.png#only-dark){ width="500" }
 
-Nous allons pour l'instant uniquement utiliser la fenêtre "HTML" et la fenêtre "Result".
+  <figcaption>Dossier de base</figcaption>
+</figure>
 
-### Activité 7.1
-
-Écrivez le code HTML suivant :
-
-```html
-<h1>Hello World! Ceci est un titre</h1>
-<p>Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-```
-Qu'est-ce qui s'affiche dans la fenêtre ?
-***
-
-Comme déjà évoqué ci-dessus, en HTML tout est une histoire de balise que l'on ouvre et que l'on ferme. Une balise ouvrante est de la forme ```<nom_de_la_balise>```, les balises fermantes sont de la forme ```</nom_de_la_balise>```.
-
-En observant attentivement le code, vous devriez forcément remarquer que toute balise ouverte doit être refermée à un moment ou un autre. La balise ouvrante et la balise fermante peuvent être sur la même ligne ou pas, cela n'a aucune espèce d'importance, la seule question à se poser ici est : ai-je bien refermé toutes les balises que j'ai ouvertes ?
-
-Enfin pour terminer avec les généralités sur les balises, il est important de savoir qu'une structure du type :
-
-```
-<balise1>
-<balise2>
-</balise1>
-</balise2>
-```
-
-est interdite, la balise2 a été ouverte après la balise1, elle devra donc être refermée avant la balise1.
-
-En revanche, l'enchaînement suivant est correct :
-
-```
-<balise1>
-<balise2>
-</balise2>
-</balise1>
-```
-
-Notez que dans notre exemple nous respectons bien cette règle « d'imbrication » des balises avec la balise ```<p>``` et la balise ```<strong>```.
-
-Il est important de comprendre que chaque balise a une signification qu'il faut bien respecter (on parle de la sémantique des balises). Par exemple le texte situé entre la balise ouvrante et fermante ```<h1>``` est obligatoirement un titre important (il existe des balises ```<h2>```, ```<h3>```......qui sont aussi des titres, mais des titres moins importants (sous-titre)). La balise ```<p>``` permet de définir des paragraphes, enfin, la balise ```<strong>``` permet de mettre en évidence un élément important.
-
-Vous devez aussi savoir qu'il existe des balises qui sont à la fois ouvrantes et fermantes (```<balise/>```) : un exemple, la balise permettant de sauter une ligne, la balise ```<br/>``` (balise qu'il faut d'ailleurs éviter d'utiliser par différentes raisons que nous n'aborderons pas ici).
-
-Il est possible d'ajouter des éléments à une balise ouvrante, on parle d'attribut. Une balise peut contenir plusieurs attributs :
-
-```
-<ma_balise attribut_1= "valeur_1" attribut_2="valeur_2">
-```
-
-Il existe beaucoup d'attributs différents, nous allons nous contenter de 2 exemples avec l'attribut id (id pour identifiant) et class. Nous verrons l’intérêt de ces attributs dans l'activité suivante.
-
-### Activité 7.2
-
-Écrivez le code HTML suivant :
-
-```html
-<h1>Ceci est un titre</h1>
-<h2 class="titre_1">Ceci est un sous titre</h2>
-<p id="para_1">Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-```
-
-Qu'est-ce qui s'affiche dans la fenêtre ?
-***
-
-Le HTML n'a pas été conçu pour gérer la mise en page (c'est possible, mais c'est une mauvaise pratique). Le HTML s'occupe uniquement du contenu et de la sémantique, pour tout ce qui concerne la mise en page et l'aspect « décoratif » (on parle du « style » de la page), on utilisera le CSS (Cascading Style Sheets).
-
-Dans JSFIDDLE, il est possible d'écrire du CSS dans la fenêtre en haut à droite.
-
-### Activité 7.3
-
-Écrivez le code HTML suivant (dans la fenêtre HTML de JsFiddle) :
-
-```html
-<h1>Ceci est un titre</h1>
-<h2>Ceci est un sous titre</h2>
-<p>Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-```
-
-Écrivez le code CSS suivant (dans la fenêtre CSS de JsFiddle) :
-
-```css
-h1
-{
-text-align: center;
-background-color: red;
-}
-h2
-{
-font-family: Verdana;
-font-style: italic;
-color: green;
-}
-```
-
-Qu'est-ce qui s'affiche dans la fenêtre ?
-***
-
-Dans l'exemple de l'activité 7.3, les propriétés "text-align" et "background-color" seront appliquées au contenu de toutes les balises de type h1 (avec respectivement les valeurs "center" et "red")...
-
-### Activité 7.4
-
-Écrivez le code HTML suivant :
-
-```html
-<h1>Ceci est un titre</h1>
-<h2>Ceci est un sous titre</h2>
-<p id="para_1">Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-```
-
-Écrivez le code CSS suivant :
-
-```css
-#para_1
-{
-font-style: italic;
-color: green;
-}
-```
-
-Qu'est-ce qui s'affiche dans la fenêtre ? Que remarquez-vous ?
-***
-
-Il est donc possible de cibler un paragraphe et pas un autre en utilisant l'id du paragraphe (en CSS l'id se traduisant par le signe #).
-
-Il est aussi possible d'utiliser l'attribut class à la place de l'id. Dans le CSS on utilisera le point . à la place du #.
-
-La différence entre "id" et "class" n'est pas très importante.
-
-L'attribut "class" permet de donner le même nom à plusieurs reprises dans une même page.
-
-Si nous avions eu un 3e paragraphe, nous aurions pu avoir :
-```html
-<p class="para_1">Voici un 3e paragraphe</p>
-```
-mais nous n'aurions pas pu avoir : 
-
-```html
-<p id="para_1"> Voici un 3e paragraphe </p>
-```
-
-car le nom para_1 a déjà été utilisé pour le 1er paragraphe.
-
-JSFIDDLE est un très bel outil, mais il ne peut pas être utilisé pour la réalisation d'un vrai site internet (ou d'une vraie application web).
-
-Nous allons créer 2 fichiers : un fichier qui contiendra du HTML (index.html) et un fichier qui contiendra du CSS (style.css).
-
-### Activité 7.5
-
-À l'aide d'un éditeur de texte, créer un nouveau fichier.
-
-Sauvegardez-le en précisant son nom, par exemple "index.html".
-
-Écrivez le code suivant dans votre éditeur de texte (sans oublier de sauvegarder quand vous avez terminé) :
+## Page HTML de base
+Une page HTML possède toujours la même structure de base :
 
 ```html
 <!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Voici mon site</title>
-</head>
-<body>
-    <h1>Hello World! Ceci est un titre</h1>
-    <p>Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-</body>
+    <head>
+        <title>Titre de ma page</title>
+        <!-- autres balises de métadonnées -->
+    </head>
+    <body>
+        <!-- contenu de la page -->
+    </body>
 </html>
 ```
 
-Testez votre code à l'aide d'un navigateur web (Firefox ou Chrome) en “double-cliquant” sur le fichier index.html
-***
+Cette structure de base a été développée en cours, en résumé :
+- le doctype informe le navigateur de la nature du fichier qu'il est en train de charger
+- la balise `<html>` contient l'intégralité du code HTML de la page
+- la balise `<head>` contient des informations nécessaires au navigateur pour traiter la page comme il le faut (feuilles de style, icône de favoris, métadonnées pour les moteurs de recherche, etc...). Rien de ce que vous écrirez dans cette balise n'apparaîtra dans le corps de la page
+- la balise `<body>` contient tout ce qui apparaîtra dans le corps de la page. C'est ici que vous allez passer le plus clair de votre temps : c'est ici que vous écrivez votre page web.
 
-Dans l'exemple de l'activité 7.5, vous reconnaissez le code se trouvant entre les balises ```<body>``` :
+!!!warning ""
+    À partir de maintenant, vous modifierez votre page web avec Notepad++ (ou VSCode, etc...), et vous regarderez le résultat obtenu dans un navigateur (de préférence Chrome ou Firefox). La méthode est simple :  
+    - modification du code, enregistrement des modifications  
+    - dans Firefox : actualisation de la page  
 
+### Activité 2
+!!! consigne
+    Préparez votre fichier `index.html` : il suffit de copier le [code de base](#page-html-de-base) fourni plus haut, et de le coller dans votre document `index.html`.  
+    **attention : assurez-vous que votre fichier est bel et bien un "fichier HTML"** ! Si ce n'est pas le cas, il suffit de reprendre votre éditeur de texte et de recommencer l'étape d'enregistrement pour vous assurer que vous l'enregistrez avec la bonne extension.
+
+<figure markdown>
+  ![](/images/web2.png#only-light){ width="500" }
+  ![](/images/web2-d.png#only-dark){ width="500" }
+
+  <figcaption>index.html dans visual studio code</figcaption>
+</figure>
+
+## Principe des balises HTML
+Nous en avons largement parlé en cours, mais le principe mérite d'être résumé ici.  
+Le HTML est un langage de balisage, ce qui signifie que l'intégralité des informations que vous pouvez fournir se passe via des balises. Une balise, c'est simplement un code exprimé entre deux chevrons, par exemple : `<html>`.  
+Sur le principe, On peut voir une balise comme une boîte : on doit se dire *j'ouvre une balise, je mets ce que je veux dedans, puis je la ferme.*  Ainsi, toutes les balises que vous ouvrez doivent être fermées. Pour fermer une balise, on utilise un slash : `</html>`  
+On dit donc que `<html>` est une balise ouvrante, et que `</html>` est une balise fermante.
+
+!!! tip ""
+    Exception : Il existe des balises qui sont dites "autofermantes". Cela signifie qu'on ne peut rien insérer à l'intérieur, elles consistent simplement à insérer un objet dans la page web. Ces balises sont :  
+    `<area />` , `<br />` , `<hr />` , `<img />` , `<input />` , `<link />` , `<meta />` , `<param />`
+
+Ci-dessous, les balises principales permettant de réaliser une page web simple.
+
+### Titres : `<h1>`, `<h2>`, `<h3>`, ...
+```html
+<h1>Ceci est un titre de niveau 1</h1>
+<h2>Ceci est un titre de niveau 2</h2>
+<h3>Ceci est un titre de niveau 3</h3>
+...
+<h6>Ceci est un titre de niveau 6</h6>
 ```
-<body>
-......
-</body>
+
+### Texte : `<p>`, `<span>`, `<strong>`, `<em>`
+```html
+<p>La balise p permet de créer un <em>nouveau paragraphe</em>.
+    Tout le texte contenu dans chaque balise p fera donc partie du même paragraphe, et sera considéré comme solidaire.
+    </p>
+<p>
+    Il est possible de créer plusieurs paragraphes à la suite. Chaque nouveau paragraphe va automatiquement à la ligne : on dit que la balise p est une <strong>balise de type bloc</strong></p>
+<p>Pour l'exemple, voici un second paragraphe.
+    On <strong>remarque que l'indentation</strong>, 
+    les sauts de ligne,
+     ne changent rien au résultat. Pour le navigateur, toutes ces lignes
+    font partie
+    <span>du même paragraphe</span>.
+</p>
 ```
 
-Tout votre code HTML devra se trouver entre ces 2 balises.
+La balise `<strong>` permet d'indiquer qu'un ou plusieurs mots ont une haute importance.  
+La balise `<em>`  est utile quand on veut mettre une emphase sur un ou plusieurs mots, c'est à dire un texte sur lequel on veut insister.  
+La balise `<span>` est une balise neutre, elle ne produit aucun effet, mais permet d'identifier un mot ou groupe de mots pour lui appliquer un style particulier (cf cours sur le CSS).
 
-Le reste des balises devraient vous êtes inconnues. Passons-les en revue :
+!!!tip ""
+    Note : Un élément de bloc commence toujours sur une nouvelle ligne et prend toute la largeur disponible (autrement dit, il s'étend le plus possible vers la droite et vers la gauche).  
+    Les balises `<h1..6>` et `<p>` sont des balises de type **bloc**.
+    
+    Les balises `<strong>`, `<em>` et `<span>` sont des balises de type **inline**, ce qui signifie par opposition au type bloc qu'ils ne sont localisés que sur les mots ou groupes de mots qu'ils contiennent. Ils n'impliquent pas de retour à la ligne, ils ne prennent pas toute la largeur du conteneur.
 
-La première ligne (```<!doctype html>```) permet d'indiquer au navigateur que nous utiliserons la dernière version du HTML, le fameux HTML5.
-
-La balise ```<html>``` est obligatoire, l'attribut lang="fr" permet d'indiquer au navigateur que nous utiliserons le français pour écrire notre page.
-
-Les balises ```<head>...</head>``` délimitent ce que l'on appelle l'en-tête. L'en-tête contient, dans notre exemple, 2 balises : la balise ```<meta charset="utf-8">``` qui permet de définir l'encodage des caractères (utf-8) et la balise ```<title>``` qui définit le titre de la page (attention ce titre ne s'affiche pas dans le navigateur, ne pas confondre avec la balise ```<h1>```).
-
-### Activité 7.6
-
-Toujours à l'aide d'un éditeur de texte, vous allez créer un fichier qui va contenir le CSS de notre page (par exemple style.css). Complétez ce fichier à l'aide du code suivant :
-
-```css
-h1
-{
-text-align: center;
-background-color: red;
-}
-p
-{
-font-family: Verdana;
-font-style: italic;
-color: green;
-}
-```
-
-Pour l'instant notre CSS ne sera pas appliqué à notre page, pour ce faire, il faut modifier notre code HTML en ajoutant une ligne qui va permettre d'associer notre code CSS à notre page.
-
-Modifiez le code HTML avec la ligne suivante ```<link rel="stylesheet" href="style.css">``` :
+### Images : `<img />`
+Les balises d'insertion d'images sont particulières, premièrement car elles sont auto-fermantes. Mais quelque chose les différencie de celles vues jusqu'à présent : elles nécessitent **impérativement** la définition d'un attribut.  
+Un attribut est une propriété que l'on décide d'assigner à une balise HTML. Jusqu'à présent, nous n'en avons pas vu. Mais pour la balise `<img />`, nous devons fournir au moins une information : le chemin de l'image. L'utilisation est simple :
 
 ```html
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Voici mon site</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Hello World! Ceci est un titre</h1>
-    <p>Ceci est un <strong>paragraphe</strong>. Avez-vous bien compris ?</p>
-</body>
-</html>
+<img src="./images/mon-image.jpg" />
 ```
 
-Testez votre code à l'aide d'un navigateur web en “double-cliquant” sur le fichier index.html
-***
+Il suffit d'indiquer la valeur de l'attribut `src` (pour *source*) grâce à des guillemets. Cette valeur doit être le **chemin relatif depuis le fichier courant, jusqu'au fichier image**.
 
-Dans l'exemple que nous venons de voir, les fichiers "index.html" et "style.css" se trouvent dans le même dossier. Il est souvent utile de placer les fichiers CSS dans un dossier “CSS”. Il faudra alors modifier le code HTML en conséquence :
+!!!warning ""
+    Attention à l'extension du fichier ! `jpg`, `png`, `jpeg` sont des extensions différentes, et une mauvaise extension montrera une image vide !
+
+### Liens : `<a>`
+La balise `<a>` (pour *anchor*, signifie ancre en anglais) permet de créer un lien hypertexte vers une page web, un fichier, une adresse email, des emplacements se trouvant sur la même page, et globalement tout ce qu'une URL peut adresser.  
+L'attribut permettant de définir la balise `<a>` est `href` et sa valeur peut contenir toutes sortes d'information. Quelques exemples :
 
 ```html
-<link rel="stylesheet" href="CSS/style.css">
+<a href="./page2.html">Permet d'accéder à la page correspondant au fichier page2.html</a>
+<a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element">Lien vers la référence des éléments HTML</a>
+<a href="mailto:contact@nsi.rocks">Envoyer un mail</a>
 ```
 
-Pour terminer, voici quelques balises très utilisées :
+## Activité 3
+!!!consigne
+    Réaliser un copier/coller des exemples ci-dessus afin de visualiser le résultat. N'hésitez pas à modifier le code pour observer les différences !
 
-## balise a
-
-```html
-<a href="mon_autre_page.html">Cliquez ici pour vous rendre sur mon autre page</a>
-```
-
-La balise a permet de créer des liens hypertextes, ce sont ces liens hypertextes qui vous permettent de "voyager" entre les pages d'un site ou entre les sites. Les liens hypertextes sont par défaut soulignés et de couleur bleue (modifiable grâce au CSS). La balise a possède un attribut href qui a pour valeur le chemin du fichier que l'on cherche à atteindre ou l'adresse du site cible (exemple : ```<a href="http://www.google.fr">Cliquez ici pour vous rendre sur google.fr</a>```). Entre la balise ouvrante et fermante, on trouve le texte qui s'affichera à l'écran (c'est ce texte qui est souligné et de couleur bleue).La balise peut sans problème se trouver en plein milieu d'un paragraphe.
-
-## balise image
-
-Comme vous devez déjà vous en douter, la balise image sert à insérer des......images :
-
-```html
-<img src="mon_image.jpg" alt="avion"/>
-```
-
-la balise img est à la fois ouvrante et fermante comme la balise br. Elle possède 2 attributs :
-
-- *src* qui doit être égal au nom du fichier image (ou au chemin si le fichier image se trouve dans un autre dossier).
-- *alt* qui doit être égal à une description de votre image (cet attribut est utilisé notamment par les systèmes de description des pages web utilisées par les non-voyants), il faut donc systématiquement renseigner cet attribut.
-
-## Les balises form, input et button
-
-Les formulaires sont des éléments importants des sites internet, ils permettent à l'utilisateur de transmettre des informations. Un formulaire devra être délimité par une balise form (même si ce n'est pas une obligation) :
-
-```
-<form>
-....
-</form>
-```
-
-Il existe différentes balises permettant de construire un formulaire, notamment la balise *input*. Cette balise possède un attribut type qui lui permet de jouer des rôles très différents.
-
-La balise *button* nous sera aussi d'une grande utilité.
-
-### Activité 7.7
-
-Créez un fichier html contenant le code suivant :
-
-```html
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Voici mon site</title>
-</head>
-<body>
-    <form>
-        <p>voici un champ de texte : <input type="text"/></p>
-        <p>voici une checkbox <input type="checkbox"/></p>
-        <button>Cliquez ici !</button>
-    </form>
-</body>
-</html>
-```
-
-Testez votre code à l'aide d'un navigateur web en “double-cliquant” sur le fichier html que vous venez de créer.
-***
-
-## Les balises div et span
-
-Ces 2 balises sont très utilisées (surtout la balise div). Pourtant, il faudrait, autant que possible, les éviter, pourquoi ?
-
-Parce qu'elles n'ont aucune signification particulière, ce sont des balises dites “génériques”.
-
-À quoi servent-elles alors ?
-
-À organiser la page, à regrouper plusieurs balises dans une même entité.
-
-Pourquoi 2 balises génériques ?
-
-Parce que div est une balise de type “block” et que span est une balise de type “inline” !
-
-Sans vouloir trop entrer dans les détails, il faut bien comprendre que l'ordre des balises dans le code HTML a une grande importance. Les balises sont affichées les unes après les autres, on parle du flux normal de la page.
-
-C'est ici qu'entrent en jeu les balises de type "block" et les balises de type "inline".
-
-- Les contenus des balises de type "block" (p, div,h1,...) se placent sur la page web les uns en dessous des autres.
-- Les contenus des balises de type "inline" (strong, img, span, a) se placent sur la page web les uns à côté des autres.
-
-Cela revient à dire qu'une balise de type “block” prend toute la largeur de la page alors qu'une balise de type “inline” prend juste la largeur qui lui est nécessaire.
-
-### Activité 7.8
-
-Créez un fichier html contenant le code suivant :
-
-```html
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Voici mon site</title>
-</head>
-<body>
-    <div>div est une balise de type "block"</div>
-    <p>la balise p est une autre balise de type block</p>
-    <span>En revanche, span est une balise de type "inline"</span>
-    <a href="www.google.fr">Et voici une autre balise de type "inline"</a>
-    <h1>h1 est bien une balise de type "block"</h1>
-    <span>la malheureuse balise span est "obligée" de se placer en dessous</span>
-</body>
-</html>
-```
-Testez ce code
-***
-
-### Activité 7.9
-
-Élaborez une page HTML sur le thème de votre choix en utilisant les balises vues ci-dessus.
+## Activité 4
+!!!consigne
+    Manipulez les balises ci-dessus pour produire une ou plusieurs pages Web à l'aide du HTML. N'essayez pas de compliquer les choses, produisez simplement du contenu que nous pourrons par la suite mettre en forme.
