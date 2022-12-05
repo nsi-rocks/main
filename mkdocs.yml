@@ -78,6 +78,7 @@ plugins:
   - search:
       lang: fr
   - glightbox
+  - meta
 nav:
   - Home: index.md
   - SNT:
@@ -101,7 +102,8 @@ nav:
           - Le Petit Monde: snt/petit-monde.md
   - NSI:
       - Web:
-          - Créer une page Web: nsi/web/web4.md
+          - nsi/web/web4.md
+          - nsi/web/web5.md
       - Représentation des types:
           - Entiers positifs: nsi/types-base/entiers.md
           - Entiers - activité: nsi/types-base/entiers-acti.md
