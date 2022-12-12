@@ -45,7 +45,7 @@ Explications :
 - L'élément `label` permet de définir le libellé du champ de saisie qui est utilisé à l'intérieur : c'est un élément indispensable pour l'accessibilité du formulaire. En effet, lorsque le focus est mis sur le champ, un lecteur d'écran pourra énoncé le contenu du libellé et fournir à l'utilisateur le contexte nécessaire.
 
 !!!consigne "IHM 3"
-    Télécharger l'archive contenant l'ensemble HTML/CSS que vous allez modifier pour cette activité, et décompressez-la dans votre dossier personnel : [ihm.zip](https://github.com/mathieunicolas/nsi/blob/master/docs/files/ihm.zip).  
+    Télécharger l'archive contenant l'ensemble HTML/CSS que vous allez modifier pour cette activité, et décompressez-la dans votre dossier personnel : [ihm.zip](https://github.com/mathieunicolas/nsi/raw/master/docs/files/ihm.zip).  
     Identifier dans [cette liste](https://developer.mozilla.org/fr/docs/Web/HTML/Element/input#les_diff%C3%A9rents_types_de_champs_input) les types `radio`, `checkbox`, `password` et `date`.  
     À l'aide de la documentation fournie, construire un formulaire utilisant **au minimum** ces quatre types.
 
