@@ -88,6 +88,7 @@ nav:
           - TP fichiers: snt/web2-tp.md
           - snt/web4.md
           - snt/web5.md
+          - snt/ihm.md
       - Internet:
           - Introduction: snt/internet-1.md
           - Enquête Internet: snt/enquete-internet.md
@@ -105,6 +106,7 @@ nav:
       - Web:
           - nsi/web/web4.md
           - nsi/web/web5.md
+          - nsi/web/ihm.md
       - Représentation des types:
           - Entiers positifs: nsi/types-base/entiers.md
           - Entiers - activité: nsi/types-base/entiers-acti.md
