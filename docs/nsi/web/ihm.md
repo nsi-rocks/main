@@ -15,7 +15,7 @@ Sur le Web, on appelle "interactions homme-machine" les différents moyens perme
 Les formulaires sont omniprésents, car c'est le meilleur moyen d'obtenir une interaction de la part de l'utilisateur.
 
 !!! consigne "IHM 2"
-    Proposer quatre exemples différents de situations dans lesquelles ont est amenés à utiliser un formulaire dans une application web.
+    Proposer quatre exemples différents de situations dans lesquelles on est amenés à utiliser un formulaire dans une application web.
 
 Le code suivant permet de réaliser un formulaire basique, demandant à l'utilisateur d'indiquer son nom.
 
