@@ -1,8 +1,10 @@
+# Nuxt dev/build outputs
+.output
+.nuxt
+# Node dependencies
 node_modules
-.temp
-.cache
-.vscode
+# System files
+*.log
 .DS_Store
+.idea
 dist
-todo.md
-site/
