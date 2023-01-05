@@ -10,9 +10,6 @@ export default defineAppConfig({
       root: 'content',
       edit: true
     },
-    socials: {
-      github: 'mathieunicolas/alloe'
-    },
     header: {
       showLinkIcon: true,
       logo: true
