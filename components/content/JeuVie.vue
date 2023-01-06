@@ -21,7 +21,7 @@ const props = defineProps({
 let rubb = []
 for(let c of props.code) {
   if(c == '0') {
-    rubb.push("□")
+    rubb.push("▢")
   } else {
     rubb.push("■")
   }
