@@ -49,7 +49,7 @@ const resetIndexes = () => {
 
 const runSelectionSort = async () => {
   run.value = true
-  for (let i = 0; i < numbers.value.length - 1; i++) {
+  for (let i = 0; i < numbers.value.length; i++) {
 
     minIndex = i
     activeIndex.value = numbers.value.findIndex(e => e.pos === i)
