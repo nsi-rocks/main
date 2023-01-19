@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 1rem;">
     <div v-show="false">
       <label>Vitesse d'animation (ms):</label>
       <input type="number" v-model="animationSpeed" />
