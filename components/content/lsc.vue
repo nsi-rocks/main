@@ -16,10 +16,12 @@ const checked = ref(false)
   font-size: 2rem;
   color: gray;
   margin-right: 0.5rem;
+  opacity: 30%;
 }
 
 .checked {
   color: green;
+  opacity: 100%;
 }
 
 .done {
