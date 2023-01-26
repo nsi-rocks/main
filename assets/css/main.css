@@ -7,3 +7,7 @@ h2 > a {
 h2 > a > span {
     margin-left: 1rem;
 }
+
+header {
+    position: sticky;
+}
