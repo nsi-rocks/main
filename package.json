@@ -10,6 +10,8 @@
   },
   "devDependencies": {
     "@nuxt-themes/docus": "^1.6.1",
+    "@vueuse/core": "^9.12.0",
+    "@vueuse/nuxt": "^9.12.0",
     "nuxt": "^3.0.0",
     "rehype-katex": "^6.0.2",
     "remark-math": "^5.1.1"
