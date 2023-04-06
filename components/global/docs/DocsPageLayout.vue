@@ -1,21 +1,17 @@
 <script setup lang="ts">
-const { page, navigation } = useContent()
+const { page } = useContent()
+const { config, tree } = useDocus()
 const route = useRoute()
-const docus = useDocus()
 
 const fallbackValue = (value: string, fallback = true) => {
-  if (typeof page.value?.[value] !== 'undefined') {
-    return page.value[value]
-  }
-
+  if (typeof page.value?.[value] !== 'undefined') { return page.value[value] }
   return fallback
 }
 
 const hasBody = computed(() => !page.value || page.value?.body?.children?.length > 0)
 const hasToc = computed(() => page.value?.toc !== false && page.value?.body?.toc?.links?.length >= 2)
 
-// TODO: get navigation links from aside level
-const hasAside = computed(() => page.value?.aside !== false && navigation.value?.length > 0)
+const hasAside = computed(() => page.value?.aside !== false && (tree.value?.length > 1 || tree.value?.[0]?.children?.length))
 const bottom = computed(() => fallbackValue('bottom', true))
 const isOpen = ref(false)
 
@@ -56,26 +52,29 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Container :fluid="docus?.layout?.fluid" padded class="docs-page-content" :class="[docus?.layout?.fluid && 'fluid']">
+  <Container
+    :fluid="config?.main?.fluid"
+    :padded="config?.main?.padded"
+    class="docs-page-content"
+    :class="{
+      fluid: config?.main?.fluid,
+      'has-toc': hasToc,
+      'has-aside': hasAside,
+    }"
+  >
     <!-- Aside -->
     <aside v-if="hasAside" ref="asideNav" class="aside-nav">
-      <DocsAside />
+      <DocsAside class="app-aside" />
     </aside>
 
     <!-- Page Body -->
-    <article
-      class="page-body"
-      :class="{
-        'with-toc': hasToc,
-      }"
-    >
+    <article class="page-body">
       <slot v-if="hasBody" />
       <Alert v-else type="info">
         Start writing in <ProseCodeInline>content/{{ page._file }}</ProseCodeInline> to see this page taking shape.
       </Alert>
       <template v-if="hasBody && page && bottom">
-        <!-- TODO: Finish rewrite -->
-        <DocsPageBottom v-if="false" />
+        <DocsPageBottom />
         <DocsPrevNext />
       </template>
     </article>
@@ -105,9 +104,22 @@ css({
     '@lg': {
       display: 'grid',
       gap: '{space.8}',
-      // gridTemplateColumns: 'repeat(12, minmax(0, 1fr))'
-      gridTemplateColumns: 'minmax(250px, 320px) minmax(320px, 1fr) minmax(250px, 250px)'
-    }
+    },
+    '&.has-toc': {
+      '@lg': {
+        gridTemplateColumns: 'minmax(320px, 1fr) minmax(250px, 250px)'
+      }
+    },
+    '&.has-aside': {
+      '@lg': {
+        gridTemplateColumns: 'minmax(250px, 320px) minmax(320px, 1fr)'
+      }
+    },
+    '&.has-aside.has-toc': {
+      '@lg': {
+        gridTemplateColumns: 'minmax(250px, 320px) minmax(320px, 1fr) minmax(250px, 250px)'
+      }
+    },
   },
   '.aside-nav': {
     display: 'none',
@@ -122,7 +134,7 @@ css({
       py: '{space.8}',
       paddingRight: '{space.8}',
       '.fluid &&': {
-        borderRight: '1px solid {elements.border.primary.default}',
+        borderRight: '1px solid {elements.border.primary.static}',
       }
     }
   },
@@ -133,16 +145,17 @@ css({
     flex: '1 1 0%',
     py: '{space.8}',
     width: '100%',
-    maxWidth: '{docus.readableLine}',
+    // maxWidth: '{docus.readableLine}',
     mx: 'auto',
-    '&.with-toc': {
+    '.has-toc &&': {
       paddingTop: '{space.12}',
       '@lg': {
         paddingTop: '{space.8}',
       }
     },
     '@lg': {
-      marginTop: 0
+      marginTop: 0,
+      // gridColumnStart: 2,
     },
     // `.not-prose` can be useful if creating <h1> with a component (404 page is an example)
     ':deep(h1:not(.not-prose):first-child)': {
@@ -159,7 +172,7 @@ css({
       marginTop: 0,
       marginBottom: '{space.8}',
       paddingBottom: '{space.8}',
-      borderBottom: '1px solid {elements.border.primary.default}',
+      borderBottom: '1px solid {elements.border.primary.static}',
       color: '{color.gray.500}',
       '@sm': {
         fontSize: '{text.lg.fontSize}',
@@ -184,16 +197,15 @@ css({
   },
   '.toc': {
     position: 'sticky',
-    top: 0,
+    top: '{docus.header.height}',
     display: 'flex',
     mx: 'calc(0px - {space.4})',
     overflow: 'auto',
-    borderBottom: '1px solid {elements.border.primary.default}',
+    borderBottom: '1px solid {elements.border.primary.static}',
     '@sm': {
       mx: 'calc(0px - {space.6})',
     },
     '@lg': {
-      top: '{docus.header.height}',
       mx: 0,
       alignSelf: 'flex-start',
       py: '{space.8}',
@@ -202,7 +214,7 @@ css({
       maxHeight: 'none',
       borderBottom: 'none',
       '.fluid &&': {
-        borderLeft: '1px solid {elements.border.primary.default}',
+        borderLeft: '1px solid {elements.border.primary.static}',
       }
     },
     '.toc-wrapper': {

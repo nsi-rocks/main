@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
-  modules: ['@nuxt/content', '@vueuse/nuxt'],
+  extends: '@nuxt-themes/docus',
+  css: ['@/assets/css/main.css'],
   app: {
     head: {
       link: [{
@@ -9,25 +10,12 @@ export default defineNuxtConfig({
     }
   },
   content: {
-    highlight: {
-      preload: ['python'],
-    },
     markdown: {
       remarkPlugins: [
         'remark-math'
       ],
       rehypePlugins: [
         'rehype-katex'
-      ]
-    }
-  },
-  extends: '@nuxt-themes/docus',
-  css: ['@/assets/css/main.css'],
-  nitro: {
-    prerender: {
-      routes: [
-          '/1.snt',
-          '/2.nsi',
       ]
     }
   }

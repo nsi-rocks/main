@@ -2,11 +2,11 @@
   <div style="margin-bottom: 1rem;">
     <div v-show="false">
       <label>Vitesse d'animation (ms):</label>
-      <input type="number" v-model="animationSpeed" />
+      <input v-model="animationSpeed" type="number">
     </div>
 
-    <Icon @click="runSelectionSort" name="ic:round-play-circle" class="icon" :class="{ 'green': run === true }" />
-    <Icon @click="reset" name="ic:baseline-replay-circle-filled" class="icon" />
+    <Icon name="ic:round-play-circle" @click="runSelectionSort" class="icon" :class="{ 'green': run === true }" />
+    <Icon name="ic:baseline-replay-circle-filled" @click="reset" class="icon" />
 
     <transition-group name="slide" tag="div" style="height: 30px; position: relative; margin-top: 2rem;">
       <div v-for="(item, index) in numbers" :key="index" :style="{ height: 3*item.val + 'px', order: item.pos, left: item.pos*35 + 'px' }" class="number-bar" :class="{ 'active': activeIndex === index, 'compare': compareIndex === index, 'mini': miniIndex === index }" />

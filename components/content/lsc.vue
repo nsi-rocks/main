@@ -1,6 +1,6 @@
 <template>
   <div @click="checked = !checked" >
-  <Icon class="icon" @click="checked = !checked" :class="{ 'checked': checked === true }" name="material-symbols:check-circle" />
+  <Icon class="icon" :class="{ 'checked': checked === true }" name="material-symbols:check-circle" />
     <span :class="{ 'done': checked === true }">
       <ContentSlot :use="$slots.default" />
     </span>

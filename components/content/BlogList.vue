@@ -1,8 +1,10 @@
 <script setup>
+const queryArticles = queryContent('articles').where({ publish: 'yes' }).sort({ ordre: -1 })
+const articles = await queryArticles.find()
 </script>
 
 <template>
-  <h1>Liste des articles</h1>
+  <blog-card v-for="article in articles" :key="article._file" :article="article" />
 </template>
 
 <style scoped>

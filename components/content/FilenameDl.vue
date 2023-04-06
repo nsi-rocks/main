@@ -28,7 +28,7 @@ const download = (filename, text) => {
 </script>
 
 <template>
-  <span @click="download(filename,props.content);">
+  <span style="cursor: pointer;" @click="download(filename,props.content);">
     {{ filename }}
   </span>
 </template>
