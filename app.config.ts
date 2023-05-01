@@ -10,7 +10,10 @@ export default defineAppConfig({
     },
     header: {
       showLinkIcon: true,
-      logo: true,
+      logo: {
+        light: '/img/logo.png',
+        dark: '/img/logo.png'
+      },
       fluid: true
     },
     footer: {

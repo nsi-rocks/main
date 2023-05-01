@@ -11,3 +11,8 @@ h2 > a > span {
 header {
     position: sticky;
 }
+
+.logo .light-img, .logo .dark-img {
+    width: 200px;
+    height: auto !important;
+}
