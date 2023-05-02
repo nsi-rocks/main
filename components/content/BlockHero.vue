@@ -48,18 +48,6 @@ defineProps({
         <div v-if="$slots.extra" class="extra">
           <ContentSlot :use="$slots.extra" unwrap="p" />
         </div>
-
-        <div class="actions">
-          <ContentSlot v-if="$slots.actions" :use="$slots.actions" unwrap="p" />
-          <template v-else>
-            <ButtonLink v-if="cta" class="cta" bold size="medium" :href="(cta[1] as any)">
-              {{ cta[0] }}
-            </ButtonLink>
-            <a v-if="secondary" :href="(secondary[1] as any)" class="secondary">
-              {{ secondary[0] }}
-            </a>
-          </template>
-        </div>
       </div>
 
       <div class="support" v-if="$slots.code">
