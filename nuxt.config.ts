@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   extends: '@nuxt-themes/docus',
   css: ['@/assets/css/main.css'],
   modules: [
-    'nuxt-content-assets'
+    'nuxt-content-assets',
   ],
   app: {
     head: {
