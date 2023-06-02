@@ -17,7 +17,7 @@ export default defineAppConfig({
       credits: {
         text: 'Site réalisé par M. NICOLAS',
         icon: 'IconNsi',
-        href: 'https://nsi.rocks'
+        href: 'mailto:contact@nsi.rocks'
       },
       fluid: true
     },
