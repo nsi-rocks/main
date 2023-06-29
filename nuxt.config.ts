@@ -1,8 +1,10 @@
 export default defineNuxtConfig({
   extends: '@nuxt-themes/docus',
   css: ['@/assets/css/main.css'],
+  devtools: { enabled: true },
   modules: [
     'nuxt-content-assets',
+    '@nuxthq/ui',
   ],
   app: {
     head: {
