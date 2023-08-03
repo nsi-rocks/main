@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     'nuxt-content-assets',
-    '@nuxthq/ui',
   ],
   app: {
     head: {
