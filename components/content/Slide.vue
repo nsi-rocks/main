@@ -5,7 +5,7 @@
   <div>
     count : {{ count }}
   </div>
-  <div class="slideshow">
+  <div class="slideshow cursor-pointer">
     <slot :name="slots[count]" />
   </div>
 </template>
@@ -43,8 +43,12 @@ onBeforeUnmount(() => {
 }
 
 .slideshow {
-  width: 1080px;
-  height: 760px;
+  width: 100%;
+  height: 80vh;
   overflow: scroll;
+}
+
+.slideshow > * {
+  height: 100%;
 }
 </style>

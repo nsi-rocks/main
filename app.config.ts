@@ -1,3 +1,6 @@
+
+// Data
+
 export default defineAppConfig({
   docus: {
     title: 'NSI Rocks !',
@@ -28,5 +31,5 @@ export default defineAppConfig({
       level: 1,
       collapsed: true
     }
-  }
+  },
 })
