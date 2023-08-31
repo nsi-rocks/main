@@ -1,4 +1,9 @@
 export default defineNuxtConfig({
+  hooks: {
+    close: () => {
+      process.exit()
+    }
+  },
   extends: '@nuxt-themes/docus',
   css: ['@/assets/css/main.css'],
   devtools: { enabled: true },
