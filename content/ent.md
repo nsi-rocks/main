@@ -1,3 +1,6 @@
+---
+navigation: false
+---
 # Utilisation de l'ENT
 ## Commencer une activité sur Capytale
 Pour commencer une activité sur Capytale, vous devez réaliser les étapes suivantes dans l'ordre :
