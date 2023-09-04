@@ -27,6 +27,9 @@ export default defineNuxtConfig({
       rehypePlugins: [
         'rehype-katex'
       ]
+    },
+    highlight: {
+      preload: ['py', 'md']
     }
   }
 })
