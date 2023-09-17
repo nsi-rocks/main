@@ -16,3 +16,7 @@ header {
     width: 200px;
     height: auto !important;
 }
+
+code > span {
+    display: block;
+}
