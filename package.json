@@ -10,9 +10,9 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@nuxt-themes/docus": "1.14.3",
+    "@nuxt-themes/docus": "1.14.6",
     "@nuxt/devtools": "^0.8.3",
-    "nuxt": "^3.7.1",
+    "nuxt": "^3.7.3",
     "rehype-katex": "^6.0.3",
     "remark-math": "^5.1.1"
   },
