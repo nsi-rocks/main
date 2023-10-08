@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   },
   extends: '@nuxt-themes/docus',
   css: ['@/assets/css/main.css'],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     'nuxt-content-assets',
     '@nuxt/content'
