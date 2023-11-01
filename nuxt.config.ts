@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  ssr: false,
+  ssr: true,
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: true },
   modules: [
