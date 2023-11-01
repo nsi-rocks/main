@@ -1,5 +1,10 @@
 export default defineNuxtConfig({
-  ssr: true,
+  hooks: {
+    close: () => {
+      process.exit()
+    }
+  },
+  ssr: false,
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: true },
   modules: [
