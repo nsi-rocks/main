@@ -1,15 +1,11 @@
 export default defineNuxtConfig({
-  hooks: {
-    close: () => {
-      process.exit()
-    }
-  },
-  extends: '@nuxt-themes/docus',
-  css: ['@/assets/css/main.css'],
-  devtools: { enabled: false },
+  ssr: false,
+  extends: ['@nuxt/ui-pro'],
+  devtools: { enabled: true },
   modules: [
     'nuxt-content-assets',
-    '@nuxt/content'
+    '@nuxt/content',
+    '@nuxt/ui'
   ],
   app: {
     head: {
@@ -20,6 +16,9 @@ export default defineNuxtConfig({
     }
   },
   content: {
+    documentDriven: {
+      injectPage: false
+    },
     markdown: {
       remarkPlugins: [
         'remark-math'
@@ -31,5 +30,12 @@ export default defineNuxtConfig({
     highlight: {
       preload: ['py', 'md']
     }
+  },
+  ui: {
+    global: true
+  },
+  components: {
+    global: true,
+    dirs: ['~/components']
   }
 })
