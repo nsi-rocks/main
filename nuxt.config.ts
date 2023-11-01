@@ -24,6 +24,9 @@ export default defineNuxtConfig({
     documentDriven: {
       injectPage: false
     },
+    experimental: {
+      clientDB: true
+    },
     markdown: {
       remarkPlugins: [
         'remark-math'
