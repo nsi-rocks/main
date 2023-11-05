@@ -49,4 +49,11 @@ export default defineNuxtConfig({
     global: true,
     dirs: ['~/components']
   },
+  nitro: {
+    prerender: {
+      routes: [
+        '/api/search.json'
+      ]
+    }
+  },
 })
