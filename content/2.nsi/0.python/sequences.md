@@ -1,0 +1,235 @@
+---
+title: Séquences
+description: Il est possible de "stocker" plusieurs valeurs dans une même structure. Ce type de structure est appelé une __séquence__.
+---
+De façon plus précise, nous pouvons définir une séquence comme un ensemble fini et ordonné d'éléments.
+
+Il existe deux types de séquences en Python : les __tuples__ et les __listes__.
+
+## Les tuples
+En mathématiques, on appelle __uplets__ des "collections ordonnées d'objets". Plus précisément, on appellera n-uple ou n-uplet une collection contenant _n_ objets. Vous trouverez davantage d'informations sur la page [:icon{name="mdi:wikipedia"} Uplet - Wikipedia](https://fr.wikipedia.org/wiki/Uplet).  
+Le terme courant en programmation est l'anglicisme correspondant, le __tuple__.  
+
+- les éléments d'un tuple sont placés entre parenthèses: `(val1, val2, val3)`
+- les tuples sont ordonnés, chaque élément est associé à un indice
+- les tuples ne sont pas modifiables
+- les éléments d'un tuple peuvent être de types différents: on peut combiner chaînes de caractères, entiers, objets, dans le même tuple.
+
+
+Commençons par un exemple simple :
+
+``` python 
+premier_tuple = (1, 9, 42, 13, 24)
+```
+
+::image{src="tuple.png"}
+On peut représenter ce tuple par un schéma basique.
+::
+
+Ainsi, dans la variable `premier_tuple`, on a :
+
+- la __valeur 1__ en position _0_
+- la __valeur 9__ en position _1_
+- la __valeur 42__ en position _2_
+- la __valeur 13__ en position _3_
+- la __valeur 24__ en position _3_
+
+Pour accéder à ces valeurs, on utilise une notation à base de __crochets__. Le code ci-dessous permet d'analyser chaque élément du tuple. On remarque que l'on peut sans problème faire cohabiter différents types natifs entre eux au sein d'un même tuple.
+
+::code-group
+```python [Analyse de tuple]
+mon_tuple = (42, "chat", 12, True)
+
+print(type(mon_tuple), ":", mon_tuple)
+print(type(mon_tuple[0]), ":", mon_tuple[0])
+print(type(mon_tuple[1]), ":", mon_tuple[1])
+print(type(mon_tuple[2]), ":", mon_tuple[2])
+print(type(mon_tuple[3]), ":", mon_tuple[3])
+```
+
+```bash [résultat]
+<class 'tuple'> : (42, 'chat', 12, True)
+<class 'int'> : 42
+<class 'str'> : chat
+<class 'int'> : 12
+<class 'bool'> : True
+```
+::
+
+:image{src="tuple1.png" iwidth='500'}
+
+::callout
+Un tuple est utile dans plusieurs cas : il permet à une fonction de renvoyer plusieurs valeurs, comme par exemple des couples de coordonnées, des numéros de téléphone, ou de façon plus générale plusieurs valeurs qui sont liées.
+::
+
+Reprenons par exemple notre fonction `addition()`. Nous pouvons la modifier afin qu'au lieu de renvoyer la somme des deux valeurs, elle renvoie un tuple contenant la valeur a, la valeur b, et enfin la somme des deux. Ainsi, nous conservons toute l'information : nous connaissons la somme des deux valeurs, mais nous pouvons également retrouver comment elle a été calculée.
+
+::code-group
+```python [Fonction addition]
+def addition(int_a, int_b):
+    if type(int_a) == type(int_b) == type(1):
+        return (int_a, int_b, int_a + int_b)
+    else:
+        return "ERREUR DE TYPE"
+
+print(addition(12, 8))
+```
+
+```bash [résultat]
+(12, 8, 20)
+
+```
+::
+
+::callout
+:warning: Un tuple ne peut pas être modifié une fois créé.
+::
+
+## Les listes
+Les listes ont plusieurs propriétés :
+- les éléments de la liste sont placés entre crochets: `[val1, val2, val3]`
+- les listes sont ordonnées, chaque élément est associé à un indice
+- les listes sont modifiables
+- les éléments d'une liste peuvent être de types différents: on peut combiner chaînes de caractères, entiers, objets, dans la même liste
+
+::p-card-grid{cols=2}
+#title
+Différences entre les tuples et les listes
+
+#default
+::p-card
+#title
+Tuple
+#description
+`mon_tuple = (1, 2, 3)`{lang='python'}  
+les tuples ne sont __pas modifiables__ (on dit immutables)
+::
+
+::p-card
+#title
+Liste
+#description
+`ma_liste = [1, 2, 3]`{lang='python'}  
+les listes sont __modifiables__ (on dit mutables)
+::
+::
+
+Les listes, comme les tuples, sont des séquences. Ils se manipulent donc de la même façon. On peut toutefois ajouter deux éléments liés au caractère mutable des listes : il est possible de supprimer ou ajouter des éléments à un liste, mais également de modifier des éléments directement.
+
+::code-group
+```python [Manipulation de listes]
+mon_liste = [14, "poisson", 42, True]
+
+print(type(ma_liste), ":", mon_liste)
+print(type(ma_liste[0]), ":", ma_liste[0])
+print(type(ma_liste[1]), ":", ma_liste[1])
+print(type(ma_liste[2]), ":", ma_liste[2])
+print(type(ma_liste[3]), ":", ma_liste[3])
+
+# modifier un élément
+mon_liste[1] = "grenouille"
+print(mon_liste)
+
+# ajouter un élément
+mon_liste.append(1988)
+print(mon_liste)
+
+# supprimer un élément
+del mon_liste[4]
+print(mon_liste)
+
+# longueur d'un liste
+print("Il y a", len(mon_liste), "éléments dans le liste")
+```
+
+```bash [résultat]
+<class 'list'> : [14, 'poisson', 42, True]
+<class 'int'> : 14
+<class 'str'> : poisson
+<class 'int'> : 42
+<class 'bool'> : True
+[14, 'grenouille', 42, True]
+[14, 'grenouille', 42, True, 1988]
+[14, 'grenouille', 42, True]
+Il y a 4 éléments dans le liste
+```
+::
+
+::callout
+- l'instruction `del`{lang='python'} permet de supprimer un élément d'un liste
+- la fonction mon_liste.`append()`{lang="py"} permet d'ajouter un élément à la fin d'un liste
+- la fonction `len()`{lang="py"} permet d'obtenir la longueur d'un tuple ou d'un liste
+- on peut modifier un liste : `liste[2] = "maison"`{lang="py"}
+- les opérations sur les tuples sont légèrement plus rapides : si vous savez que vous n'aurez pas besoin de modifier votre séquence, préférez le tuple au liste
+::
+
+## Parcourir une séquence : boucle for
+Nous avons rapidement vu le mot-clé `for`{lang='python'}, et notamment son utilisation en combinaison avec la fonction `range()`{lang="py"}. Ainsi, nous avons pu réaliser des itérations sur un nombre défini d'éléments.
+
+L'instruction for permet également de parcourir des séquences : typiquement, des tuples ou des listes ! La structure est identique à l'utilisation de `range()`{lang="py"}, et voici un exemple :
+
+::code-group
+```python [Parcourir une séquence]
+# création d'un liste, cela fonctionne de la même façon avec un tuple
+nombres_premiers = [1, 3, 5, 7, 11, 13, 17]
+
+for nb in nombres_premiers:
+  print(nb, "est un nombre premier.")
+```
+
+```bash [résultat]
+1 est un nombre premier.
+3 est un nombre premier.
+5 est un nombre premier.
+7 est un nombre premier.
+11 est un nombre premier.
+13 est un nombre premier.
+17 est un nombre premier.
+```
+::
+
+## Les "listes de listes"
+Une liste est une séquence qui se déroule en une dimension : chaque élément possède un indice, et il est aisé de représenter une liste sur une simple ligne.
+
+::callout
+Chaque élément d'une liste peut être lui-même une liste.  
+On parle alors de liste de listes, et cela permet de travailler en deux dimensions.
+::
+
+
+```python [liste de listes]
+m = [[1, 3, 4], [5 ,6 ,8], [2, 1, 3], [7, 8, 15]]
+
+# il est plus courant (et plus lisible), de le représenter ainsi :
+
+m = [[1, 3, 4],
+     [5, 6, 8],
+     [2, 1, 3],
+     [7, 8, 15]]
+```
+
+Comment traiter ces listes de listes ? Elles ressemblent beaucoup à un objet mathématique bien connu : les matrices. Comme pour les matrices, nous allons nous repérer dans notre liste de listes grâce à des couples d'indices.
+
+La séquence `m` est une liste contenant 4 éléments. Ainsi :
+
+- l'élément `m[0]` est le liste `[1, 3, 4]`
+- l'élément `m[1]` est le liste `[5 ,6 ,8]`
+- l'élément `m[2]` est le liste `[2, 1, 3]`
+- l'élément `m[3]` est le liste `[7, 8, 15]`
+
+Par conséquent, la séquence `m[0]` est la liste `[1, 3, 4]`, et donc :
+
+- l'élément `m[0][0]` est le chiffre `1`
+- l'élément `m[0][1]` est le chiffre `3`
+- l'élément `m[0][2]` est le chiffre `4`
+
+## Création d'une liste par compréhension
+On peut créer une liste par compréhension, c'est-à-dire en intégrant directement le code générateur dans les crochets. Les deux exemples ci-dessous sont similaires :
+
+```py
+liste1 = []
+for i in range(10):
+    liste1.append(i*2)
+
+liste2 = [i*2 for i in range(10)]
+```
