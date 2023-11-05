@@ -1,9 +1,5 @@
 <template>
-  <UPage>
-  <UPageBody prose>
-    <slot />
-  </UPageBody>
-  </UPage>
+  <slot />
 </template>
 
 <script lang="ts" setup>

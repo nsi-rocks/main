@@ -1,8 +1,21 @@
 <script setup lang="ts">
-const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
-provide('navigation', navigation)
+const { navigation } = useContent()
 
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
+
+const links = [ {
+  label: 'ENT Hauts-de-France',
+  icon: 'i-heroicons-user-group',
+  to: 'https://enthdf.fr'
+}, {
+  label: 'Excalidraw',
+  icon: 'i-heroicons-pencil',
+  to: 'https://excalidraw.com',
+}, {
+  label: 'Capytale',
+  icon: 'i-heroicons-code-bracket-square',
+  to: 'https://capytale2.ac-paris.fr'
+}]
 </script>
 
 <template>
@@ -27,7 +40,7 @@ const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { defa
   </NuxtLayout>
   </UMain>
   <UFooter />
-  
+
   <ClientOnly>
     <LazyUDocsSearch :files="files" :navigation="navigation" :links="links" />
   </ClientOnly>
