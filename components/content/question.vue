@@ -1,14 +1,16 @@
 <template>
   <UCard>
-    <template #header>
+    <template #header v-if="false">
+    </template>
+    <template #default>
       <ContentSlot :use="$slots.question" />
+      <div class="flex flex-row justify-around gap-2">
+        <UButton v-for="(r, index) of reps.sort(() => Math.random() - 0.5)" :label="r.label" @click="verif(r)" variant="outline" size="xl" />
+      </div>
     </template>
     <template #footer v-if="expli !== -1">
       <ContentSlot :name="expli" />
     </template>
-  <div class="flex flex-row justify-around gap-2">
-    <UButton v-for="(r, index) of reps.sort(() => Math.random() - 0.5)" :label="r.label" @click="verif(r)" variant="soft" />
-  </div>
   </UCard>
 </template>
 

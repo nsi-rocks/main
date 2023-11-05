@@ -3,7 +3,7 @@
   <UButton :disabled="qref === 0" icon="i-heroicons-arrow-left" @click="prevQ" />
 
   <div class="flex flex-row gap-2">
-    <UBadge v-for="(c, idx) of q" :ui="{ rounded: 'rounded-full'}" :class="idx === qref ? 'ring-2 ring-offset-2' : 'ring-0'" :color="c.corr.value === null ? 'blue': c.corr.value ? 'green' : 'red'">
+    <UBadge variant="subtle" v-for="(c, idx) of q" :ui="{ rounded: 'rounded-full'}" :class="idx === qref ? 'ring-2 ring-offset-2' : 'ring-0'" :color="c.corr.value === null ? 'blue': c.corr.value ? 'green' : 'red'">
     <Icon class="text-xl" :name="c.corr.value === null ? 'material-symbols:question-mark': c.corr.value ? 'i-heroicons-check' : 'i-heroicons-x-mark'" />
     </UBadge>
   </div>
