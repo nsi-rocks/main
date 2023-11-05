@@ -3,13 +3,13 @@
   <UPage>
   <template #left>
   <UAside>
-    <UNavigationTree :links="mapContentNavigation(navigation.find(el => useRoute().path.startsWith(el._path)).children)" />
+    <UNavigationTree v-if="nav.length > 0" :links="mapContentNavigation(nav[0].children)" />
   </UAside>
   </template>
 
   <UPage>
   <UPageHeader v-bind="page">
-    <template #description>
+    <template #description v-if="page.description">
     <MDC :value="page.description" />
     </template>
     <template #headline>
@@ -25,7 +25,7 @@
       <slot />
   </UPageBody>
 
-  <template v-if="page.body?.toc?.links?.length || quizz" #right>
+  <template v-if="page.body?.toc?.links?.length || page.quizz" #right>
     <UAside v-if="page.quizz" :ui="{ wrapper: 'lg:px-0' }">
     <p class="font-semibold">Tous les quizz</p>
     <UNavigationTree :links="mapContentNavigation(quizz)" />
@@ -38,14 +38,13 @@
 </template>
 
 <script lang="ts" setup>
-const navigation = inject<Ref<NavItem[]>>('navigation')
-
-import type { NavItem } from '@nuxt/content/dist/runtime/types'
-
-const { page } = useContent()
+const { page, navigation } = useContent()
 
 const breadcrumb = computed(() => findPageBreadcrumb(navigation.value, page.value))
 
+const nav = computed(() => {
+  return navigation.value.filter(el => page.value._path.startsWith(el._path))
+})
 const quizz = await queryContent().where({ quizz: {$eq: true }}).find()
 </script>
 
