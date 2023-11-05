@@ -19,7 +19,8 @@ export default defineAppConfig({
         prose: {
           code: {
             icon: {
-              py: 'vscode-icons:file-type-python'
+              py: 'vscode-icons:file-type-python',
+              csv: 'material-symbols:csv'
             }
           }
         }

@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   ssr: false,
   extends: ['@nuxt/ui-pro'],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     'nuxt-content-assets',
     '@nuxt/content',
