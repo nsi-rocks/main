@@ -9,7 +9,7 @@ provide('navigation', navigation)
       <UNavigationTree :links="mapContentNavigation(navigation)" />
     </template>
     <template #logo>
-      <Mogo class="block w-auto h-12" />
+      <Mogo class="block w-auto h-10" />
     </template>
   </UHeader>
   <UMain>
