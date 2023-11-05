@@ -4,6 +4,9 @@ export default defineNuxtConfig({
       process.exit()
     }
   },
+  colorMode: {
+    preference: 'dark'
+  },
   ssr: false,
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: true },

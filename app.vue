@@ -11,6 +11,13 @@ provide('navigation', navigation)
     <template #logo>
       <Mogo class="block w-auto h-10" />
     </template>
+
+    <template #right>
+      <UDocsSearchButton :label="null" />
+
+      <UColorModeToggle />
+    </template>
+
   </UHeader>
   <UMain>
   <NuxtLayout>
