@@ -3,6 +3,7 @@
   <UPage>
   <template #left>
   <UAside>
+    <UDocsSearchButton class="mb-4" label="Rechercher..." />
     <UNavigationTree v-if="nav.length > 0" :links="mapContentNavigation(nav[0].children)" />
   </UAside>
   </template>
