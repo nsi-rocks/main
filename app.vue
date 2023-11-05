@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
 provide('navigation', navigation)
+
+const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
 </script>
 
 <template>
@@ -25,4 +27,8 @@ provide('navigation', navigation)
   </NuxtLayout>
   </UMain>
   <UFooter />
+  
+  <ClientOnly>
+    <LazyUDocsSearch :files="files" :navigation="navigation" :links="links" />
+  </ClientOnly>
 </template>
