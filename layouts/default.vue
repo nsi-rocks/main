@@ -20,12 +20,17 @@
       </NuxtLink>
     </template>
   </UPageHeader>
+
   <UPageBody class="px-4" prose>
       <slot />
   </UPageBody>
 
-  <template v-if="page.body?.toc?.links?.length" #right>
-    <UDocsToc :links="page.body.toc.links" />
+  <template v-if="page.body?.toc?.links?.length || quizz" #right>
+    <UAside v-if="page.quizz" :ui="{ wrapper: 'lg:px-0' }">
+    <p class="font-semibold">Tous les quizz</p>
+    <UNavigationTree :links="mapContentNavigation(quizz)" />
+    </UAside>
+    <UDocsToc v-if="page.body?.toc?.links?.length" :links="page.body.toc.links" />
   </template>
   </UPage>
   </UPage>
@@ -40,6 +45,8 @@ import type { NavItem } from '@nuxt/content/dist/runtime/types'
 const { page } = useContent()
 
 const breadcrumb = computed(() => findPageBreadcrumb(navigation.value, page.value))
+
+const quizz = await queryContent().where({ quizz: {$eq: true }}).find()
 </script>
 
 <style>

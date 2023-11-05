@@ -1,5 +1,6 @@
 ---
 navigation: false
+quizz: true
 title: Expressions, instructions
 description: Les expressions et les instructions sont les deux briques fondamentales d'un programme. Nous voyons dans cette page leur utilité.
 links:
