@@ -3,23 +3,26 @@ hero:
   title: <span class="text-primary">NSI Rocks</span> <br>  SNT & NSI
   description: "NSI Rocks est le site qui vous accompagnera cette année, pour la SNT comme pour la NSI. Abordez ces matières avec sérénité avec l'essentiel pour réviser, vous entraîner, et vous assurer que vous avez tout compris."
   links:
-    - label: Get Started
-      to: /pro/guide
+    - label: NSI
+      to: /nsi
       size: lg
       icon: i-heroicons-rocket-launch
-    - label: Buy now
-      to: /pro#pricing
-      color: gray
-      icon: i-heroicons-credit-card
+    - label: SNT
+      to: /snt
+      icon: i-heroicons-academic-cap
+      size: lg
+    - label: articles
+      to: /articles
+      icon: i-heroicons-document-text
       size: lg
 features:
   - title: cours de NSI
-    description: Les cours vus en classe disponibles en ligne, depuis le lycée, la maison, sur un ordinateur comme un smartphone.
+    description: Les cours vus en classe disponibles en ligne, depuis le lycée, la maison, pour tous les supports.
     to: /nsi
   - title: articles
-    description: Pour aller plus loin, si vous avez envie de découvrir d'autres sujets liés à l'informatique qui ne sont pas directement inclus dans le programme.
+    description: Pour aller plus loin, si vous avez envie de découvrir d'autres sujets liés à l'informatique qui ne sont pas inclus dans le programme.
     to: '/articles'
-  - title: ressources de SNT
+  - title: cours de SNT
     description: L'essentiel vu en classe disponible depuis le lycée, la maison, pour tous les supports.
     to: /snt    
   - title: quiz
