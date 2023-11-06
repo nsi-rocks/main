@@ -14,6 +14,7 @@
     <URange size="2xl" color="red" :min="0" :max="255" v-model="rouge" />
     <URange size="2xl" color="green" :min="0" :max="255" v-model="vert" />
     <URange size="2xl" color="blue" :min="0" :max="255" v-model="bleu" />
+    <URange color="cool" :min="0" :max="255" v-model="gray" />
   </div>
   </UCard>
 
@@ -23,6 +24,13 @@
 const rouge = ref(0)
 const vert = ref(0)
 const bleu = ref(0)
+const gray = ref()
+
+watch(gray, val => {
+  rouge.value = val
+  bleu.value = val
+  vert.value = val
+})
 </script>
 
 <style>
