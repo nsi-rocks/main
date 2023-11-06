@@ -27,4 +27,3 @@ features:
     to: /snt    
   - title: quiz
     description: Des quiz sont disponibles pour que vous puissiez tester vos connaissances régulièrement.
-    to: '/quiz'
