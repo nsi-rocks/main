@@ -13,7 +13,8 @@
     "@nuxt/ui-pro": "^0.4.2",
     "nuxt": "^3.8.0",
     "rehype-katex": "^7.0.0",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "follow-redirects": "^1.15.3",
