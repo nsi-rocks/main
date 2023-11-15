@@ -28,7 +28,7 @@ const links = [ {
     </template>
 
     <template #right>
-      <UDocsSearchButton :label="null" />
+      <UDocsSearchButton label="" />
 
       <UColorModeToggle />
     </template>

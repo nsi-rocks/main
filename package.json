@@ -9,6 +9,7 @@
     "preview": "nuxi preview"
   },
   "devDependencies": {
+    "@iconify-json/noto": "^1.1.12",
     "@nuxt/content": "^2.9.0",
     "@nuxt/ui-pro": "^0.4.2",
     "nuxt": "^3.8.0",

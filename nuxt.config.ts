@@ -43,7 +43,8 @@ export default defineNuxtConfig({
     }
   },
   ui: {
-    global: true
+    global: true,
+    icons: ['noto']
   },
   components: {
     global: true,
