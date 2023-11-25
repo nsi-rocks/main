@@ -6,6 +6,7 @@
     </div>
   </div>
   <UButton @click="runPython" label="run" class="block mx-auto mt-4" />
+  <UButton @click="runPython2" label="run2" class="block mx-auto mt-4" />
 </template>
 
 <script setup>
@@ -14,7 +15,19 @@ import { python } from "@codemirror/lang-python";
 const script = ref();
 const resultat = ref("");
 const runPython = async () => {
-  const data = await $fetch("http://localhost:3000/python", {
+  const data = await $fetch("https://api.nicolas.zone/python", {
+    method: "post",
+    body: { script: script.value },
+  });
+  if (data['traceback']) {
+      resultat.value = data['traceback']
+  } else {
+    resultat.value = data;
+  }
+};
+
+const runPython2 = async () => {
+  const data = await $fetch("https://api.nicolas.zone/python2", {
     method: "post",
     body: { script: script.value },
   });
