@@ -27,7 +27,14 @@ const links = [ {
   label: 'Capytale',
   icon: 'i-heroicons-code-bracket-square',
   to: 'https://capytale2.ac-paris.fr'
-}]
+  }]
+
+const getTest = async () => {
+  const res = await $fetch('https://api.nicolas.zone/castest', {
+    credentials: 'include'
+  })
+  console.log(res);
+}
 </script>
 
 <template>
@@ -41,7 +48,7 @@ const links = [ {
 
     <template #right>
       <UDocsSearchButton label="" />
-
+      <UButton label="go" @click="getTest" />
       <UColorModeToggle />
     </template>
 
