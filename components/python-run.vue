@@ -28,7 +28,8 @@ const runPython = async () => {
 
 const runPython2 = async () => {
   const data = await $fetch("https://api.nicolas.zone/python2", {
-    method: "post",
+      method: "post",
+    credentials: 'include',
     body: { script: script.value },
   });
   if (data['traceback']) {
