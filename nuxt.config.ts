@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     preference: 'dark'
   },
   ssr: false,
+  devServer: {
+    port: 3001
+  },
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: false },
   modules: [

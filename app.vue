@@ -1,7 +1,19 @@
 <script setup lang="ts">
 const { navigation } = useContent()
+const urls = ['http://localhost:3000', 'https://api.nicolas.zone']
 
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
+
+const ticket = useRoute().query.ticket
+if (ticket) {
+  console.log(ticket);
+
+  const res = await $fetch(urls[1]+'/ticket', {
+    method: 'get',
+    query: { ticket: ticket },
+    credentials: 'include'
+  })
+}
 
 const links = [ {
   label: 'ENT Hauts-de-France',
