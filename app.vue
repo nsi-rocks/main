@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { navigation } = useContent()
-const urls = ['http://localhost:3000', 'https://api.nicolas.zone']
 
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
 
@@ -8,11 +7,13 @@ const ticket = useRoute().query.ticket
 if (ticket) {
   console.log(ticket);
 
-  const res = await $fetch(urls[1]+'/ticket', {
+  const res = await $fetch('https://api.nsi.rocks/ticket', {
     method: 'get',
     query: { ticket: ticket },
     credentials: 'include'
   })
+  console.log(res);
+  await navigateTo('/')
 }
 
 const links = [ {
@@ -28,13 +29,6 @@ const links = [ {
   icon: 'i-heroicons-code-bracket-square',
   to: 'https://capytale2.ac-paris.fr'
   }]
-
-const getTest = async () => {
-  const res = await $fetch('https://api.nicolas.zone/castest', {
-    credentials: 'include'
-  })
-  console.log(res);
-}
 </script>
 
 <template>
@@ -48,7 +42,6 @@ const getTest = async () => {
 
     <template #right>
       <UDocsSearchButton label="" />
-      <UButton label="go" @click="getTest" />
       <UColorModeToggle />
     </template>
 
