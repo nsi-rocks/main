@@ -23,11 +23,13 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'landing'
+  layout: 'landing',
 })
 
 const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
-
+useHead({
+  title: 'NSI Rocks !'
+})
 </script>
 
 <style>
