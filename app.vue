@@ -1,10 +1,20 @@
 <script setup lang="ts">
 const { navigation } = useContent();
 
-const { data: files } = useLazyFetch<ParsedContent[]>("/api/search.json", {
-  default: () => [],
-  server: false,
-});
+const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
+
+const ticket = useRoute().query.ticket
+if (ticket) {
+  console.log(ticket);
+
+  const res = await $fetch('https://api.nsi.rocks/ticket', {
+    method: 'get',
+    query: { ticket: ticket },
+    credentials: 'include'
+  })
+  console.log(res);
+  await navigateTo('/')
+}
 
 const links = [
   {
@@ -36,7 +46,6 @@ const links = [
 
     <template #right>
       <UDocsSearchButton label="" />
-
       <UColorModeToggle />
     </template>
   </UHeader>

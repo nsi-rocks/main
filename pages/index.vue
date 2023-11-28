@@ -9,6 +9,8 @@
       <span v-html="page.hero.description" />
     </template>
   </ULandingHero>
+
+
   <div class="grid gap-4 p-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
     <UPageCard
         v-for="(card, index) of page.features"
