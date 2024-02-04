@@ -1,15 +1,10 @@
 export default defineNuxtConfig({
-  hooks: {
-    close: () => {
-      process.exit()
-    }
-  },
   colorMode: {
     preference: 'dark'
   },
   ssr: false,
   devServer: {
-    port: 3001
+    port: 3000
   },
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: false },
@@ -26,6 +21,12 @@ export default defineNuxtConfig({
     documentDriven: {
       injectPage: false
     },
+    // watch: {
+    //   ws: {
+    //     port: 4000,
+    //     showURL: true
+    //   }
+    // },
     experimental: {
       clientDB: true
     },

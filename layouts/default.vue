@@ -26,7 +26,7 @@
       <slot />
   </UPageBody>
 
-  <template v-if="page.body?.toc?.links?.length || page.quizz" #right>
+  <template #right>
     <UAside v-if="page.quizz" :ui="{ wrapper: 'lg:px-0' }">
     <p class="font-semibold">Tous les quizz</p>
     <UNavigationTree :links="mapContentNavigation(quizz)" />
