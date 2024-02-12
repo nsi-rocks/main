@@ -20,7 +20,8 @@ export default defineAppConfig({
           code: {
             icon: {
               py: 'vscode-icons:file-type-python',
-              csv: 'material-symbols:csv'
+              csv: 'material-symbols:csv',
+              bash: 'vscode-icons:file-type-bash',
             }
           }
         }
