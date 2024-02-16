@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   },
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: false },
-  modules: [ '@nuxt/content', '@nuxt/ui', "@nuxt/image"],
+  modules: [ 'nuxt-content-assets', '@nuxt/content', '@nuxt/ui', "@nuxt/image"],
   app: {
     head: {
       link: [{
