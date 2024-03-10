@@ -3,7 +3,7 @@
   <UPage>
   <template #left>
   <UAside>
-    <UDocsSearchButton class="mb-4" label="Rechercher..." />
+    <UContentSearchButton class="mb-4" label="Rechercher..." />
     <UNavigationTree v-if="nav.length > 0" :links="mapContentNavigation(nav[0].children)" />
   </UAside>
   </template>
@@ -31,7 +31,7 @@
     <p class="font-semibold">Tous les quizz</p>
     <UNavigationTree :links="mapContentNavigation(quizz)" />
     </UAside>
-    <UDocsToc v-if="page.body?.toc?.links?.length" :links="page.body.toc.links" />
+    <UContentToc v-if="page.body?.toc?.links?.length" :links="page.body.toc.links" />
   </template>
   </UPage>
   </UPage>

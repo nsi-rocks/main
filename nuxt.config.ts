@@ -26,12 +26,6 @@ export default defineNuxtConfig({
     documentDriven: {
       injectPage: false
     },
-    // watch: {
-    //   ws: {
-    //     port: 4000,
-    //     showURL: true
-    //   }
-    // },
     experimental: {
       clientDB: true
     },

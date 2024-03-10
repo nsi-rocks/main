@@ -45,7 +45,7 @@ const links = [
     </template>
 
     <template #right>
-      <UDocsSearchButton label="" />
+      <UContentSearchButton label="" />
       <UColorModeToggle />
     </template>
   </UHeader>
@@ -72,6 +72,6 @@ const links = [
   </UFooter>
 
   <ClientOnly>
-    <LazyUDocsSearch :files="files" :navigation="navigation" :links="links" />
+    <LazyUContentSearch :files="files" :navigation="navigation" :links="links" />
   </ClientOnly>
 </template>
