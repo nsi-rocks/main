@@ -1,4 +1,5 @@
 <template> 
+<div>
     <figure>
     <ClientOnly>
         <img :src="`${src.replace('.png','-d.png')}`" v-if="$colorMode.value == 'dark'" :width="iwidth" />
@@ -8,6 +9,7 @@
             <ContentSlot :use="$slots.default" unwrap="p" />
         </figcaption>
     </figure>
+</div>
 </template>
 
 <script setup>
