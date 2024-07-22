@@ -1,4 +1,5 @@
 <template>
+  <NuxtLayout>
   <div class="gradient" />
   <ULandingHero :links="page.hero.links">
     <template #title>
@@ -10,7 +11,6 @@
     </template>
   </ULandingHero>
 
-
   <div class="grid gap-4 p-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
     <UPageCard
         v-for="(card, index) of page.features"
@@ -21,11 +21,12 @@
     </div>
     </UPageCard>
   </div>
+</NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'landing',
+  layout: 'default',
 })
 
 const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())

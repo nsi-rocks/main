@@ -1,9 +1,21 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default'
+
+const query = useRoute().query
+const ldata = computed(() => {
+  return Object.keys(query).includes('print') ? 'print' : 'default'
 })
+
+setPageLayout(ldata.value)
+
+
+definePageMeta({
+  layout: false
+})
+
 </script>
 
 <template>
-  <ContentDoc />
+  <NuxtLayout :name="ldata">
+    <ContentDoc />
+  </NuxtLayout>
 </template>

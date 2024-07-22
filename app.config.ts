@@ -15,6 +15,9 @@ export default defineAppConfig({
           height: '4rem'
         }
       },
+      icons: {
+        dynamic: true,
+      },
       content: {
         prose: {
           code: {

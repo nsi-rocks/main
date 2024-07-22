@@ -1,19 +1,13 @@
 export default defineNuxtConfig({
-    hooks: {
-    close: () => {
-      process.exit()
-    }
-  },
   colorMode: {
     preference: 'dark'
   },
+
   ssr: false,
-  devServer: {
-    port: 3000
-  },
   extends: ['@nuxt/ui-pro'],
   devtools: { enabled: false },
-  modules: [ 'nuxt-content-assets', '@nuxt/content', '@nuxt/ui', "@nuxt/image"],
+  modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui'],
+
   app: {
     head: {
       link: [{
@@ -22,6 +16,7 @@ export default defineNuxtConfig({
       }]
     }
   },
+
   content: {
     documentDriven: {
       injectPage: false
@@ -33,22 +28,26 @@ export default defineNuxtConfig({
       remarkPlugins: [
         'remark-math'
       ],
-      rehypePlugins: [
-        'rehype-katex'
-      ]
+      rehypePlugins: {
+        'rehype-katex': {
+          output: 'html' // the default value is 'htmlAndMathml'
+        }
+      }
     },
     highlight: {
       preload: ['py', 'md']
     }
   },
+
   ui: {
     global: true,
-    icons: ['noto']
   },
+
   components: {
     global: true,
     dirs: ['~/components']
   },
+
   nitro: {
     prerender: {
       routes: [
@@ -56,4 +55,5 @@ export default defineNuxtConfig({
       ]
     }
   },
+  compatibilityDate: '2024-07-22',
 })
