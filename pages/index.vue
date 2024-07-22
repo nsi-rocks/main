@@ -1,50 +1,55 @@
 <template>
-  <NuxtLayout>
-  <div class="gradient" />
-  <ULandingHero :links="page.hero.links">
-    <template #title>
-      <span v-html="page.hero.title" />
-    </template>
+  <UCard :ui="{ body: { base: 'grid grid-cols-2'}}" class="w-2/3 m-auto" v-if="false">
+    <ContentNavigation v-slot="{ navigation }" :query="nsiQuery">
+      <UNavigationTree :links="mapContentNavigation(navigation[0].children)" />
+    </ContentNavigation>
+    <ContentNavigation v-slot="{ navigation }" :query="sntQuery">
+      <UNavigationTree :links="mapContentNavigation(navigation[0].children)" />
+    </ContentNavigation>
+  </UCard>
+  <NuxtLayout name="dashboard">
+    <UDashboardPanel>
+      <UDashboardPanelContent>
+        <UDashboardCard title="Recent sales" description="You made 265 sales this month." icon="heroicons:chart-bar">
+          <UProgress />
+        </UDashboardCard>
 
-    <template #description>
-      <span v-html="page.hero.description" />
-    </template>
-  </ULandingHero>
-
-  <div class="grid gap-4 p-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-    <UPageCard
-        v-for="(card, index) of page.features"
-        :key="index"
-        v-bind="card">
-    <div class="flex flex-row justify-around">
-      <UButton variant="outline" v-for="l of card.links" :label="l.label" :to="l.to" />
-    </div>
-    </UPageCard>
-  </div>
-</NuxtLayout>
+        <div class="grid lg:grid-cols-2 gap-4 mt-4" v-for="i in 12">
+          <UDashboardCard title="Coucou" icon="heroicons:chart-bar" description="Ceci est tout à fait sympatoche.">
+          Coucou
+          </UDashboardCard>
+          <UDashboardCard />
+        </div>
+      </UDashboardPanelContent>
+    </UDashboardPanel>
+    <UDashboardPanel>
+      <UDashboardSidebar>
+        <ContentNavigation v-slot="{ navigation }" :query="sntQuery">
+        <UDashboardSidebarLinks :links="mapContentNavigation(navigation[0].children)" />
+        </ContentNavigation>
+      </UDashboardSidebar>
+    </UDashboardPanel>
+    <UDashboardPanel>
+      <UDashboardSidebar>
+        <ContentNavigation v-slot="{ navigation }" :query="sntQuery">
+        <UNavigationTree :links="mapContentNavigation(navigation[0].children)" />
+        </ContentNavigation>
+      </UDashboardSidebar>
+    </UDashboardPanel>
+  </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'default',
+  layout: 'dashboard',
 })
 
-const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
+const nsiQuery = queryContent('old', 'nsi')
+const sntQuery = queryContent('old', 'snt')
+// const { page, navigation } = useContent()
+
+// const { data: page } = await useAsyncData('index', () => queryContent('/').findOne())
 useHead({
   title: 'NSI Rocks !'
 })
 </script>
-
-<style>
-.gradient {
-  position: fixed;
-  top: 25vh;
-  width: 100%;
-  height: 30vh;
-  background: radial-gradient(50% 50% at 50% 50%, #00DC82 0%, rgba(0, 220, 130, 0) 100%);
-  filter: blur(180px);
-  opacity: 0.2;
-  z-index: -1;
-}
-</style>
-
