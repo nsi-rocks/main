@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
   ssr: false,
   extends: ['@nuxt/ui-pro'],
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui'],
 
   app: {

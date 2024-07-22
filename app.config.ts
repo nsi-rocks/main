@@ -26,6 +26,9 @@ export default defineAppConfig({
               csv: 'material-symbols:csv',
               bash: 'vscode-icons:file-type-bash',
             }
+          },
+          h2: {
+            wrapper: 'first:mt-0',
           }
         }
       }
