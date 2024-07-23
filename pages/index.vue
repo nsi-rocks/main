@@ -8,34 +8,28 @@
     </ContentNavigation>
   </UCard>
   <NuxtLayout name="dashboard">
-    <UDashboardPanel>
-      <UDashboardPanelContent>
         <UDashboardCard title="Recent sales" description="You made 265 sales this month." icon="heroicons:chart-bar">
           <UProgress />
         </UDashboardCard>
 
-        <div class="grid lg:grid-cols-2 gap-4 mt-4" v-for="i in 12">
+        <div class="grid lg:grid-cols-2 gap-4 mt-4" v-for="i in 2">
+          <UDashboardCard title="Coucou" icon="heroicons:chart-bar" description="Ceci">
+          Coucou
+          </UDashboardCard>
           <UDashboardCard title="Coucou" icon="heroicons:chart-bar" description="Ceci est tout à fait sympatoche.">
           Coucou
           </UDashboardCard>
-          <UDashboardCard />
         </div>
-      </UDashboardPanelContent>
-    </UDashboardPanel>
-    <UDashboardPanel>
-      <UDashboardSidebar>
+      <UDashboardCard>
         <ContentNavigation v-slot="{ navigation }" :query="sntQuery">
         <UDashboardSidebarLinks :links="mapContentNavigation(navigation[0].children)" />
         </ContentNavigation>
-      </UDashboardSidebar>
-    </UDashboardPanel>
-    <UDashboardPanel>
-      <UDashboardSidebar>
+      </UDashboardCard>
+      <UDashboardCard>
         <ContentNavigation v-slot="{ navigation }" :query="sntQuery">
         <UNavigationTree :links="mapContentNavigation(navigation[0].children)" />
         </ContentNavigation>
-      </UDashboardSidebar>
-    </UDashboardPanel>
+      </UDashboardCard>
   </NuxtLayout>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <UDashboardLayout>
-    <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
+    <UDashboardPanel id="layout" :width="250" :resizable="{ min: 200, max: 300, storage: 'local' }" collapsible>
       <UDashboardNavbar>
         <template #left><TeamsDropdown /></template>
         <template #right><UColorModeSelect /></template>
