@@ -1,13 +1,5 @@
 <template>
-  <UPageBody prose>
+  <div class="px-4 prose prose-primary dark:prose-invert max-w-none">
     <slot />
-  </UPageBody>
+  </div>
 </template>
-
-<script lang="ts" setup>
-
-</script>
-
-<style>
-
-</style>

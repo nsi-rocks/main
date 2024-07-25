@@ -5,7 +5,7 @@ const teams = [{
     src: 'https://avatars.githubusercontent.com/u/23360933?s=200&v=4'
   },
   click: async () => {
-    team.value = teams[0]
+    // team.value = teams[0]
     await navigateTo('/')
   }
 }, {
@@ -14,8 +14,8 @@ const teams = [{
     src: 'https://avatars.githubusercontent.com/u/62017400?s=200&v=4'
   },
   click: async () => {
-    team.value = teams[1]
-    await navigateTo('/old/nsi')
+    // team.value = teams[1]
+    await navigateTo('/')
   }
 }, {
   label: 'SNT',
@@ -23,8 +23,8 @@ const teams = [{
     src: 'https://avatars.githubusercontent.com/u/62017400?s=200&v=4'
   },
   click: async () => {
-    team.value = teams[2]
-    await navigateTo('/old/snt')
+    // team.value = teams[2]
+    await navigateTo('/')
   }
 }]
 
@@ -36,7 +36,7 @@ const actions = [{
   icon: 'i-heroicons-cog-8-tooth'
 }]
 
-const team = useState('team', () => teams[0])
+const team = teams[0];
 </script>
 
 <template>

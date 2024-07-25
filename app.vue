@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import type { ParsedContent } from '@nuxt/content';
+
 const ticket = useRoute().query.ticket
+const { navigation } = useContent()
+
 if (ticket) {
   console.log(ticket);
 
@@ -12,9 +16,15 @@ if (ticket) {
   await navigateTo('/')
 }
 
-
+const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
 </script>
 
 <template>
-  <NuxtPage />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+
+  <ClientOnly>
+    <LazyUContentSearch :files="files" :navigation="navigation" />
+  </ClientOnly>
 </template>

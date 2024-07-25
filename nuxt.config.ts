@@ -2,27 +2,31 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'dark'
   },
-
-  ssr: false,
   extends: ['@nuxt/ui-pro'],
-  devtools: { enabled: true },
+  devtools: {
+    enabled: false,
+  },
   modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui'],
-
+  // experimental: {
+  //   renderJsonPayloads: false,
+  // },
   app: {
     head: {
       link: [{
         rel: 'stylesheet',
-        href: 'https://cdn.jsdelivr.net/npm/katex@0.11.0/dist/katex.min.css'
+        href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css'
       }]
     }
   },
-
+  routeRules: {
+    '/api/search.json': { prerender: true }
+  },
   content: {
     documentDriven: {
       injectPage: false
     },
     experimental: {
-      clientDB: true
+      clientDB: true,
     },
     markdown: {
       remarkPlugins: [
@@ -46,14 +50,6 @@ export default defineNuxtConfig({
   components: {
     global: true,
     dirs: ['~/components']
-  },
-
-  nitro: {
-    prerender: {
-      routes: [
-        '/api/search.json'
-      ]
-    }
   },
   compatibilityDate: '2024-07-22',
 })
