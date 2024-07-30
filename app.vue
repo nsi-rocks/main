@@ -7,20 +7,34 @@ const { navigation } = useContent()
 if (ticket) {
   console.log(ticket);
 
-  const res = await $fetch('https://api.nsi.rocks/ticket', {
-    method: 'get',
-    query: { ticket: ticket },
-    credentials: 'include'
-  })
-  console.log(res);
-  await navigateTo('/')
+  try {
+    const res = await $fetch('https://api.nsi.rocks/ticket', {
+      method: 'get',
+      query: { ticket: ticket },
+      credentials: 'include'
+    });
+    console.log(res);
+    await navigateTo('/');
+  } catch (error) {
+    console.error('Error avec le ticket :', error);
+    await navigateTo('/');
+  }
 }
 
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
+
+const getUserData = async () => {
+  const res = await $fetch('https://api.nsi.rocks/castest', {
+    method: 'get',
+    credentials: 'include'
+  })
+  console.log(res);
+}
 </script>
 
 <template>
   <NuxtLayout>
+  <UButton @click="getUserData">Get user data</UButton>
     <NuxtPage />
   </NuxtLayout>
 
