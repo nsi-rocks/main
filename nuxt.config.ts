@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: false,
   },
-  modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui'],
+  modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui', '@pinia/nuxt'],
   // experimental: {
   //   renderJsonPayloads: false,
   // },
