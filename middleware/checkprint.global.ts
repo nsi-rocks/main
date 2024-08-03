@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware((to) => {
       setPageLayout('print');
     }
     else
-      setPageLayout('dashboard');
+      setPageLayout('print');
     return;
   })
   

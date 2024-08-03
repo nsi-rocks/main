@@ -42,7 +42,6 @@ if(useCookie('jwt').value) {
 
 <template>
   <NuxtLayout>
-  <UButton @click="getUserData">Get user data</UButton>
     <NuxtPage />
   </NuxtLayout>
 
