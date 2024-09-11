@@ -1,57 +1,60 @@
-# Docus Starter
+# Hello Edge
 
-Starter template for [Docus](https://docus.dev).
+A minimal [Nuxt](https://nuxt.com) starter deployed on the Edge using [NuxtHub](https://hub.nuxt.com).
 
-## Clone
+https://hello.nuxt.dev
 
-Clone the repository (using `nuxi`):
+<a href="https://hello.nuxt.dev">
+<img src="https://github.com/nuxt-hub/hello-edge/assets/904724/99d1bd54-ef7e-4ac9-83ad-0a290f85edcf" alt="Hello World template for NuxtHub" />
+</a>
 
-```bash
-npx nuxi init -t themes/docus
-```
+## Features
+
+- Server-Side rendering on Cloudflare Workers
+- ESLint setup
+- Ready to add a database, blob and KV storage
+- One click deploy on 275+ locations for free
 
 ## Setup
 
-Install dependencies:
+Make sure to install the dependencies with [pnpm](https://pnpm.io/installation#using-corepack):
 
 ```bash
-yarn install
+pnpm install
 ```
 
-## Development
+You can update the main text displayed by creating a `.env`:
 
 ```bash
-yarn dev
+NUXT_PUBLIC_HELLO_TEXT="Hello my world!"
 ```
 
-## Edge Side Rendering
+## Development Server
 
-Can be deployed to Vercel Functions, Netlify Functions, AWS, and most Node-compatible environments.
-
-Look at all the available presets [here](https://v3.nuxtjs.org/guide/deploy/presets).
+Start the development server on `http://localhost:3000`:
 
 ```bash
-yarn build
+pnpm dev
 ```
 
-## Static Generation
+## Production
 
-Use the `generate` command to build your application.
-
-The HTML files will be generated in the .output/public directory and ready to be deployed to any static compatible hosting.
+Build the application for production:
 
 ```bash
-yarn generate
+pnpm build
 ```
 
-## Preview build
+## Deploy
 
-You might want to preview the result of your build locally, to do so, run the following command:
+
+Deploy the application on the Edge with [NuxtHub](https://hub.nuxt.com) on your Cloudflare account:
 
 ```bash
-yarn preview
+npx nuxthub deploy
 ```
 
----
+Then checkout your server logs, analaytics and more in the [NuxtHub Admin](https://admin.hub.nuxt.com).
 
-For a detailed explanation of how things work, check out [Docus](https://docus.dev).
+You can also deploy using [Cloudflare Pages CI](https://hub.nuxt.com/docs/getting-started/deploy#cloudflare-pages-ci).
+

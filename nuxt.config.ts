@@ -1,55 +1,61 @@
 export default defineNuxtConfig({
-  colorMode: {
-    preference: 'dark'
-  },
-  extends: ['@nuxt/ui-pro'],
-  devtools: {
-    enabled: false,
-  },
-  modules: ['nuxt-content-assets', '@nuxt/content', '@nuxt/ui', '@pinia/nuxt'],
-  // experimental: {
-  //   renderJsonPayloads: false,
-  // },
   app: {
     head: {
-      link: [{
-        rel: 'stylesheet',
-        href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css'
-      }]
-    }
-  },
-  routeRules: {
-    '/api/search.json': { prerender: true }
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css',
+          integrity: 'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
+          crossorigin: 'anonymous',
+        },
+      ],
+    },
   },
   content: {
-    documentDriven: {
-      injectPage: false
-    },
     experimental: {
       clientDB: true,
     },
     markdown: {
       remarkPlugins: [
-        'remark-math'
+        'remark-math',
       ],
-      rehypePlugins: {
-        'rehype-katex': {
-          output: 'html' // the default value is 'htmlAndMathml'
-        }
-      }
+      rehypePlugins: [
+        'rehype-katex',
+      ],
     },
     highlight: {
-      preload: ['py', 'md']
-    }
+      preload: ['py', 'md'],
+    },
+  },
+  compatibilityDate: '2024-07-30',
+  future: { compatibilityVersion: 4 },
+  extends: ['@nuxt/ui-pro'],
+  modules: [
+    '@nuxthub/core',
+    '@nuxt/eslint',
+    '@nuxt/content',
+    '@nuxt/ui',
+    'nuxt-auth-utils',
+    '@pinia/nuxt',
+    '@nuxt/image',
+  ],
+
+  hub: {
+    database: true,
   },
 
-  ui: {
-    global: true,
+  runtimeConfig: {
+    public: {
+      helloText: 'Hello from the Edge 👋',
+    },
   },
 
-  components: {
-    global: true,
-    dirs: ['~/components']
+  eslint: {
+    config: {
+      stylistic: {
+        quotes: 'single',
+      },
+    },
   },
-  compatibilityDate: '2024-07-22',
+  devtools: { enabled: true },
 })
