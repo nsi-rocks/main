@@ -38,6 +38,7 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     '@pinia/nuxt',
     '@nuxt/image',
+    '@nuxt/scripts',
   ],
 
   hub: {
