@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <figure>
-      <img :src="`/${ld_src}`" style="margin: auto;">
+      <img :src="`/${ld_src}`" style="margin: auto;" :width="iwidth">
       <figcaption style="text-align: center;">
         <slot />
       </figcaption>
@@ -12,6 +12,10 @@
 <script lang="ts" setup>
 const props = defineProps({
   src: String,
+  iwidth: {
+    type: Number,
+    default: 500,
+  },
 })
 
 const c = useColorMode()
