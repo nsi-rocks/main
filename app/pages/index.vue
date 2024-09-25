@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts" setup>
-const semaine = 3
+
+const semaine = 4
 const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 2, 5]
 
 const periodesAccumulated = periodes.reduce((acc, el) => {
