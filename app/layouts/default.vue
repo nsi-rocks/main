@@ -25,7 +25,7 @@
         <template #header>
           <UContentSearchButton label="Recherche..." />
         </template>
-        <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation : navigation.filter(el => el._path == '/'+path.split('/')[1]) || [])" :multiple="path == '/' ? false : true" :default-open="false" />
+        <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
         <template #footer>
           <UserDropdown />
         </template>
@@ -56,6 +56,7 @@
 <script lang="ts" setup>
 const path = computed(() => useRoute().path)
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
+const localNav = computed(() => (navigation.value ?? []).filter(el => el._path == '/' + path.value.split('/')[1]) || [])
 const { data: page } = await useAsyncData('page', () => queryContent(useRoute().path).findOne() || undefined, { watch: [path] })
 
 const { data: files } = useLazyFetch('/api/search.json', { default: () => [], server: false })
