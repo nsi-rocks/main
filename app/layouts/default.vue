@@ -1,56 +1,29 @@
 <template>
-  <UDashboardLayout>
-    <UDashboardPanel
-      id="layout"
-      :width="250"
-      :resizable="{ min: 200, max: 300 }"
-      collapsible
-    >
-      <UDashboardNavbar>
-        <template #left>
-          <UDropdown :items="matieres" :popper="{ placement: 'bottom-start' }">
-            <UButton
-              label="Navigation"
-              trailing-icon="heroicons:chevron-down-20-solid"
-              variant="solid"
-              color="gray"
-            />
-          </UDropdown>
-        </template>
-        <template #right>
-          <UColorModeButton />
-        </template>
-      </UDashboardNavbar>
-      <UDashboardSidebar>
-        <template #header>
+  <div class="px-8">
+    <UPage>
+      <template #left>
+        <UAside>
+          <div class="mb-2">
+            <UDropdown :items="matieres" :popper="{ placement: 'bottom-start' }">
+              <UButton
+                label="Navigation"
+                trailing-icon="heroicons:chevron-down-20-solid"
+                variant="solid"
+                color="gray"
+              />
+            </UDropdown>
+          </div>
           <UContentSearchButton label="Recherche..." />
-        </template>
-        <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
-        <template #footer>
-          <UserDropdown />
-        </template>
-      </UDashboardSidebar>
-    </UDashboardPanel>
-    <UDashboardPanel grow>
-      <UDashboardNavbar>
-        <template #left>
-          <UBreadcrumb v-if="false" :links="breadcrumb">
-            <template #divider>
-              <span class="mx-2">/</span>
-            </template>
-          </UBreadcrumb>
-        </template>
-      </UDashboardNavbar>
-      <UDashboardPanelContent
-        class="px-4 prose prose-primary dark:prose-invert max-w-none first:prose-h2:mt-0"
-      >
-        <slot />
-      </UDashboardPanelContent>
-    </UDashboardPanel>
+          <UDivider class="py-4" />
+          <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
+        </UAside>
+      </template>
+      <slot />
+    </UPage>
     <ClientOnly>
       <LazyUContentSearch :files="files" :navigation="navigation" />
     </ClientOnly>
-  </UDashboardLayout>
+  </div>
 </template>
 
 <script lang="ts" setup>
