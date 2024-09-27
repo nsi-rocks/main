@@ -9,7 +9,10 @@
 
     <template #right>
       <UContentSearchButton label="" />
-      <UColorModeToggle />
+      <ClientOnly>
+        <UColorModeToggle />
+        <UserButton />
+      </ClientOnly>
     </template>
   </UHeader>
   <UMain>
@@ -29,16 +32,6 @@ const { data: files } = useLazyFetch('/api/search.json', { default: () => [], se
 
 if (ticket) {
   await navigateTo('/api/auth/ticket?ticket=' + ticket)
-  // try {
-  //   const res = await $fetch('/api/auth/ticket', {
-  //     method: 'POST',
-  //     body: { ticket: ticket },
-  //   });
-  //   await navigateTo('/');
-  // } catch (error) {
-  //   console.error('Error avec le ticket :', error);
-  //   await navigateTo('/');
-  // }
 }
 
 useHead({
@@ -50,4 +43,22 @@ useHead({
 })
 
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
+
+const links = [
+  {
+    label: 'ENT Hauts-de-France',
+    icon: 'i-heroicons-user-group',
+    to: 'https://enthdf.fr',
+  },
+  {
+    label: 'Excalidraw',
+    icon: 'i-heroicons-pencil',
+    to: 'https://excalidraw.com',
+  },
+  {
+    label: 'Capytale',
+    icon: 'i-heroicons-code-bracket-square',
+    to: 'https://capytale2.ac-paris.fr',
+  },
+]
 </script>
