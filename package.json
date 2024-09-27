@@ -3,8 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "git pull && git submodule update --init --recursive && nuxt prepare && nuxt build",
-    "pull": "git pull && git submodule update --init --recursive",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
