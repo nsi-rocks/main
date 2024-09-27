@@ -1,9 +1,7 @@
 export default defineAppConfig({
     ui: {
-      variables: {
-        header: {
-          height: '0'
-        }
+      container: {
+        constrained: 'max-w-full',
       }
     }
   })

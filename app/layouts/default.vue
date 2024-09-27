@@ -4,27 +4,13 @@
       <template #left>
         <UAside>
           <template #top>
-            <div class="flex flex-col gap-2">
-              <UDropdown :items="matieres" :popper="{ placement: 'bottom-start' }">
-                <UButton
-                  label="Navigation"
-                  trailing-icon="heroicons:chevron-down-20-solid"
-                  variant="solid"
-                  color="gray"
-                />
-              </UDropdown>
-              <UContentSearchButton label="Recherche..." />
-            </div>
+            <UContentSearchButton label="Recherche..." />
           </template>
-
           <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
         </UAside>
       </template>
       <slot />
     </UPage>
-    <ClientOnly>
-      <LazyUContentSearch :files="files" :navigation="navigation" />
-    </ClientOnly>
   </div>
 </template>
 
@@ -33,8 +19,6 @@ const path = computed(() => useRoute().path)
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
 const localNav = computed(() => (navigation.value ?? []).filter(el => el._path == '/' + path.value.split('/')[1]) || [])
 const { data: page } = await useAsyncData('page', () => queryContent(useRoute().path).findOne() || undefined, { watch: [path] })
-
-const { data: files } = useLazyFetch('/api/search.json', { default: () => [], server: false })
 
 const breadcrumb = computed(() => page.value === undefined ? [] : mapContentNavigation(findPageBreadcrumb(navigation.value, page.value)))
 
