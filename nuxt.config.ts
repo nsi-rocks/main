@@ -26,6 +26,13 @@ export default defineNuxtConfig({
     highlight: {
       preload: ['py', 'md'],
     },
+    sources: {
+      content: {
+        driver: 'github',
+        repo: 'mathieunicolas/nsi-md',
+        branch: 'main',
+      },
+    },
   },
   compatibilityDate: '2024-07-30',
   future: { compatibilityVersion: 4 },
