@@ -3,18 +3,20 @@
     <UPage>
       <template #left>
         <UAside>
-          <div class="mb-2">
-            <UDropdown :items="matieres" :popper="{ placement: 'bottom-start' }">
-              <UButton
-                label="Navigation"
-                trailing-icon="heroicons:chevron-down-20-solid"
-                variant="solid"
-                color="gray"
-              />
-            </UDropdown>
-          </div>
-          <UContentSearchButton label="Recherche..." />
-          <UDivider class="py-4" />
+          <template #top>
+            <div class="flex flex-col gap-2">
+              <UDropdown :items="matieres" :popper="{ placement: 'bottom-start' }">
+                <UButton
+                  label="Navigation"
+                  trailing-icon="heroicons:chevron-down-20-solid"
+                  variant="solid"
+                  color="gray"
+                />
+              </UDropdown>
+              <UContentSearchButton label="Recherche..." />
+            </div>
+          </template>
+
           <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
         </UAside>
       </template>
