@@ -1,3 +1,14 @@
+const mdSource = process.env.NODE_ENV === 'development'
+  ? {
+      driver: 'fs',
+      base: '../nsi-md',
+    }
+  : {
+      driver: 'github',
+      repo: 'mathieunicolas/nsi-md',
+      branch: 'main',
+    }
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -27,11 +38,7 @@ export default defineNuxtConfig({
       preload: ['py', 'md'],
     },
     sources: {
-      content: {
-        driver: 'github',
-        repo: 'mathieunicolas/nsi-md',
-        branch: 'main',
-      },
+      content: mdSource,
     },
   },
   compatibilityDate: '2024-07-30',
