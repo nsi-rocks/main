@@ -19,19 +19,19 @@
     "@nuxt/ui-pro": "^1.4.3",
     "@nuxthub/core": "^0.7.20",
     "@paralleldrive/cuid2": "^2.2.2",
-    "@pinia/nuxt": "^0.5.4",
-    "@unhead/vue": "^1.11.6",
+    "@pinia/nuxt": "^0.5.5",
+    "@unhead/vue": "^1.11.7",
     "drizzle-orm": "^0.33.0",
     "fast-xml-parser": "^4.5.0",
     "marked": "^14.1.2",
     "marked-katex-extension": "^5.1.2",
     "nuxt": "^3.13.2",
-    "nuxt-auth-utils": "^0.3.9",
-    "pinia": "^2.2.2",
+    "nuxt-auth-utils": "^0.4.2",
+    "pinia": "^2.2.4",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "shiki": "^1.20.0",
-    "vue": "^3.5.9",
+    "shiki": "^1.21.0",
+    "vue": "^3.5.10",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "drizzle-kit": "^0.24.2",
     "eslint": "^9.11.1",
     "vue-tsc": "^2.1.6",
-    "wrangler": "^3.78.10"
+    "wrangler": "^3.79.0"
   },
   "packageManager": "pnpm@9.9.0"
 }
