@@ -1,12 +1,17 @@
 <template>
   <div class="flex flex-row items-start my-12 justify-between">
     <div class="grow self-center">
-      <div class="grid gap-2 m-auto w-fit" :style="grcols">
+      <div class="m-auto w-fit mb-16">
+        <UButton @click="getPNG">
+          Télécharger
+        </UButton>
+      </div>
+      <div id="pixel-grid" class="grid gap-2 m-auto w-fit" :style="grcols">
         <div
           v-for="i in cases"
           :key="i"
-          class="border-2 box-border cursor-pointer hover:border-4"
-          :class="(curr === i-1 ? 'ring-4 ring-blue-500' : '') "
+          class="border box-border cursor-pointer hover:border-2"
+          :class="curr === i-1 ? 'ring-4 ring-blue-500' : ''"
           :style="getbg(i-1) + `width: ${w}rem;`"
           style="aspect-ratio: 1 / 1;"
           draggable="true"
@@ -59,6 +64,25 @@
 </template>
 
 <script lang="ts" setup>
+import html2canvas from 'html2canvas'
+
+const getPNG = () => {
+  html2canvas(document.getElementById('pixel-grid') || document.body, { onclone(document, element) {
+    element.classList.remove('gap-2')
+    const el = element.getElementsByTagName('div')
+    for (const e of el) {
+      console.log(e);
+      
+      e.classList.remove('border')
+    }
+  } }).then(function (canvas) {
+    const link = document.createElement('a')
+    link.download = 'pixel-image.png'
+    link.href = canvas.toDataURL()
+    link.click()
+  })
+}
+
 const ca = parseInt(useRoute().query.cases as string || '3')
 const cases = ca * ca
 const grcols = `grid-template-columns: repeat(${ca}, minmax(0, 1fr));`
