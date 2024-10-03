@@ -11,7 +11,7 @@
           v-for="i in cases"
           :key="i"
           class="border box-border cursor-pointer hover:border-2"
-          :class="curr === i-1 ? 'ring-4 ring-blue-500' : ''"
+          :class="curr === i-1 ? 'border-4' : ''"
           :style="getbg(i-1) + `width: ${w}rem;`"
           style="aspect-ratio: 1 / 1;"
           draggable="true"
@@ -74,6 +74,7 @@ const getPNG = () => {
       console.log(e);
       
       e.classList.remove('border')
+      e.classList.remove('border-4')
     }
   } }).then(function (canvas) {
     const link = document.createElement('a')
