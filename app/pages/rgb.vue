@@ -78,8 +78,12 @@ const getPNG = () => {
   } }).then(function (canvas) {
     const link = document.createElement('a')
     link.download = 'pixel-image.png'
-    link.href = canvas.toDataURL()
-    link.click()
+    canvas.toBlob(function (blob) {
+      const url = URL.createObjectURL(blob)
+      link.href = url
+      link.click()
+      URL.revokeObjectURL(url)
+    })
   })
 }
 
