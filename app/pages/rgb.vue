@@ -1,40 +1,74 @@
 <template>
-  <div class="flex flex-row items-start my-12 justify-between">
+  <div class="flex flex-col-reverse md:flex-row items-start my-12 justify-between">
     <div class="grow self-center">
-      <div class="m-auto w-fit mb-16">
-        <UButton @click="getPNG">
-          Télécharger
-        </UButton>
-      </div>
       <div id="pixel-grid" class="grid gap-2 m-auto w-fit" :style="grcols">
         <div
           v-for="i in cases"
           :key="i"
           class="border box-border cursor-pointer hover:border-2"
-          :class="curr === i-1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
-          :style="getbg(i-1) + `width: ${w}rem;`"
+          :class="curr === i - 1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
+          :style="getbg(i - 1) + `width: ${w}rem;`"
           style="aspect-ratio: 1 / 1;"
           draggable="true"
-          @click="handleClick(i-1)"
-          @dragstart="handleDragStart($event, data[i-1])"
+          :data-index="i - 1"
+          @click="handleClick(i - 1)"
+          @dragstart="handleDragStart($event, data[i - 1])"
           @dragenter="enterDrag"
           @dragleave="leaveDrag"
           @dragover.prevent
-          @drop="drop($event, i-1)"
+          @drop="drop($event, i - 1)"
+          @touchstart="handleTouchStart($event, data[i - 1])"
+          @touchmove="handleTouchMove($event)"
+          @touchend="handleTouchEnd($event, i - 1)"
         >
-&nbsp;
+  &nbsp;
         </div>
       </div>
     </div>
-    <div class="w-1/3 flex flex-col gap-2 p-4 border">
-      <URange
-        v-model="w"
-        :step="0.5"
-        :min="1"
-        :max="8"
-      />
-      <UTabs v-model="mode" :items="items" class="mb-12">
+    <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
+      <UTabs v-model="mode" :items="items" class="mb-2">
         <template #item="{ item }">
+          <div class="m-auto w-fit mb-4 flex flex-row gap-4">
+            <UButton
+              size="xl"
+              variant="ghost"
+              icon="material-symbols:cloud-download"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="getPNG"
+            />
+
+            <UButton
+              size="xl"
+              variant="ghost"
+              icon="material-symbols:format-color-reset"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="resetCases"
+            />
+
+            <UButton
+              size="xl"
+              variant="ghost"
+              icon="ion:ios-color-fill"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="resetCases(data[curr])"
+            />
+
+            <UButton
+              size="xl"
+              variant="ghost"
+              icon="ion:ios-remove-circle"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="w -= 1"
+            />
+
+            <UButton
+              size="xl"
+              variant="ghost"
+              icon="ion:ios-add-circle"
+              :ui="{ rounded: 'rounded-full' }"
+              @click="w += 1"
+            />
+          </div>
           <template v-if="item.key === 'rgb'">
             <div class="font-semibold text-xl flex justify-center">
               <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b }}</span>
@@ -53,12 +87,6 @@
           </template>
         </template>
       </UTabs>
-      <UButton v-if="mode === 1" class="self-center" @click="resetCases(data[curr])">
-        Appliquer à toutes
-      </UButton>
-      <UButton class="self-center" @click="resetCases">
-        Remise à zéro
-      </UButton>
     </div>
   </div>
 </template>
@@ -100,6 +128,7 @@ const w = ref(2)
 const base = { r: 0, g: 0, b: 0 }
 const curr = ref(1)
 const mode = ref(0)
+const color = ref()
 
 const items = [{
   key: 'bw',
@@ -147,6 +176,96 @@ const drop = (e, i) => {
   e.preventDefault()
   e.target.classList.remove('dragover')
   data.value[i] = JSON.parse(e.dataTransfer.getData('text/plain'))
+}
+
+let touchStartX = 0
+let touchStartY = 0
+let clonedElement: HTMLElement | null = null
+let draggedElement: HTMLElement | null = null
+const MIN_DRAG_DISTANCE = 10
+
+const handleTouchStart = (e, itemData) => {
+  touchStartX = e.touches[0].clientX
+  touchStartY = e.touches[0].clientY
+
+  e.target.classList.add('dragging')
+  draggedElement = e.target
+}
+
+const handleTouchMove = (e) => {
+  e.preventDefault()
+
+  if (!draggedElement) return
+
+  const touch = e.touches[0]
+  const deltaX = touch.clientX - touchStartX
+  const deltaY = touch.clientY - touchStartY
+
+  console.log('Touch move', deltaX, deltaY)
+
+  if (Math.abs(deltaX) > MIN_DRAG_DISTANCE || Math.abs(deltaY) > MIN_DRAG_DISTANCE) {
+    console.log('Drag detected')
+
+    if (!clonedElement && draggedElement) {
+      clonedElement = draggedElement.cloneNode(true) as HTMLElement
+
+      clonedElement.style.position = 'absolute'
+      clonedElement.style.pointerEvents = 'none'
+      clonedElement.style.opacity = '0.6'
+      clonedElement.style.zIndex = '1000'
+      clonedElement.style.transform = 'translate(-50%, -50%)'
+
+      document.body.appendChild(clonedElement)
+
+      clonedElement.style.left = `${touchStartX}px`
+      clonedElement.style.top = `${touchStartY}px`
+    }
+
+    if (clonedElement) {
+      clonedElement.style.left = `${touch.clientX}px`
+      clonedElement.style.top = `${touch.clientY}px`
+    }
+  }
+
+  // Utilisation de elementFromPoint pour déterminer l'élément survolé
+  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
+
+  const elements = document.getElementsByClassName('box-border')
+  for (const el of elements) {
+    el.classList.remove('dragover')
+  }
+
+  // Ajouter la classe de survol si c'est une case valide
+  if (targetElement && targetElement.classList.contains('box-border')) {
+    targetElement.classList.add('dragover')
+  }
+}
+
+const handleTouchEnd = (e: TouchEvent, startIndex: number) => {
+  if (!clonedElement) return
+
+  // Utilisation de elementFromPoint pour déterminer la cible finale
+  if (e.changedTouches[0] !== undefined) {
+    const touch = e.changedTouches[0]
+    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
+
+    // Vérifie si l'élément ciblé est une case et si on a bien un index cible
+    if (targetElement && targetElement.classList.contains('box-border')) {
+      const targetIndex = parseInt(targetElement.getAttribute('data-index'))
+
+      if (!isNaN(targetIndex) && targetIndex !== startIndex) {
+        data.value[targetIndex] = { ...data.value[startIndex] }
+      }
+
+      targetElement.classList.remove('dragover')
+    }
+
+    // Retirer le clone du document
+    document.body.removeChild(clonedElement)
+    clonedElement = null
+
+    e.target.classList.remove('dragging')
+  }
 }
 
 const handleClick = (i: number) => {
