@@ -26,6 +26,7 @@
     "html2canvas": "^1.4.1",
     "marked": "^14.1.2",
     "marked-katex-extension": "^5.1.2",
+    "modern-screenshot": "^4.4.39",
     "nuxt": "^3.13.2",
     "nuxt-auth-utils": "^0.4.2",
     "pinia": "^2.2.4",
