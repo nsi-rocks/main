@@ -10,7 +10,7 @@
         <div
           v-for="i in cases"
           :key="i"
-          class="border box-border cursor-pointer hover:border-2"
+          class="border box-border border-blue-600 cursor-pointer hover:border-2"
           :class="curr === i-1 ? 'border-4' : ''"
           :style="getbg(i-1) + `width: ${w}rem;`"
           style="aspect-ratio: 1 / 1;"
