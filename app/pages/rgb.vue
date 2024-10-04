@@ -10,8 +10,8 @@
         <div
           v-for="i in cases"
           :key="i"
-          class="border box-border border-blue-600 cursor-pointer hover:border-2"
-          :class="curr === i-1 ? 'border-4' : ''"
+          class="border box-border cursor-pointer hover:border-2"
+          :class="curr === i-1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
           :style="getbg(i-1) + `width: ${w}rem;`"
           style="aspect-ratio: 1 / 1;"
           draggable="true"
@@ -66,15 +66,20 @@
 <script lang="ts" setup>
 import html2canvas from 'html2canvas'
 
+definePageMeta({
+  layout: 'app',
+})
+
 const getPNG = () => {
   html2canvas(document.getElementById('pixel-grid') || document.body, { onclone(document, element) {
     element.classList.remove('gap-2')
     const el = element.getElementsByTagName('div')
     for (const e of el) {
-      console.log(e);
-      
       e.classList.remove('border')
       e.classList.remove('border-4')
+      e.classList.remove('ring')
+      e.classList.remove('ring-blue-600')
+      e.classList.remove('ring-offset-1')
     }
   } }).then(function (canvas) {
     const link = document.createElement('a')
