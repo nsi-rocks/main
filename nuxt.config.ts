@@ -54,14 +54,15 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
   ],
-
   hub: {
     database: true,
   },
 
   runtimeConfig: {
-    public: {
-      helloText: 'Hello from the Edge 👋',
+    session: {
+      cookie: {
+        domain: '.nsi.rocks',
+      },
     },
   },
 
