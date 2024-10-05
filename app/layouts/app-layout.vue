@@ -18,17 +18,10 @@
     </UHeader>
     <UMain>
       <div class="px-8">
-        <UPage>
-          <template #left>
-            <UAside>
-              <template #top>
-                <UContentSearchButton label="Recherche..." />
-              </template>
-              <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
-            </UAside>
-          </template>
+        <UPage v-if="appid === 'default'">
           <slot />
         </UPage>
+        <Rgb v-else-if="appid === 'rgb'" />
       </div>
     </UMain>
 
@@ -41,14 +34,11 @@
 <script lang="ts" setup>
 import type { ParsedContent } from '@nuxt/content'
 
-const path = computed(() => useRoute().path)
-const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
-const localNav = computed(() => (navigation.value ?? []).filter(el => el._path == '/' + path.value.split('/')[1]) || [])
-const { data: page } = await useAsyncData('page', () => queryContent(useRoute().path).findOne() || undefined, { watch: [path] })
-
-const breadcrumb = computed(() => page.value === undefined ? [] : mapContentNavigation(findPageBreadcrumb(navigation.value, page.value)))
+const appid = useAttrs().appid || 'default'
 
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
+
+const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
 
 const links = [
   {
@@ -67,7 +57,6 @@ const links = [
     to: 'https://capytale2.ac-paris.fr',
   },
 ]
-
 </script>
 
 <style></style>

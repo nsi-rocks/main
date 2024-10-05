@@ -26,49 +26,9 @@
       </div>
     </div>
     <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
+    <RgbToolbar :canApply="mode === 1" @resetCases="resetCases" @applyColor="resetCases(data[curr])" @getPNG="getPNG" @sizeUp="w += 1" @sizeDown="w -= 1" />
       <UTabs v-model="mode" :items="items" class="mb-2">
         <template #item="{ item }">
-          <div class="m-auto w-fit mb-4 flex flex-row gap-4">
-            <UButton
-              size="xl"
-              variant="ghost"
-              icon="material-symbols:cloud-download"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="getPNG"
-            />
-
-            <UButton
-              size="xl"
-              variant="ghost"
-              icon="material-symbols:format-color-reset"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="resetCases"
-            />
-
-            <UButton
-              size="xl"
-              variant="ghost"
-              icon="ion:ios-color-fill"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="resetCases(data[curr])"
-            />
-
-            <UButton
-              size="xl"
-              variant="ghost"
-              icon="ion:ios-remove-circle"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="w -= 1"
-            />
-
-            <UButton
-              size="xl"
-              variant="ghost"
-              icon="ion:ios-add-circle"
-              :ui="{ rounded: 'rounded-full' }"
-              @click="w += 1"
-            />
-          </div>
           <template v-if="item.key === 'rgb'">
             <div class="font-semibold text-xl flex justify-center">
               <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b }}</span>
@@ -93,10 +53,6 @@
 
 <script lang="ts" setup>
 import html2canvas from 'html2canvas'
-
-definePageMeta({
-  layout: 'app',
-})
 
 const getPNG = () => {
   html2canvas(document.getElementById('pixel-grid') || document.body, { onclone(document, element) {

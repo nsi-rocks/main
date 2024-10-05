@@ -17,12 +17,15 @@
 const semaine = 5
 const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 2, 5]
 
+
 const periodesAccumulated = periodes.reduce((acc, el) => {
   acc.push(acc[acc.length - 1]! + el)
   return acc
 }, [0]).slice(1)
 const sum = ref(0)
 periodes.map(el => sum.value += el)
+
+
 </script>
 
 <style>
