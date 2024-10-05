@@ -17,7 +17,7 @@
     "@nuxt/image": "^1.8.1",
     "@nuxt/scripts": "^0.9.4",
     "@nuxt/ui-pro": "^1.4.3",
-    "@nuxthub/core": "^0.7.23",
+    "@nuxthub/core": "^0.7.24",
     "@paralleldrive/cuid2": "^2.2.2",
     "@pinia/nuxt": "^0.5.5",
     "@unhead/vue": "^1.11.7",
@@ -33,15 +33,16 @@
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "shiki": "^1.21.0",
+    "tldts": "^6.1.50",
     "vue": "^3.5.11",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.5.7",
     "drizzle-kit": "^0.24.2",
-    "eslint": "^9.11.1",
+    "eslint": "^9.12.0",
     "vue-tsc": "^2.1.6",
-    "wrangler": "^3.79.0"
+    "wrangler": "^3.80.0"
   },
   "packageManager": "pnpm@9.9.0"
 }
