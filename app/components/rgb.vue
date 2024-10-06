@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col-reverse md:flex-row items-start my-12 justify-between">
-    <div class="grow self-center">
-      <div id="pixel-grid" class="grid gap-2 m-auto w-fit" :style="grcols">
+    <div class="w-full md:grow self-center">
+      <div id="pixel-grid" class="grid gap-2 m-auto w-2/3" :style="grcols" v-if="isGridReady">
         <div
           v-for="i in cases"
           :key="i"
           class="border box-border cursor-pointer hover:border-2"
           :class="curr === i - 1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
-          :style="getbg(i - 1) + `width: ${w}rem;`"
+          :style="getbg(i - 1)"
           style="aspect-ratio: 1 / 1;"
           draggable="true"
           :data-index="i - 1"
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
-    <RgbToolbar :canApply="mode === 1" @resetCases="resetCases" @applyColor="resetCases(data[curr])" @getPNG="getPNG" @sizeUp="w += 1" @sizeDown="w -= 1" />
+    <RgbToolbar :canApply="mode === 1" @resetCases="resetCases" @applyColor="resetCases(data[curr])" @getPNG="getPNG" @sizeUp="ca += 1" @sizeDown="ca -= 1" />
       <UTabs v-model="mode" :items="items" class="mb-2">
         <template #item="{ item }">
           <template v-if="item.key === 'rgb'">
@@ -57,9 +57,11 @@ import html2canvas from 'html2canvas'
 const getPNG = () => {
   html2canvas(document.getElementById('pixel-grid') || document.body, { onclone(document, element) {
     element.classList.remove('gap-2')
+    element.classList.add('bg-transparent')
     const el = element.getElementsByTagName('div')
     for (const e of el) {
       e.classList.remove('border')
+      e.classList.remove('box-border')
       e.classList.remove('border-4')
       e.classList.remove('ring')
       e.classList.remove('ring-blue-600')
@@ -77,14 +79,29 @@ const getPNG = () => {
   })
 }
 
-const ca = parseInt(useRoute().query.cases as string || '3')
-const cases = ca * ca
-const grcols = `grid-template-columns: repeat(${ca}, minmax(0, 1fr));`
+// const ca = parseInt(useRoute().query.cases as string || '3')
+const ca = ref(3)
+const cases = computed(() => ca.value * ca.value)
+const data = ref()
+
+
+const grcols = computed(() => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`)
 const w = ref(2)
 const base = { r: 0, g: 0, b: 0 }
 const curr = ref(1)
 const mode = ref(0)
 const color = ref()
+
+const initGrid = () => {
+  data.value = Array.from({ length: cases.value }, () => ({ ...base }))
+}
+
+initGrid()
+watch(ca, initGrid)
+
+const isGridReady = computed(() => {
+  return data.value.length === cases.value
+})
 
 const items = [{
   key: 'bw',
@@ -106,7 +123,6 @@ const sliders = [{
   color: 'blue',
   key: 'b',
 }]
-const data = ref(Array.from({ length: cases }, () => ({ ...base })))
 
 const getbg = (i: number) => {
   const color = data.value[i] || { r: 0, g: 0, b: 0 }
@@ -237,7 +253,7 @@ const handleClick = (i: number) => {
 }
 
 const resetCases = (color?) => {
-  data.value = Array.from({ length: cases }, () => ({ ...base, ...color }))
+  data.value = Array.from({ length: cases.value }, () => ({ ...base, ...color }))
 }
 </script>
 
