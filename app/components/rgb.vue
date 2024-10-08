@@ -36,8 +36,8 @@
           @reset-cases="resetCases"
           @apply-color="resetCases(data[curr])"
           @get-png="getPNG2"
-          @size-up="ca += 1"
-          @size-down="ca -= 1"
+          @size-up="ca += 1; initGrid()"
+          @size-down="ca -= 1; initGrid()"
           @share="shareGrid"
         />
         <UTabs v-model="mode" :items="items" class="mb-2 px-4">
@@ -75,6 +75,8 @@
 </template>
 
 <script lang="ts" setup>
+import { init } from '@paralleldrive/cuid2';
+
 const shareGrid = async () => {
   const stringData = JSON.stringify({
     nbCases: ca.value,
@@ -131,6 +133,8 @@ watch(allColors, (val) => {
 const slug = useRoute().params.slug
 if (slug) {
   $fetch(`/api/rgb/${slug}`).then((res) => {
+    console.log('Récupération des données :', res)
+
     ca.value = res.nbCases
     data.value = res.pixels
   }).catch((error) => {
@@ -139,8 +143,6 @@ if (slug) {
   })
 }
 else initGrid()
-
-watch(ca, initGrid)
 
 const items = [{
   key: 'bw',
