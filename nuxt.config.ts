@@ -59,12 +59,7 @@ export default defineNuxtConfig({
     kv: true,
     cache: true,
   },
-  icon: {
-    clientBundle: {
-      scan: true,
-      sizeLimitKb: 512,
-    },
-  },
+
   runtimeConfig: {
     session: {
       cookie: {
