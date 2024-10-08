@@ -44,6 +44,7 @@
           variant="ghost"
           icon="ion:ios-remove-circle"
           :ui="{ rounded: 'rounded-full' }"
+          :disabled="!candown"
           @click="$emit('sizeDown')"
         />
       </UTooltip>
@@ -54,6 +55,7 @@
           variant="ghost"
           icon="ion:ios-add-circle"
           :ui="{ rounded: 'rounded-full' }"
+          :disabled="!canup"
           @click="$emit('sizeUp')"
         />
       </UTooltip>
@@ -73,7 +75,7 @@
 
 <script lang="ts" setup>
 defineEmits(['resetCases', 'applyColor', 'getPng', 'sizeUp', 'sizeDown', 'share'])
-defineProps<{ canApply: boolean }>()
+defineProps<{ canApply: boolean, canup: boolean, candown: boolean }>()
 </script>
 
 <style>

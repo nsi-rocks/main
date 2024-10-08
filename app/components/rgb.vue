@@ -33,11 +33,13 @@
       <div class="w-full md:w-1/3 flex flex-col gap-2 p-0 sm:p-4">
         <RgbToolbar
           :can-apply="mode === 1"
+          :canup="ca < 10"
+          :candown="ca > 1"
           @reset-cases="resetCases"
           @apply-color="resetCases(data[curr])"
           @get-png="getPNG2"
-          @size-up="ca += 1; initGrid()"
-          @size-down="ca -= 1; initGrid()"
+          @size-up="resize('up')"
+          @size-down="resize('down')"
           @share="shareGrid"
         />
         <UTabs v-model="mode" :items="items" class="mb-2 px-4">
@@ -111,6 +113,14 @@ const clipCode = async () => {
       title: 'Impossible de copier le lien',
     })
   })
+}
+
+const resize = (updown: string) => {
+  if (updown === 'up' && ca.value < 10)
+    ca.value += 1
+  else if (updown === 'down' && ca.value > 1)
+    ca.value -= 1
+  initGrid()
 }
 
 const shareGrid = async () => {
