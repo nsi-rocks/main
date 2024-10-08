@@ -17,7 +17,7 @@
       </template>
     </UHeader>
     <UMain>
-      <div class="px-8">
+      <div class="px-0 sm:px-8">
         <UPage v-if="appid === 'default'">
           <slot />
         </UPage>

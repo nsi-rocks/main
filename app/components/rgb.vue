@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
+      <div class="w-full md:w-1/3 flex flex-col gap-2 p-0 sm:p-4">
         <RgbToolbar
           :can-apply="mode === 1"
           @reset-cases="resetCases"
@@ -40,7 +40,7 @@
           @size-down="ca -= 1"
           @share="shareGrid"
         />
-        <UTabs v-model="mode" :items="items" class="mb-2">
+        <UTabs v-model="mode" :items="items" class="mb-2 px-4">
           <template #item="{ item }">
             <template v-if="item.key === 'rgb'">
               <div class="font-semibold text-xl flex justify-center">
