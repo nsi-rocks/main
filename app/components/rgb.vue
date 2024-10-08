@@ -71,11 +71,47 @@
         </UTabs>
       </div>
     </div>
+    <UModal v-model="isOpen">
+      <UCard>
+        <div class="flex flex-col items-center">
+          <p>Votre image est désormais disponible à l'adresse suivante :</p>
+          <div class="flex justify-between items-center gap-2">
+            <span>https://rgb.nsi.rocks/{{ code }}</span>
+            <UButton
+              icon="ion:md-clipboard"
+              class="text-lg my-4"
+              variant="ghost"
+              @click="clipCode"
+            />
+          </div>
+
+          <figure>
+            <img :src="`/api/rgb/${code}?img`" alt="Image">
+            <figcaption class="flex justify-center my-4">
+              <UButton variant="ghost" @click="getPNG2">
+                Télécharger
+              </UButton>
+            </figcaption>
+          </figure>
+        </div>
+      </UCard>
+    </UModal>
   </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-import { init } from '@paralleldrive/cuid2';
+const toast = useToast()
+const clipCode = async () => {
+  navigator.clipboard.writeText(`https://rgb.nsi.rocks/${code.value}`).then(() => {
+    toast.add({
+      title: 'Lien copié dans le presse-papier',
+    })
+  }).catch(() => {
+    toast.add({
+      title: 'Impossible de copier le lien',
+    })
+  })
+}
 
 const shareGrid = async () => {
   const stringData = JSON.stringify({
@@ -90,7 +126,8 @@ const shareGrid = async () => {
       data: JSON.parse(stringData),
     },
   })
-  await navigateTo(`/${res}`)
+  code.value = res
+  isOpen.value = true
 }
 
 const getPNG2 = () => {
@@ -125,6 +162,8 @@ const base = { r: 0, g: 0, b: 0 }
 const allColors = ref(0)
 const curr = ref(1)
 const mode = ref(0)
+const isOpen = ref(false)
+const code = ref('')
 
 watch(allColors, (val) => {
   data.value[curr.value] = { r: val, g: val, b: val }
@@ -133,8 +172,6 @@ watch(allColors, (val) => {
 const slug = useRoute().params.slug
 if (slug) {
   $fetch(`/api/rgb/${slug}`).then((res) => {
-    console.log('Récupération des données :', res)
-
     ca.value = res.nbCases
     data.value = res.pixels
   }).catch((error) => {
