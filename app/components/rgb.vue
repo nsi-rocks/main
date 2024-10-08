@@ -340,7 +340,4 @@ const resetCases = (color?) => {
   border: 4px dashed gray;
 }
 
-.myheight {
-  max-height: calc(100vh - 4rem)
-}
 </style>
