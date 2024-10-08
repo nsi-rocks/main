@@ -1,5 +1,5 @@
 <template>
-  <div class="m-auto w-fit mb-4 flex flex-row gap-4">
+  <div class="m-auto w-fit my-4 flex flex-row gap-4">
     <UTooltip text="Télécharger l'image" :popper="{ arrow: true }">
       <UButton
         size="xl"
