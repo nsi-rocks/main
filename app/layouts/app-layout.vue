@@ -1,21 +1,5 @@
 <template>
   <div>
-    <UHeader :links="mapContentNavigation((navigation ?? []).map(({ children, ...nav }) => nav))">
-      <template #panel>
-        <UNavigationTree :links="mapContentNavigation(navigation ?? [])" />
-      </template>
-      <template #logo>
-        <Logo class="block w-auto h-10" />
-      </template>
-
-      <template #right>
-        <UContentSearchButton label="" />
-        <ClientOnly>
-          <UColorModeToggle />
-          <UserButton />
-        </ClientOnly>
-      </template>
-    </UHeader>
     <UMain>
       <div class="px-0 sm:px-8">
         <UPage v-if="appid === 'default'">
