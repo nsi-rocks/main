@@ -1,107 +1,146 @@
 <template>
-  <div class="flex flex-col-reverse md:flex-row items-start my-12 justify-between">
-    <div class="w-full md:grow self-center">
-      <div id="pixel-grid" class="grid gap-2 m-auto w-2/3" :style="grcols" v-if="isGridReady">
+  <ClientOnly>
+    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start justify-between myheight">
+      <div class="w-full md:grow self-center">
         <div
-          v-for="i in cases"
-          :key="i"
-          class="border box-border cursor-pointer hover:border-2"
-          :class="curr === i - 1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
-          :style="getbg(i - 1)"
-          style="aspect-ratio: 1 / 1;"
-          draggable="true"
-          :data-index="i - 1"
-          @click="handleClick(i - 1)"
-          @dragstart="handleDragStart($event, data[i - 1])"
-          @dragenter="enterDrag"
-          @dragleave="leaveDrag"
-          @dragover.prevent
-          @drop="drop($event, i - 1)"
-          @touchstart="handleTouchStart($event, data[i - 1])"
-          @touchmove="handleTouchMove($event)"
-          @touchend="handleTouchEnd($event, i - 1)"
+          id="pixel-grid"
+          class="grid gap-2 m-auto max-w-[50vh] md:max-w-[80vh] mt-4"
+          :style="grcols"
         >
+          <div
+            v-for="i in cases"
+            :key="i"
+            class="border box-border cursor-pointer hover:border-2"
+            :class="curr === i - 1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
+            :style="getbg(i - 1)"
+            style="aspect-ratio: 1 / 1;"
+            draggable="true"
+            :data-index="i - 1"
+            @click="handleClick(i - 1)"
+            @dragstart="handleDragStart($event, data[i - 1])"
+            @dragenter="enterDrag"
+            @dragleave="leaveDrag"
+            @dragover.prevent
+            @drop="drop($event, i - 1)"
+            @touchstart="handleTouchStart($event, data[i - 1])"
+            @touchmove="handleTouchMove($event)"
+            @touchend="handleTouchEnd($event, i - 1)"
+          >
   &nbsp;
+          </div>
         </div>
       </div>
-    </div>
-    <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
-    <RgbToolbar :canApply="mode === 1" @resetCases="resetCases" @applyColor="resetCases(data[curr])" @getPNG="getPNG" @sizeUp="ca += 1" @sizeDown="ca -= 1" />
-      <UTabs v-model="mode" :items="items" class="mb-2">
-        <template #item="{ item }">
-          <template v-if="item.key === 'rgb'">
-            <div class="font-semibold text-xl flex justify-center">
-              <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b }}</span>
-            </div>
-            <div v-for="a in sliders" :key="a">
-              <UFormGroup :label="a.label">
-                <URange
-                  v-model="data[curr][a.key]"
-                  :color="a.color"
-                  :step="1"
-                  :min="0"
-                  :max="255"
-                />
-              </UFormGroup>
-            </div>
+      <div class="w-full md:w-1/3 flex flex-col gap-2 p-4">
+        <RgbToolbar
+          :can-apply="mode === 1"
+          @reset-cases="resetCases"
+          @apply-color="resetCases(data[curr])"
+          @get-png="getPNG2"
+          @size-up="ca += 1"
+          @size-down="ca -= 1"
+          @share="shareGrid"
+        />
+        <UTabs v-model="mode" :items="items" class="mb-2">
+          <template #item="{ item }">
+            <template v-if="item.key === 'rgb'">
+              <div class="font-semibold text-xl flex justify-center">
+                <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b }}</span>
+              </div>
+              <div>
+                <UFormGroup v-for="a in sliders" :key="a" :label="a.label">
+                  <URange
+                    v-model="data[curr][a.key]"
+                    :color="a.color"
+                    :step="1"
+                    :min="0"
+                    :max="255"
+                  />
+                </UFormGroup>
+                <UFormGroup label="Toutes">
+                  <URange
+                    v-model="allColors"
+                    color="teal"
+                    :step="1"
+                    :min="0"
+                    :max="255"
+                  />
+                </UFormGroup>
+              </div>
+            </template>
           </template>
-        </template>
-      </UTabs>
+        </UTabs>
+      </div>
     </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-import html2canvas from 'html2canvas'
-
-const getPNG = () => {
-  html2canvas(document.getElementById('pixel-grid') || document.body, { onclone(document, element) {
-    element.classList.remove('gap-2')
-    element.classList.add('bg-transparent')
-    const el = element.getElementsByTagName('div')
-    for (const e of el) {
-      e.classList.remove('border')
-      e.classList.remove('box-border')
-      e.classList.remove('border-4')
-      e.classList.remove('ring')
-      e.classList.remove('ring-blue-600')
-      e.classList.remove('ring-offset-1')
-    }
-  } }).then(function (canvas) {
-    const link = document.createElement('a')
-    link.download = 'pixel-image.png'
-    canvas.toBlob(function (blob) {
-      const url = URL.createObjectURL(blob)
-      link.href = url
-      link.click()
-      URL.revokeObjectURL(url)
-    })
+const shareGrid = async () => {
+  const stringData = JSON.stringify({
+    nbCases: ca.value,
+    pixels: data.value,
   })
+  const hash = mmh3(stringData).toString(16)
+  const res = await $fetch('/api/rgb', {
+    method: 'post',
+    body: {
+      hash,
+      data: JSON.parse(stringData),
+    },
+  })
+  await navigateTo(`/${res}`)
 }
 
-// const ca = parseInt(useRoute().query.cases as string || '3')
-const ca = ref(3)
-const cases = computed(() => ca.value * ca.value)
-const data = ref()
-
-
-const grcols = computed(() => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`)
-const w = ref(2)
-const base = { r: 0, g: 0, b: 0 }
-const curr = ref(1)
-const mode = ref(0)
-const color = ref()
-
+const getPNG2 = () => {
+  $fetch<Blob>('/api/topng', {
+    method: 'post',
+    responseType: 'blob',
+    body: {
+      nbCases: ca.value,
+      pixels: data.value.map(({ r, g, b }) => [r, g, b]).flat(),
+    },
+  }).then((canvas: Blob) => {
+    const link = document.createElement('a')
+    link.download = 'pixel-image.png'
+    const url = URL.createObjectURL(canvas)
+    link.href = url
+    link.click()
+    URL.revokeObjectURL(url)
+  })
+}
 const initGrid = () => {
   data.value = Array.from({ length: cases.value }, () => ({ ...base }))
 }
-
-initGrid()
-watch(ca, initGrid)
-
+// const ca = parseInt(useRoute().query.cases as string || '3')
+const ca = ref(3)
+const cases = computed(() => ca.value * ca.value)
+const data = ref([])
 const isGridReady = computed(() => {
   return data.value.length === cases.value
 })
+const grcols = computed(() => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`)
+const base = { r: 0, g: 0, b: 0 }
+const allColors = ref(0)
+const curr = ref(1)
+const mode = ref(0)
+
+watch(allColors, (val) => {
+  data.value[curr.value] = { r: val, g: val, b: val }
+})
+
+const slug = useRoute().params.slug
+if (slug) {
+  $fetch(`/api/rgb/${slug}`).then((res) => {
+    ca.value = res.nbCases
+    data.value = res.pixels
+  }).catch((error) => {
+    console.error('Erreur lors de la récupération des données :', error)
+    initGrid()
+  })
+}
+else initGrid()
+
+watch(ca, initGrid)
 
 const items = [{
   key: 'bw',
@@ -260,5 +299,9 @@ const resetCases = (color?) => {
 <style>
 .dragover {
   border: 4px dashed gray;
+}
+
+.myheight {
+  max-height: calc(100vh - 4rem)
 }
 </style>
