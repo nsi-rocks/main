@@ -1,50 +1,70 @@
 <template>
   <div class="m-auto w-fit mb-4 flex flex-row gap-4">
-    <UButton
-      size="xl"
-      variant="ghost"
-      icon="material-symbols:cloud-download"
-      :ui="{ rounded: 'rounded-full' }"
-      @click="$emit('getPNG')"
-    />
+    <UTooltip text="Télécharger l'image" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="material-symbols:cloud-download"
+        :ui="{ rounded: 'rounded-full' }"
+        @click="$emit('getPng')"
+      />
+    </UTooltip>
 
-    <UButton
-      size="xl"
-      variant="ghost"
-      icon="material-symbols:format-color-reset"
-      :ui="{ rounded: 'rounded-full' }"
-      @click="$emit('resetCases')"
-    />
+    <UTooltip text="Réinitialiser l'image" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="material-symbols:format-color-reset"
+        :ui="{ rounded: 'rounded-full' }"
+        @click="$emit('resetCases')"
+      />
+    </UTooltip>
 
-    <UButton
-      size="xl"
-      variant="ghost"
-      icon="ion:ios-color-fill"
-      :ui="{ rounded: 'rounded-full' }"
-      :disabled="!canApply"
-      @click="$emit('applyColor')"
-    />
+    <UTooltip text="Appliquer la couleur à toutes les cases" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="ion:ios-color-fill"
+        :ui="{ rounded: 'rounded-full' }"
+        :disabled="!canApply"
+        @click="$emit('applyColor')"
+      />
+    </UTooltip>
 
-    <UButton
-      size="xl"
-      variant="ghost"
-      icon="ion:ios-remove-circle"
-      :ui="{ rounded: 'rounded-full' }"
-      @click="$emit('sizeDown')"
-    />
+    <UTooltip text="Réduire le nombre de cases" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="ion:ios-remove-circle"
+        :ui="{ rounded: 'rounded-full' }"
+        @click="$emit('sizeDown')"
+      />
+    </UTooltip>
 
-    <UButton
-      size="xl"
-      variant="ghost"
-      icon="ion:ios-add-circle"
-      :ui="{ rounded: 'rounded-full' }"
-      @click="$emit('sizeUp')"
-    />
+    <UTooltip text="Augmenter le nombre de cases" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="ion:ios-add-circle"
+        :ui="{ rounded: 'rounded-full' }"
+        @click="$emit('sizeUp')"
+      />
+    </UTooltip>
+
+    <UTooltip text="Partager" :popper="{ arrow: true }">
+      <UButton
+        size="xl"
+        variant="ghost"
+        icon="ion:ios-share"
+        :ui="{ rounded: 'rounded-full' }"
+        @click="$emit('share')"
+      />
+    </UTooltip>
   </div>
 </template>
 
 <script lang="ts" setup>
-defineEmits(['resetCases', 'applyColor', 'getPNG', 'sizeUp', 'sizeDown'])
+defineEmits(['resetCases', 'applyColor', 'getPng', 'sizeUp', 'sizeDown', 'share'])
 defineProps<{ canApply: boolean }>()
 </script>
 
