@@ -1,7 +1,10 @@
 <template>
   <div class="m-auto w-fit my-4 flex flex-col items-end">
     <ClientOnly>
-      <UColorModeToggle />
+      <div class="flex flex-row items-center gap-4">
+        <UColorModeToggle />
+        <UserButton />
+      </div>
     </ClientOnly>
     <div class="flex flex-row gap-4">
       <UTooltip text="Télécharger l'image" :popper="{ arrow: true }">
