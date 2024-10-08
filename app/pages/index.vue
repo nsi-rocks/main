@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-const semaine = 6
+const semaine = 5
 const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 2, 5]
 
 
