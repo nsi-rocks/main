@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/image',
     '@nuxt/scripts',
+    '@nuxt/icon',
   ],
   hub: {
     database: true,
@@ -67,7 +68,12 @@ export default defineNuxtConfig({
       },
     },
   },
-
+  icon: {
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 512,
+    },
+  },
   eslint: {
     config: {
       stylistic: {
