@@ -1,13 +1,13 @@
 export default defineEventHandler(async (event) => {
   const hash = getRouterParam(event, 'hash')
   const query = getQuery(event)
-  console.log(query)
+  // console.log(query)
 
   if (hash) {
     const data = await hubKV().get(`rgb:${hash}`)
     if (data) {
       if (query && Object.keys(query).includes('img')) {
-        console.log(data)
+        // console.log(data)
         setResponseHeader(event, 'Content-Type', 'image/png')
         const { nbCases, pixels } = data
         return genPNG({

@@ -1,15 +1,17 @@
-import { json } from 'drizzle-orm/mysql-core'
 import UPNG from 'upng-js'
 
 export const genPNG = async (jsonData: object) => {
-  const IMG_SIZE = 300
+  const IMG_SIZE = 350
   const { pixels, nbCases } = jsonData
 
-  const imageSize = IMG_SIZE + IMG_SIZE % nbCases // On veut une image de 300x300 pixels
+  const imageSize = IMG_SIZE - IMG_SIZE % nbCases // On veut une image de 300x300 pixels
   const pixelSize = imageSize / nbCases // Chaque case est un carré de 75x75 pixels si nbCases = 4
 
   const width = imageSize
   const height = imageSize
+
+  console.log('imageSize, pixelSize, width, height:', imageSize, pixelSize, width, height);
+  
 
   // Création d'un tableau contenant les données RGBA pour chaque pixel
   const pixelData = new Uint8Array(width * height * 4) // 4 canaux (RGBA)
