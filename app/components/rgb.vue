@@ -1,36 +1,34 @@
 <template>
   <ClientOnly>
-    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start justify-between myheight">
+    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between">
       <div class="w-full md:grow self-center">
         <div
           id="pixel-grid"
-          class="grid gap-2 m-auto max-w-[50vh] md:max-w-[80vh] mt-4"
+          class="grid gap-2 m-auto max-w-[50vh] md:max-w-[80vh] mt-4 md:mt-0"
           :style="grcols"
         >
           <div
-            v-for="i in cases"
+            v-for="(d, i) in data"
             :key="i"
             class="border box-border cursor-pointer hover:border-2"
-            :class="curr === i - 1 && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
-            :style="getbg(i - 1)"
+            :class="curr === i && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
+            :style="getbg(i)"
             style="aspect-ratio: 1 / 1;"
             draggable="true"
-            :data-index="i - 1"
-            @click="handleClick(i - 1)"
-            @dragstart="handleDragStart($event, data[i - 1])"
+            :data-index="i"
+            @click="handleClick(i)"
+            @dragstart="handleDragStart($event, data[i])"
             @dragenter="enterDrag"
             @dragleave="leaveDrag"
             @dragover.prevent
-            @drop="drop($event, i - 1)"
-            @touchstart="handleTouchStart($event, data[i - 1])"
+            @drop="drop($event, i)"
+            @touchstart="handleTouchStart($event, data[i])"
             @touchmove="handleTouchMove($event)"
-            @touchend="handleTouchEnd($event, i - 1)"
-          >
-  &nbsp;
-          </div>
+            @touchend="handleTouchEnd($event, i)"
+          />
         </div>
       </div>
-      <div class="w-full md:w-1/3 flex flex-col gap-2 p-0 sm:p-4">
+      <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <RgbToolbar
           :can-apply="mode === 1"
           :canup="ca < 10"
@@ -65,6 +63,7 @@
                     :step="1"
                     :min="0"
                     :max="255"
+                    @update:model-value="data[curr] = { r: allColors, g: allColors, b: allColors }"
                   />
                 </UFormGroup>
               </div>
@@ -102,6 +101,12 @@
 </template>
 
 <script lang="ts" setup>
+defineShortcuts({
+  arrowLeft: () => move('left'),
+  arrowRight: () => move('right'),
+  arrowUp: () => move('up'),
+  arrowDown: () => move('down'),
+})
 const toast = useToast()
 const clipCode = async () => {
   navigator.clipboard.writeText(`https://rgb.nsi.rocks/${code.value}`).then(() => {
@@ -116,11 +121,71 @@ const clipCode = async () => {
 }
 
 const resize = (updown: string) => {
-  if (updown === 'up' && ca.value < 10)
+  if (updown === 'up' && ca.value < 10) {
+    const backup = toRaw(data.value)
     ca.value += 1
-  else if (updown === 'down' && ca.value > 1)
+    initGrid()
+    data.value.forEach((d, i) => {
+      if (i < ((ca.value - 1) * ca.value) && i % (ca.value) < (ca.value - 1))
+        data.value[i] = { ...backup[i - ~~(i / ca.value)] }
+    })
+  }
+  else if (updown === 'down' && ca.value > 1) {
+    curr.value = curr.value >= (ca.value - 1) ** 2 ? (ca.value - 1) ** 2 - 1 : curr.value
+    const backup = toRaw(data.value).filter((_, i) => (i + 1) % (ca.value) !== 0)
     ca.value -= 1
+    initGrid()
+    data.value.forEach((d, i) => data.value[i] = { ...backup[i] })
+  }
+  // initGrid()
+}
+
+const refreshAllColors = () => {
+  allColors.value = Object.values(data.value[curr.value]).reduce((a, b) => a + b) / 3
+}
+
+const move = (direction: string) => {
+  if (direction === 'left') toLeft()
+  else if (direction === 'right') toRight()
+  else if (direction === 'up') toUp()
+  else if (direction === 'down') toDown()
+  refreshAllColors()
+}
+
+const toLeft = () => {
+  const backup = toRaw(data.value).map((d, i) => (i) % (ca.value) === 0 ? { ...base } : d)
   initGrid()
+  data.value.forEach((d, i) => {
+    if (i < cases.value - 1)
+      data.value[i] = { ...backup[i + 1] }
+  })
+}
+
+const toRight = () => {
+  const backup = toRaw(data.value).map((d, i) => i % ca.value === (ca.value - 1) ? { ...base } : d)
+  initGrid()
+  data.value.forEach((d, i) => {
+    if (i > 0)
+      data.value[i] = { ...backup[i - 1] }
+  })
+}
+
+const toUp = () => {
+  const backup = toRaw(data.value).map((d, i) => i < ca.value ? { ...base } : d)
+  initGrid()
+  data.value.forEach((d, i) => {
+    if (i < cases.value - ca.value)
+      data.value[i] = { ...backup[i + ca.value] }
+  })
+}
+
+const toDown = () => {
+  const backup = toRaw(data.value).map((d, i) => i >= cases.value - ca.value ? { ...base } : d)
+  initGrid()
+  data.value.forEach((d, i) => {
+    if (i >= ca.value)
+      data.value[i] = { ...backup[i - ca.value] }
+  })
 }
 
 const shareGrid = async () => {
@@ -175,9 +240,9 @@ const mode = ref(0)
 const isOpen = ref(false)
 const code = ref('')
 
-watch(allColors, (val) => {
-  data.value[curr.value] = { r: val, g: val, b: val }
-})
+// watch(allColors, (val) => {
+//   data.value[curr.value] = { r: val, g: val, b: val }
+// })
 
 const slug = useRoute().params.slug
 if (slug) {
@@ -329,8 +394,10 @@ const handleTouchEnd = (e: TouchEvent, startIndex: number) => {
 }
 
 const handleClick = (i: number) => {
-  if (mode.value === 1)
+  if (mode.value === 1) {
     curr.value = i
+    allColors.value = 0
+  }
   else {
     const sum = data.value[i].r + data.value[i].g + data.value[i].b
     if (sum < 382)
@@ -349,5 +416,4 @@ const resetCases = (color?) => {
 .dragover {
   border: 4px dashed gray;
 }
-
 </style>
