@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between">
+    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between mb-8">
       <div class="w-full md:grow self-center">
         <div
           id="pixel-grid"
@@ -31,11 +31,11 @@
       <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <RgbToolbar
           :can-apply="mode === 1"
-          :canup="ca < 10"
-          :candown="ca > 1"
+          :canup="ca < 10 && images.length === 1"
+          :candown="ca > 1 && images.length === 1"
           @reset-cases="resetCases"
           @apply-color="resetCases(data[curr])"
-          @get-png="getPNG2"
+          @get-png="getPNG"
           @size-up="resize('up')"
           @size-down="resize('down')"
           @share="shareGrid"
@@ -70,6 +70,33 @@
             </template>
           </template>
         </UTabs>
+        <UCard class="hidden md:block">
+        <template #header>
+        <div class="flex flex-row items-center">
+        <h3 class="grow">Images</h3>
+        <UInput v-model="dur" class="max-w-16" />
+        <UButton @click="addWCopyImg(currImg)" icon="ion:md-copy" variant="ghost" class="text-lg" />
+        <UButton @click="addImg" icon="ion:md-add" variant="ghost" class="text-lg" />
+        </div>
+        </template>
+
+        <div class="flex flex-col">
+          <div v-for="img in images" :key="img.id" class="flex flex-row justify-between w-52">
+            <div @click="img.click" class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36">
+              <UIcon :name="img.icon" class="w-5 h-5" :class="img.id === currImg ? 'text-primary-500' : ''" />
+              <span class="grow" :class="img.id === currImg ? 'text-primary-500' : ''">{{ img.label }}</span>
+            </div>
+            <div>
+              <UTooltip text="Copier les pixels dans l'image actuelle" :popper="{ arrow: true }" v-if="images.length > 1 && img.id !== currImg">
+                <UButton @click="cpImg(img.id)" icon="ion:arrow-up-right-box-outline" variant="ghost" class="text-lg" :class="img.id === 0 ? 'mr-8' : ''" />
+              </UTooltip>
+              <UTooltip text="Supprimer l'image" :popper="{ arrow: true }" v-if="img.id > 0">
+                <UButton @click="delImg(img.id)" icon="ion:trash-outline" variant="ghost" class="text-lg" />
+              </UTooltip>
+            </div>
+          </div>
+        </div>
+        </UCard>
       </div>
     </div>
     <UModal v-model="isOpen">
@@ -89,7 +116,7 @@
           <figure>
             <img :src="`/api/rgb/${code}?img`" alt="Image">
             <figcaption class="flex justify-center my-4">
-              <UButton variant="ghost" @click="getPNG2">
+              <UButton variant="ghost" @click="getPNG">
                 Télécharger
               </UButton>
             </figcaption>
@@ -101,11 +128,72 @@
 </template>
 
 <script lang="ts" setup>
+const images = ref([{
+  id: 0,
+  label: 'Image 0',
+  icon: 'ion:md-image',
+  data: [],
+  click: () => {
+    changeImg(0)
+  },
+}])
+
+const dur = ref(1000)
+
+const logImg = () => {
+  images.value.find(el => el.id === currImg.value).data = toRaw(data.value)
+}
+
+
+const addImg = () => {
+  logImg()
+  const imgId = images.value.at(-1).id + 1
+  images.value.push({
+    id: imgId,
+    label: `Image ${imgId}`,
+    icon: 'ion:md-image',
+    data: [],
+    click: () => {
+      changeImg(imgId)
+    },
+  })
+  initGrid()
+  currImg.value = imgId
+}
+
+const changeImg = (imgId) => {
+  logImg()
+  currImg.value = imgId
+  data.value = images.value.find(el => el.id === currImg.value).data
+}
+const currImg = ref(0)
+
+const delImg = (imgId) => {
+  if (images.value.length === 1) return
+  const index = images.value.findIndex((img) => img.id === imgId)
+  images.value.splice(index, 1)
+  if (currImg.value === imgId) {
+    currImg.value = 0
+    data.value = images.value[currImg.value].data
+  }
+}
+
+const cpImg = (imgId) => {
+  data.value = [ ...images.value.find(el => el.id === imgId).data ]
+}
+
+const addWCopyImg = (imgId) => {
+  addImg()
+  cpImg(imgId)
+}
+
 defineShortcuts({
   arrowLeft: () => move('left'),
   arrowRight: () => move('right'),
   arrowUp: () => move('up'),
   arrowDown: () => move('down'),
+  a: () => addImg(),
+  c: () => addWCopyImg(currImg.value),
 })
 const toast = useToast()
 const clipCode = async () => {
@@ -189,10 +277,18 @@ const toDown = () => {
 }
 
 const shareGrid = async () => {
+  logImg()
+
+  const toSend = images.value.length > 1 ? 
+  images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat()) : 
+  data.value.map(({ r, g, b }) => [r, g, b]).flat()
+
   const stringData = JSON.stringify({
     nbCases: ca.value,
-    pixels: data.value,
+    pixels: toSend,
+    duration: dur.value,
   })
+
   const hash = mmh3(stringData).toString(16)
   const res = await $fetch('/api/rgb', {
     method: 'post',
@@ -205,13 +301,20 @@ const shareGrid = async () => {
   isOpen.value = true
 }
 
-const getPNG2 = () => {
+const getPNG = () => {
+  logImg()
+
+  const toSend = images.value.length > 1 ? 
+  images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat()) : 
+  data.value.map(({ r, g, b }) => [r, g, b]).flat()
+
   $fetch<Blob>('/api/topng', {
     method: 'post',
     responseType: 'blob',
     body: {
       nbCases: ca.value,
-      pixels: data.value.map(({ r, g, b }) => [r, g, b]).flat(),
+      pixels: toSend,
+      duration: dur.value,
     },
   }).then((canvas: Blob) => {
     const link = document.createElement('a')
@@ -244,11 +347,49 @@ const code = ref('')
 //   data.value[curr.value] = { r: val, g: val, b: val }
 // })
 
+
+const isOneFrame = (pixels) => {
+  if (Array.isArray(pixels) && pixels.every(Number.isInteger)) {
+    return true
+  } else if (Array.isArray(pixels) && pixels.every(Array.isArray)) {
+    // on a un tableau de tableaux de pixels
+    return false
+  }
+  throw new Error('pixels should be an array of integers or an array of arrays of integers')
+}
+
+const unflattenRgb = (flatArray) => {
+  const result = [];
+  for (let i = 0; i < flatArray.length; i += 3) {
+    result.push({ r: flatArray[i], g: flatArray[i + 1], b: flatArray[i + 2] });
+  }
+  return result;
+};
+
+const genImages = (pixels) => {
+  if (isOneFrame(pixels)) {
+    data.value = unflattenRgb(pixels)
+  } else {
+    data.value = unflattenRgb(pixels[0])
+    images.value = pixels.map((frame, i) => ({
+      id: i,
+      label: `Image ${i}`,
+      icon: 'ion:md-image',
+      data: unflattenRgb(frame),
+      click: () => {
+        changeImg(i)
+      },
+    }))
+  }
+}
+
+
 const slug = useRoute().params.slug
 if (slug) {
   $fetch(`/api/rgb/${slug}`).then((res) => {
     ca.value = res.nbCases
-    data.value = res.pixels
+    genImages(res.pixels)
+    dur.value = res.duration
   }).catch((error) => {
     console.error('Erreur lors de la récupération des données :', error)
     initGrid()

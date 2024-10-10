@@ -3,6 +3,7 @@
     <UPage v-if="appid === 'default'">
       <slot />
     </UPage>
+    
     <Rgb v-else-if="appid === 'rgb'" />
 
     <ClientOnly>
