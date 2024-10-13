@@ -29,6 +29,7 @@
     "fast-xml-parser": "^4.5.0",
     "marked": "^14.1.2",
     "marked-katex-extension": "^5.1.2",
+    "md-editor-v3": "^4.21.0",
     "modern-screenshot": "^4.4.39",
     "nuxt": "^3.13.2",
     "nuxt-auth-utils": "^0.4.4",
