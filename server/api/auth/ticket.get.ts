@@ -51,9 +51,9 @@ export default defineEventHandler(async (event) => {
         loggedInAt: new Date().toISOString(),
       })
 
-      if (redirectCookie && redirectCookie === 'rgb') {
+      if (redirectCookie && ['rgb', 'md'].includes(redirectCookie)) {
         setCookie(event, 'redirection', '', { maxAge: 0, domain: '.nsi.rocks' })
-        await sendRedirect(event, 'https://rgb.nsi.rocks')
+        await sendRedirect(event, `https://${redirectCookie}.nsi.rocks`)
       }
       else
         await sendRedirect(event, `https://nsi.rocks?ck=${redirectCookie}`)

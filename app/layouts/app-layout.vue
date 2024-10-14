@@ -1,10 +1,7 @@
 <template>
   <div class="h-screen w-screen">
-    <UPage v-if="appid === 'default'">
-      <slot />
-    </UPage>
-    
-    <Rgb v-else-if="appid === 'rgb'" />
+    <Rgb v-if="appid === 'rgb'" />
+    <Md v-else-if="appid === 'md'" />
 
     <ClientOnly>
       <LazyUContentSearch :files="files" :navigation="navigation" :links="links" />

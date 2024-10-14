@@ -22,7 +22,7 @@ const logout = async () => {
 }
 
 const login = async () => {
-  if (props.redirectApp && ['rgb'].includes(props.redirectApp)) {
+  if (props.redirectApp && ['rgb', 'md'].includes(props.redirectApp)) {
     const cookie = useCookie('redirection', {
       maxAge: 60,
       domain: '.nsi.rocks',
