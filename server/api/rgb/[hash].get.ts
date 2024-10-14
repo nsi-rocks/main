@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     const data = await hubKV().get(`rgb:${hash}`)
     if (data) {
       // console.log(data);
-      
+
       if (query && Object.keys(query).includes('img')) {
         console.log(data)
         setResponseHeader(event, 'Content-Type', 'image/png')
@@ -17,7 +17,8 @@ export default defineEventHandler(async (event) => {
           pixels: pixels,
           duration: duration,
         })
-      } else return data
+      }
+      else return data
     }
     else {
       return new Response('Not found', { status: 404 })

@@ -71,31 +71,54 @@
           </template>
         </UTabs>
         <UCard class="hidden md:block">
-        <template #header>
-        <div class="flex flex-row items-center">
-        <h3 class="grow">Images</h3>
-        <UInput v-model="dur" class="max-w-16" />
-        <UButton @click="addWCopyImg(currImg)" icon="ion:md-copy" variant="ghost" class="text-lg" />
-        <UButton @click="addImg" icon="ion:md-add" variant="ghost" class="text-lg" />
-        </div>
-        </template>
-
-        <div class="flex flex-col">
-          <div v-for="img in images" :key="img.id" class="flex flex-row justify-between w-52">
-            <div @click="img.click" class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36">
-              <UIcon :name="img.icon" class="w-5 h-5" :class="img.id === currImg ? 'text-primary-500' : ''" />
-              <span class="grow" :class="img.id === currImg ? 'text-primary-500' : ''">{{ img.label }}</span>
+          <template #header>
+            <div class="flex flex-row items-center">
+              <h3 class="grow">
+                Images
+              </h3>
+              <UInput v-model="dur" class="max-w-16" />
+              <UButton
+                icon="ion:md-copy"
+                variant="ghost"
+                class="text-lg"
+                @click="addWCopyImg(currImg)"
+              />
+              <UButton
+                icon="ion:md-add"
+                variant="ghost"
+                class="text-lg"
+                @click="addImg"
+              />
             </div>
-            <div>
-              <UTooltip text="Copier les pixels dans l'image actuelle" :popper="{ arrow: true }" v-if="images.length > 1 && img.id !== currImg">
-                <UButton @click="cpImg(img.id)" icon="ion:arrow-up-right-box-outline" variant="ghost" class="text-lg" :class="img.id === 0 ? 'mr-8' : ''" />
-              </UTooltip>
-              <UTooltip text="Supprimer l'image" :popper="{ arrow: true }" v-if="img.id > 0">
-                <UButton @click="delImg(img.id)" icon="ion:trash-outline" variant="ghost" class="text-lg" />
-              </UTooltip>
+          </template>
+
+          <div class="flex flex-col">
+            <div v-for="img in images" :key="img.id" class="flex flex-row justify-between w-52">
+              <div class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36" @click="img.click">
+                <UIcon :name="img.icon" class="w-5 h-5" :class="img.id === currImg ? 'text-primary-500' : ''" />
+                <span class="grow" :class="img.id === currImg ? 'text-primary-500' : ''">{{ img.label }}</span>
+              </div>
+              <div>
+                <UTooltip v-if="images.length > 1 && img.id !== currImg" text="Copier les pixels dans l'image actuelle" :popper="{ arrow: true }">
+                  <UButton
+                    icon="ion:arrow-up-right-box-outline"
+                    variant="ghost"
+                    class="text-lg"
+                    :class="img.id === 0 ? 'mr-8' : ''"
+                    @click="cpImg(img.id)"
+                  />
+                </UTooltip>
+                <UTooltip v-if="img.id > 0" text="Supprimer l'image" :popper="{ arrow: true }">
+                  <UButton
+                    icon="ion:trash-outline"
+                    variant="ghost"
+                    class="text-lg"
+                    @click="delImg(img.id)"
+                  />
+                </UTooltip>
+              </div>
             </div>
           </div>
-        </div>
         </UCard>
       </div>
     </div>
@@ -128,6 +151,7 @@
 </template>
 
 <script lang="ts" setup>
+const tmp = reactive({ r: 0, g: 0, b: 0 })
 const images = ref([{
   id: 0,
   label: 'Image 0',
@@ -141,9 +165,8 @@ const images = ref([{
 const dur = ref(1000)
 
 const logImg = () => {
-  images.value.find(el => el.id === currImg.value).data = toRaw(data.value)
+  images.value.find(el => el.id === currImg.value).data = [...data.value]
 }
-
 
 const addImg = () => {
   logImg()
@@ -164,13 +187,14 @@ const addImg = () => {
 const changeImg = (imgId) => {
   logImg()
   currImg.value = imgId
-  data.value = images.value.find(el => el.id === currImg.value).data
+  const newImg = images.value.find(el => el.id === imgId).data
+  data.value = [...newImg]
 }
 const currImg = ref(0)
 
 const delImg = (imgId) => {
   if (images.value.length === 1) return
-  const index = images.value.findIndex((img) => img.id === imgId)
+  const index = images.value.findIndex(img => img.id === imgId)
   images.value.splice(index, 1)
   if (currImg.value === imgId) {
     currImg.value = 0
@@ -179,7 +203,8 @@ const delImg = (imgId) => {
 }
 
 const cpImg = (imgId) => {
-  data.value = [ ...images.value.find(el => el.id === imgId).data ]
+  const datapx = toRaw(images.value.find(el => el.id === imgId).data)
+  data.value = datapx.map(el => ({ ...el }))
 }
 
 const addWCopyImg = (imgId) => {
@@ -279,9 +304,9 @@ const toDown = () => {
 const shareGrid = async () => {
   logImg()
 
-  const toSend = images.value.length > 1 ? 
-  images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat()) : 
-  data.value.map(({ r, g, b }) => [r, g, b]).flat()
+  const toSend = images.value.length > 1
+    ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
+    : data.value.map(({ r, g, b }) => [r, g, b]).flat()
 
   const stringData = JSON.stringify({
     nbCases: ca.value,
@@ -304,9 +329,9 @@ const shareGrid = async () => {
 const getPNG = () => {
   logImg()
 
-  const toSend = images.value.length > 1 ? 
-  images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat()) : 
-  data.value.map(({ r, g, b }) => [r, g, b]).flat()
+  const toSend = images.value.length > 1
+    ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
+    : data.value.map(({ r, g, b }) => [r, g, b]).flat()
 
   $fetch<Blob>('/api/topng', {
     method: 'post',
@@ -347,11 +372,11 @@ const code = ref('')
 //   data.value[curr.value] = { r: val, g: val, b: val }
 // })
 
-
 const isOneFrame = (pixels) => {
   if (Array.isArray(pixels) && pixels.every(Number.isInteger)) {
     return true
-  } else if (Array.isArray(pixels) && pixels.every(Array.isArray)) {
+  }
+  else if (Array.isArray(pixels) && pixels.every(Array.isArray)) {
     // on a un tableau de tableaux de pixels
     return false
   }
@@ -359,17 +384,18 @@ const isOneFrame = (pixels) => {
 }
 
 const unflattenRgb = (flatArray) => {
-  const result = [];
+  const result = []
   for (let i = 0; i < flatArray.length; i += 3) {
-    result.push({ r: flatArray[i], g: flatArray[i + 1], b: flatArray[i + 2] });
+    result.push({ r: flatArray[i], g: flatArray[i + 1], b: flatArray[i + 2] })
   }
-  return result;
-};
+  return result
+}
 
 const genImages = (pixels) => {
   if (isOneFrame(pixels)) {
     data.value = unflattenRgb(pixels)
-  } else {
+  }
+  else {
     data.value = unflattenRgb(pixels[0])
     images.value = pixels.map((frame, i) => ({
       id: i,
@@ -382,7 +408,6 @@ const genImages = (pixels) => {
     }))
   }
 }
-
 
 const slug = useRoute().params.slug
 if (slug) {

@@ -6,6 +6,7 @@ const parser = new XMLParser({
 
 export default defineEventHandler(async (event) => {
   const body = getQuery(event)
+  const redirectCookie = getCookie(event, 'redirection')
 
   if (body.ticket) {
     console.log(body.ticket)
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
       + body.ticket,
     ))
 
-    console.log(data)
+    // console.log(data)
 
     if (Object.keys(data).includes('cas-serviceResponse')) {
       const tmp = data['cas-serviceResponse']['cas-authenticationSuccess']['cas-attributes']['cas-userAttributes']
@@ -50,7 +51,12 @@ export default defineEventHandler(async (event) => {
         loggedInAt: new Date().toISOString(),
       })
 
-      await sendRedirect(event, '/')
+      if (redirectCookie && redirectCookie === 'rgb') {
+        setCookie(event, 'redirection', '', { maxAge: 0, domain: '.nsi.rocks' })
+        await sendRedirect(event, 'https://rgb.nsi.rocks')
+      }
+      else
+        await sendRedirect(event, `https://nsi.rocks?ck=${redirectCookie}`)
     }
   }
 })

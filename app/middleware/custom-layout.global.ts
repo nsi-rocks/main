@@ -1,3 +1,7 @@
+import { getSubdomain } from 'tldts'
+
 export default defineNuxtRouteMiddleware((to, from) => {
-    setPageLayout(useRequestURL().hostname.split('.')[0] === 'rgb' ? 'app-layout' : 'default')
+  const apps = ['rgb']
+  const subdomain = getSubdomain(useRequestURL().hostname) || ''
+  setPageLayout(apps.includes(subdomain) ? 'app-layout' : 'default')
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <NuxtLink v-if="!store.session.loggedIn" to="https://enthdf.fr/cas/login?service=https://nsi.rocks">
+    <NuxtLink v-if="!store.session.loggedIn" class="cursor-pointer" @click="login">
       <UAvatar icon="material-symbols:bolt" />
     </NuxtLink>
     <span v-else class="cursor-pointer" @click="logout">
@@ -13,14 +13,24 @@
 </template>
 
 <script lang="ts" setup>
+const props = defineProps<{ redirectApp?: string }>()
 const store = useStore()
 
 const logout = async () => {
   store.session.clear()
   await navigateTo('/')
 }
+
+const login = async () => {
+  if (props.redirectApp && ['rgb'].includes(props.redirectApp)) {
+    const cookie = useCookie('redirection', {
+      maxAge: 60,
+      domain: '.nsi.rocks',
+    })
+    cookie.value = props.redirectApp
+  }
+  await navigateTo('https://enthdf.fr/cas/login?service=https://nsi.rocks', { external: true })
+}
 </script>
 
-<style>
-
-</style>
+<style></style>

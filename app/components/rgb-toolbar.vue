@@ -3,7 +3,7 @@
     <ClientOnly>
       <div class="flex flex-row items-center gap-4">
         <UColorModeToggle />
-        <UserButton />
+        <UserButton redirect-app="rgb" />
       </div>
     </ClientOnly>
     <div class="flex flex-row gap-4">

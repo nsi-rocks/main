@@ -22,6 +22,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  devServer: {
+    host: 'localhost.com',
+  },
   content: {
     experimental: {
       clientDB: true,
