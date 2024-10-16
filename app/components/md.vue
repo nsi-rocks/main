@@ -1,44 +1,92 @@
 <template>
-  <ClientOnly>
-    <div class="w-screen mx-auto wrappz flex flex-col">
-      <div class="w-full flex flex-row justify-end p-2">
+  <div class="w-screen mx-auto wrappz flex flex-col">
+    <div class="w-full flex flex-row justify-end p-2">
+      <ClientOnly>
         <div class="flex flex-row items-center gap-4">
           <UColorModeToggle />
           <UserButton redirect-app="md" />
         </div>
-      </div>
-      <MdEditor
-        v-model="content"
-        language="fr_FR"
-        :toolbars="tbars"
-        :theme="$colorMode.value === 'dark' ? 'dark' : 'light'"
-        :completions="[]"
-      >
-        <template #defToolbars>
-          <NormalToolbar title="mark" @on-click="handler">
-            <template #trigger>
-              <UIcon name="ion:share-outline" />
-            </template>
-          </NormalToolbar>
-        </template>
-      </MdEditor>
+      </ClientOnly>
     </div>
-  </ClientOnly>
+    <div class="grid grid-cols-2 h-[60vh] w-full px-4 gap-4 m-auto">
+      <div ref="editor" class="border overflow-scroll" />
+      <div class="prose prose-primary dark:prose-invert max-w-none" v-html="cm_value" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { MdEditor, NormalToolbar, config } from 'md-editor-v3'
-import 'md-editor-v3/lib/style.css'
+import { oneDark } from '@codemirror/theme-one-dark'
+import { EditorState, Compartment } from '@codemirror/state'
+import { EditorView, keymap } from '@codemirror/view'
+import { languages } from '@codemirror/language-data'
+import { defaultKeymap, indentWithTab } from '@codemirror/commands'
+import { markdown } from '@codemirror/lang-markdown'
+import { basicSetup } from 'codemirror'
+import { Marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
+import hljs from 'highlight.js'
 
-const handler = (e: MouseEvent) => {
-  console.log('click', e)
+useHead({
+  link: [
+    {
+      rel: 'stylesheet',
+      href: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css',
+    },
+  ],
+})
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+      return hljs.highlight(code, { language }).value
+    },
+  }),
+)
+
+const colorMode = useColorMode()
+
+const test = EditorView.updateListener.of((update) => {
+  console.log('update', update)
+  cm_value.value = marked.parse(update.state.doc.toString()) as string
+})
+
+const editor = ref()
+const view = ref()
+const editorTheme = new Compartment()
+
+const createEditorState = (isDarkMode: boolean) => {
+  const theme = isDarkMode ? oneDark : []
+  return EditorState.create({
+    doc: 'Hello World',
+    extensions: [basicSetup, markdown({ codeLanguages: languages }), editorTheme.of(theme), test, keymap.of([...defaultKeymap, indentWithTab])],
+  })
 }
 
-config({
-  editorConfig: {
-    renderDelay: 0,
-    languageUserDefined: langz,
-  },
+const updateTheme = (isDarkMode: boolean) => {
+  const theme = isDarkMode ? oneDark : []
+  if (editor.value) {
+    // Dynamically reconfigure the theme extension properly
+    view.value.dispatch({
+      effects: editorTheme.reconfigure(theme),
+    })
+  }
+}
+
+const cm_value = ref('tata')
+
+onMounted(() => {
+  view.value = new EditorView({
+    state: createEditorState(colorMode.value === 'dark'),
+    parent: editor.value,
+  })
+})
+
+watch(colorMode, () => {
+  updateTheme(colorMode.value === 'dark')
 })
 
 const content = ref(`
@@ -65,41 +113,8 @@ $\\sqrt{3 + 2x}$
   height: calc(100vh - 4rem);
 }
 
-.wrappz > .md-editor {
-  height: calc(100% - 2rem);
-  width: 90%;
-  margin: auto;
-}
-.md-editor-resize-operate {
-  border-left: 1px solid #e2e8f0;
-}
-
-.dark .md-editor-resize-operate {
-  border-left: 1px solid #2d3748;
-}
-
-.dark .md-editor {
-  background-color: rgb(var(--color-gray-800) / var(--tw-bg-opacity));
-}
-
-.dark .ͼo {
-  background-color: rgb(var(--color-gray-800) / var(--tw-bg-opacity));
-}
-
-.dark .md-editor-toolbar-wrapper {
-  background-color: rgb(var(--color-gray-900) / var(--tw-bg-opacity));
-}
-
-.md-editor-preview .md-editor-admonition {
-  background-color: var(--md-admonition-bg-color);
-  border: 1px solid var(--md-admonition-color);
-  border-radius: 0;
-  color: var(--md-admonition-color);
-  display: flow-root;
-  font-size: 14px;
-  font-weight: 400;
-  margin: 1rem 0;
-  padding: 1em 1em .5em;
-  page-break-inside: avoid;
+.cm-editor {
+  height: 100%;
+  min-height: 150px;
 }
 </style>

@@ -10,6 +10,19 @@ const mdSource = process.env.NODE_ENV === 'development'
     }
 
 export default defineNuxtConfig({
+  extends: ['@nuxt/ui-pro'],
+  modules: [
+    '@nuxthub/core',
+    '@nuxt/eslint',
+    '@nuxt/content',
+    '@nuxt/ui',
+    'nuxt-auth-utils',
+    '@pinia/nuxt',
+    '@nuxt/image',
+    '@nuxt/scripts',
+    '@nuxt/icon',
+  ],
+  devtools: { enabled: true },
   app: {
     head: {
       link: [
@@ -21,9 +34,6 @@ export default defineNuxtConfig({
         },
       ],
     },
-  },
-  devServer: {
-    host: 'localhost.com',
   },
   content: {
     experimental: {
@@ -44,30 +54,28 @@ export default defineNuxtConfig({
       content: mdSource,
     },
   },
-  compatibilityDate: '2024-07-30',
-  future: { compatibilityVersion: 4 },
-  extends: ['@nuxt/ui-pro'],
-  modules: [
-    '@nuxthub/core',
-    '@nuxt/eslint',
-    '@nuxt/content',
-    '@nuxt/ui',
-    'nuxt-auth-utils',
-    '@pinia/nuxt',
-    '@nuxt/image',
-    '@nuxt/scripts',
-    '@nuxt/icon',
-  ],
-  hub: {
-    database: true,
-    kv: true,
-    // cache: true,
-  },
 
   runtimeConfig: {
     session: {
       cookie: {
         domain: '.nsi.rocks',
+      },
+    },
+  },
+  devServer: {
+    host: 'localhost.com',
+  },
+  future: { compatibilityVersion: 4 },
+  compatibilityDate: '2024-07-30',
+  hub: {
+    database: true,
+    kv: true,
+    // cache: true,
+  },
+  eslint: {
+    config: {
+      stylistic: {
+        quotes: 'single',
       },
     },
   },
@@ -77,12 +85,4 @@ export default defineNuxtConfig({
       sizeLimitKb: 512,
     },
   },
-  eslint: {
-    config: {
-      stylistic: {
-        quotes: 'single',
-      },
-    },
-  },
-  devtools: { enabled: true },
 })
