@@ -48,7 +48,7 @@ export default defineNuxtConfig({
       ],
     },
     highlight: {
-      preload: ['py', 'md'],
+      langs: ['py', 'md', 'http'],
     },
     sources: {
       content: mdSource,
