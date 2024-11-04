@@ -1,6 +1,9 @@
 <template>
   <ClientOnly>
-    <div v-if="isGridReady" class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between mb-8">
+    <div
+      v-if="isGridReady"
+      class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between mb-8"
+    >
       <div class="w-full md:grow self-center">
         <div
           id="pixel-grid"
@@ -13,7 +16,7 @@
             class="border box-border cursor-pointer hover:border-2"
             :class="curr === i && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
             :style="getbg(i)"
-            style="aspect-ratio: 1 / 1;"
+            style="aspect-ratio: 1 / 1"
             draggable="true"
             :data-index="i"
             @click="handleClick(i)"
@@ -29,7 +32,7 @@
         </div>
       </div>
       <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
-        <RgbToolbar
+        <AppsRgbToolbar
           :can-apply="mode === 1"
           :canup="ca < 10 && images.length === 1"
           :candown="ca > 1 && images.length === 1"
@@ -40,14 +43,23 @@
           @size-down="resize('down')"
           @share="shareGrid"
         />
-        <UTabs v-model="mode" :items="items" class="mb-2 px-4">
+        <UTabs
+          v-model="mode"
+          :items="items"
+          class="mb-2 px-4"
+        >
           <template #item="{ item }">
             <template v-if="item.key === 'rgb'">
               <div class="font-semibold text-xl flex justify-center">
-                <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b }}</span>
+                <span>r: {{ data[curr].r }}, g: {{ data[curr].g }}, b:
+                  {{ data[curr].b }}</span>
               </div>
               <div>
-                <UFormGroup v-for="a in sliders" :key="a" :label="a.label">
+                <UFormGroup
+                  v-for="a in sliders"
+                  :key="a"
+                  :label="a.label"
+                >
                   <URange
                     v-model="data[curr][a.key]"
                     :color="a.color"
@@ -63,7 +75,9 @@
                     :step="1"
                     :min="0"
                     :max="255"
-                    @update:model-value="data[curr] = { r: allColors, g: allColors, b: allColors }"
+                    @update:model-value="
+                      data[curr] = { r: allColors, g: allColors, b: allColors }
+                    "
                   />
                 </UFormGroup>
               </div>
@@ -76,7 +90,10 @@
               <h3 class="grow">
                 Images
               </h3>
-              <UInput v-model="dur" class="max-w-16" />
+              <UInput
+                v-model="dur"
+                class="max-w-16"
+              />
               <UButton
                 icon="ion:md-copy"
                 variant="ghost"
@@ -93,13 +110,31 @@
           </template>
 
           <div class="flex flex-col">
-            <div v-for="img in images" :key="img.id" class="flex flex-row justify-between w-52">
-              <div class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36" @click="img.click">
-                <UIcon :name="img.icon" class="w-5 h-5" :class="img.id === currImg ? 'text-primary-500' : ''" />
-                <span class="grow" :class="img.id === currImg ? 'text-primary-500' : ''">{{ img.label }}</span>
+            <div
+              v-for="img in images"
+              :key="img.id"
+              class="flex flex-row justify-between w-52"
+            >
+              <div
+                class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36"
+                @click="img.click"
+              >
+                <UIcon
+                  :name="img.icon"
+                  class="w-5 h-5"
+                  :class="img.id === currImg ? 'text-primary-500' : ''"
+                />
+                <span
+                  class="grow"
+                  :class="img.id === currImg ? 'text-primary-500' : ''"
+                >{{ img.label }}</span>
               </div>
               <div>
-                <UTooltip v-if="images.length > 1 && img.id !== currImg" text="Copier les pixels dans l'image actuelle" :popper="{ arrow: true }">
+                <UTooltip
+                  v-if="images.length > 1 && img.id !== currImg"
+                  text="Copier les pixels dans l'image actuelle"
+                  :popper="{ arrow: true }"
+                >
                   <UButton
                     icon="ion:arrow-up-right-box-outline"
                     variant="ghost"
@@ -108,7 +143,11 @@
                     @click="cpImg(img.id)"
                   />
                 </UTooltip>
-                <UTooltip v-if="img.id > 0" text="Supprimer l'image" :popper="{ arrow: true }">
+                <UTooltip
+                  v-if="img.id > 0"
+                  text="Supprimer l'image"
+                  :popper="{ arrow: true }"
+                >
                   <UButton
                     icon="ion:trash-outline"
                     variant="ghost"
@@ -137,9 +176,15 @@
           </div>
 
           <figure>
-            <img :src="`/api/rgb/${code}?img`" alt="Image">
+            <img
+              :src="`/api/rgb/${code}?img`"
+              alt="Image"
+            >
             <figcaption class="flex justify-center my-4">
-              <UButton variant="ghost" @click="getPNG">
+              <UButton
+                variant="ghost"
+                @click="getPNG"
+              >
                 Télécharger
               </UButton>
             </figcaption>
@@ -152,15 +197,17 @@
 
 <script lang="ts" setup>
 const tmp = reactive({ r: 0, g: 0, b: 0 })
-const images = ref([{
-  id: 0,
-  label: 'Image 0',
-  icon: 'ion:md-image',
-  data: [],
-  click: () => {
-    changeImg(0)
+const images = ref([
+  {
+    id: 0,
+    label: 'Image 0',
+    icon: 'ion:md-image',
+    data: [],
+    click: () => {
+      changeImg(0)
+    },
   },
-}])
+])
 
 const dur = ref(1000)
 
@@ -222,15 +269,18 @@ defineShortcuts({
 })
 const toast = useToast()
 const clipCode = async () => {
-  navigator.clipboard.writeText(`https://rgb.nsi.rocks/${code.value}`).then(() => {
-    toast.add({
-      title: 'Lien copié dans le presse-papier',
+  navigator.clipboard
+    .writeText(`https://rgb.nsi.rocks/${code.value}`)
+    .then(() => {
+      toast.add({
+        title: 'Lien copié dans le presse-papier',
+      })
     })
-  }).catch(() => {
-    toast.add({
-      title: 'Impossible de copier le lien',
+    .catch(() => {
+      toast.add({
+        title: 'Impossible de copier le lien',
+      })
     })
-  })
 }
 
 const resize = (updown: string) => {
@@ -239,16 +289,16 @@ const resize = (updown: string) => {
     ca.value += 1
     initGrid()
     data.value.forEach((d, i) => {
-      if (i < ((ca.value - 1) * ca.value) && i % (ca.value) < (ca.value - 1))
+      if (i < (ca.value - 1) * ca.value && i % ca.value < ca.value - 1)
         data.value[i] = { ...backup[i - ~~(i / ca.value)] }
     })
   }
   else if (updown === 'down' && ca.value > 1) {
     curr.value = curr.value >= (ca.value - 1) ** 2 ? (ca.value - 1) ** 2 - 1 : curr.value
-    const backup = toRaw(data.value).filter((_, i) => (i + 1) % (ca.value) !== 0)
+    const backup = toRaw(data.value).filter((_, i) => (i + 1) % ca.value !== 0)
     ca.value -= 1
     initGrid()
-    data.value.forEach((d, i) => data.value[i] = { ...backup[i] })
+    data.value.forEach((d, i) => (data.value[i] = { ...backup[i] }))
   }
   // initGrid()
 }
@@ -266,47 +316,48 @@ const move = (direction: string) => {
 }
 
 const toLeft = () => {
-  const backup = toRaw(data.value).map((d, i) => (i) % (ca.value) === 0 ? { ...base } : d)
+  const backup = toRaw(data.value).map((d, i) => (i % ca.value === 0 ? { ...base } : d))
   initGrid()
   data.value.forEach((d, i) => {
-    if (i < cases.value - 1)
-      data.value[i] = { ...backup[i + 1] }
+    if (i < cases.value - 1) data.value[i] = { ...backup[i + 1] }
   })
 }
 
 const toRight = () => {
-  const backup = toRaw(data.value).map((d, i) => i % ca.value === (ca.value - 1) ? { ...base } : d)
+  const backup = toRaw(data.value).map((d, i) =>
+    i % ca.value === ca.value - 1 ? { ...base } : d,
+  )
   initGrid()
   data.value.forEach((d, i) => {
-    if (i > 0)
-      data.value[i] = { ...backup[i - 1] }
+    if (i > 0) data.value[i] = { ...backup[i - 1] }
   })
 }
 
 const toUp = () => {
-  const backup = toRaw(data.value).map((d, i) => i < ca.value ? { ...base } : d)
+  const backup = toRaw(data.value).map((d, i) => (i < ca.value ? { ...base } : d))
   initGrid()
   data.value.forEach((d, i) => {
-    if (i < cases.value - ca.value)
-      data.value[i] = { ...backup[i + ca.value] }
+    if (i < cases.value - ca.value) data.value[i] = { ...backup[i + ca.value] }
   })
 }
 
 const toDown = () => {
-  const backup = toRaw(data.value).map((d, i) => i >= cases.value - ca.value ? { ...base } : d)
+  const backup = toRaw(data.value).map((d, i) =>
+    i >= cases.value - ca.value ? { ...base } : d,
+  )
   initGrid()
   data.value.forEach((d, i) => {
-    if (i >= ca.value)
-      data.value[i] = { ...backup[i - ca.value] }
+    if (i >= ca.value) data.value[i] = { ...backup[i - ca.value] }
   })
 }
 
 const shareGrid = async () => {
   logImg()
 
-  const toSend = images.value.length > 1
-    ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
-    : data.value.map(({ r, g, b }) => [r, g, b]).flat()
+  const toSend
+    = images.value.length > 1
+      ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
+      : data.value.map(({ r, g, b }) => [r, g, b]).flat()
 
   const stringData = JSON.stringify({
     nbCases: ca.value,
@@ -329,9 +380,10 @@ const shareGrid = async () => {
 const getPNG = () => {
   logImg()
 
-  const toSend = images.value.length > 1
-    ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
-    : data.value.map(({ r, g, b }) => [r, g, b]).flat()
+  const toSend
+    = images.value.length > 1
+      ? images.value.map(el => el.data.map(({ r, g, b }) => [r, g, b]).flat())
+      : data.value.map(({ r, g, b }) => [r, g, b]).flat()
 
   $fetch<Blob>('/api/topng', {
     method: 'post',
@@ -360,7 +412,9 @@ const data = ref([])
 const isGridReady = computed(() => {
   return data.value.length === cases.value
 })
-const grcols = computed(() => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`)
+const grcols = computed(
+  () => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`,
+)
 const base = { r: 0, g: 0, b: 0 }
 const allColors = ref(0)
 const curr = ref(1)
@@ -380,7 +434,9 @@ const isOneFrame = (pixels) => {
     // on a un tableau de tableaux de pixels
     return false
   }
-  throw new Error('pixels should be an array of integers or an array of arrays of integers')
+  throw new Error(
+    'pixels should be an array of integers or an array of arrays of integers',
+  )
 }
 
 const unflattenRgb = (flatArray) => {
@@ -411,37 +467,46 @@ const genImages = (pixels) => {
 
 const slug = useRoute().params.slug
 if (slug) {
-  $fetch(`/api/rgb/${slug}`).then((res) => {
-    ca.value = res.nbCases
-    genImages(res.pixels)
-    dur.value = res.duration
-  }).catch((error) => {
-    console.error('Erreur lors de la récupération des données :', error)
-    initGrid()
-  })
+  $fetch(`/api/rgb/${slug}`)
+    .then((res) => {
+      ca.value = res.nbCases
+      genImages(res.pixels)
+      dur.value = res.duration
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la récupération des données :', error)
+      initGrid()
+    })
 }
 else initGrid()
 
-const items = [{
-  key: 'bw',
-  label: 'Noir et blanc',
-}, {
-  key: 'rgb',
-  label: 'Couleurs',
-}]
-const sliders = [{
-  label: 'Rouge',
-  color: 'red',
-  key: 'r',
-}, {
-  label: 'Vert',
-  color: 'green',
-  key: 'g',
-}, {
-  label: 'Bleu',
-  color: 'blue',
-  key: 'b',
-}]
+const items = [
+  {
+    key: 'bw',
+    label: 'Noir et blanc',
+  },
+  {
+    key: 'rgb',
+    label: 'Couleurs',
+  },
+]
+const sliders = [
+  {
+    label: 'Rouge',
+    color: 'red',
+    key: 'r',
+  },
+  {
+    label: 'Vert',
+    color: 'green',
+    key: 'g',
+  },
+  {
+    label: 'Bleu',
+    color: 'blue',
+    key: 'b',
+  },
+]
 
 const getbg = (i: number) => {
   const color = data.value[i] || { r: 0, g: 0, b: 0 }
@@ -566,10 +631,8 @@ const handleClick = (i: number) => {
   }
   else {
     const sum = data.value[i].r + data.value[i].g + data.value[i].b
-    if (sum < 382)
-      data.value[i] = { r: 255, g: 255, b: 255 }
-    else
-      data.value[i] = { r: 0, g: 0, b: 0 }
+    if (sum < 382) data.value[i] = { r: 255, g: 255, b: 255 }
+    else data.value[i] = { r: 0, g: 0, b: 0 }
   }
 }
 

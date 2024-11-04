@@ -1,9 +1,17 @@
 <template>
   <div class="flex items-center">
-    <NuxtLink v-if="!store.session.loggedIn" class="cursor-pointer" @click="login">
+    <NuxtLink
+      v-if="!store.session.loggedIn"
+      class="cursor-pointer"
+      @click="login"
+    >
       <UAvatar icon="material-symbols:bolt" />
     </NuxtLink>
-    <span v-else class="cursor-pointer" @click="logout">
+    <span
+      v-else
+      class="cursor-pointer"
+      @click="logout"
+    >
       <UAvatar
         :alt="`${store.session.user.firstName} ${store.session.user.lastName}`"
         :src="store.session.user.avatar"

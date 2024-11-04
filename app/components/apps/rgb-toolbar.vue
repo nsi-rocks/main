@@ -7,7 +7,10 @@
       </div>
     </ClientOnly>
     <div class="flex flex-row gap-4">
-      <UTooltip text="Télécharger l'image" :popper="{ arrow: true }">
+      <UTooltip
+        text="Télécharger l'image"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"
@@ -17,7 +20,10 @@
         />
       </UTooltip>
 
-      <UTooltip text="Réinitialiser l'image" :popper="{ arrow: true }">
+      <UTooltip
+        text="Réinitialiser l'image"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"
@@ -27,7 +33,10 @@
         />
       </UTooltip>
 
-      <UTooltip text="Appliquer la couleur à toutes les cases" :popper="{ arrow: true }">
+      <UTooltip
+        text="Appliquer la couleur à toutes les cases"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"
@@ -38,7 +47,10 @@
         />
       </UTooltip>
 
-      <UTooltip text="Réduire le nombre de cases" :popper="{ arrow: true }">
+      <UTooltip
+        text="Réduire le nombre de cases"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"
@@ -49,7 +61,10 @@
         />
       </UTooltip>
 
-      <UTooltip text="Augmenter le nombre de cases" :popper="{ arrow: true }">
+      <UTooltip
+        text="Augmenter le nombre de cases"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"
@@ -60,7 +75,10 @@
         />
       </UTooltip>
 
-      <UTooltip text="Partager" :popper="{ arrow: true }">
+      <UTooltip
+        text="Partager"
+        :popper="{ arrow: true }"
+      >
         <UButton
           size="xl"
           variant="ghost"

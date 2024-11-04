@@ -24,9 +24,19 @@ const { ui } = useUI('content.prose.code', undefined, config, undefined, true)
 </script>
 
 <template>
-  <div class="relative" :class="!!filename && ui.wrapper">
-    <div v-if="filename && !hideHeader" :class="ui.header">
-      <ProseCodeIcon :icon="icon" :filename="filename" :class="ui.icon.base" />
+  <div
+    class="relative"
+    :class="!!filename && ui.wrapper"
+  >
+    <div
+      v-if="filename && !hideHeader"
+      :class="ui.header"
+    >
+      <ProseCodeIcon
+        :icon="icon"
+        :filename="filename"
+        :class="ui.icon.base"
+      />
 
       <span :class="ui.filename">{{ filename }}</span>
     </div>

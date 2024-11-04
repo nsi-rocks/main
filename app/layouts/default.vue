@@ -24,7 +24,11 @@
               <template #top>
                 <UContentSearchButton label="Recherche..." />
               </template>
-              <UNavigationTree :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)" :multiple="path == '/' ? false : true" :default-open="false" />
+              <UNavigationTree
+                :links="mapContentNavigation(path == '/' ? navigation ?? [] : localNav)"
+                :multiple="path == '/' ? false : true"
+                :default-open="false"
+              />
             </UAside>
           </template>
           <slot />
@@ -33,7 +37,11 @@
     </UMain>
 
     <ClientOnly>
-      <LazyUContentSearch :files="files" :navigation="navigation" :links="links" />
+      <LazyUContentSearch
+        :files="files"
+        :navigation="navigation"
+        :links="links"
+      />
     </ClientOnly>
   </div>
 </template>
@@ -67,7 +75,6 @@ const links = [
     to: 'https://capytale2.ac-paris.fr',
   },
 ]
-
 </script>
 
 <style></style>

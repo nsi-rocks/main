@@ -1,10 +1,14 @@
 <template>
   <div class="h-screen w-screen">
-    <Rgb v-if="appid === 'rgb'" />
-    <Md v-else-if="appid === 'md'" />
+    <AppsRgb v-if="appid === 'rgb'" />
+    <AppsMd v-else-if="appid === 'md'" />
 
     <ClientOnly>
-      <LazyUContentSearch :files="files" :navigation="navigation" :links="links" />
+      <LazyUContentSearch
+        :files="files"
+        :navigation="navigation"
+        :links="links"
+      />
     </ClientOnly>
   </div>
 </template>

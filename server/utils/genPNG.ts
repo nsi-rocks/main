@@ -30,7 +30,8 @@ const drawFrame = (pixels: number[], width: number, height: number, nbCases: num
 const isOneFrame = (pixels) => {
   if (Array.isArray(pixels) && pixels.every(Number.isInteger)) {
     return true
-  } else if (Array.isArray(pixels) && pixels.every(Array.isArray)) {
+  }
+  else if (Array.isArray(pixels) && pixels.every(Array.isArray)) {
     // on a un tableau de tableaux de pixels
     return false
   }
@@ -48,9 +49,9 @@ export const genPNG = async (jsonData: object) => {
   const width = imageSize
   const height = imageSize
 
-  console.log('imageSize, pixelSize, width, height:', imageSize, pixelSize, width, height);
+  console.log('imageSize, pixelSize, width, height:', imageSize, pixelSize, width, height)
 
-  const toBeBuffered = pixelData.map((pxs) => drawFrame(pxs, width, height, nbCases, pixelSize))
+  const toBeBuffered = pixelData.map(pxs => drawFrame(pxs, width, height, nbCases, pixelSize))
   // Tableau de frames (ici une seule frame avec nos données)
   const frames = toBeBuffered.map(tbf => tbf.buffer) // UPNG prend des ArrayBuffer pour les frames
 

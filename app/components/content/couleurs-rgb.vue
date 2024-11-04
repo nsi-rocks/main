@@ -16,10 +16,33 @@
     </template>
 
     <div class="flex flex-col gap-4">
-      <URange v-model="rouge" size="2xl" color="red" :min="0" :max="255" />
-      <URange v-model="vert" size="2xl" color="green" :min="0" :max="255" />
-      <URange v-model="bleu" size="2xl" color="blue" :min="0" :max="255" />
-      <URange v-model="gray" color="teal" :min="0" :max="255" />
+      <URange
+        v-model="rouge"
+        size="2xl"
+        color="red"
+        :min="0"
+        :max="255"
+      />
+      <URange
+        v-model="vert"
+        size="2xl"
+        color="green"
+        :min="0"
+        :max="255"
+      />
+      <URange
+        v-model="bleu"
+        size="2xl"
+        color="blue"
+        :min="0"
+        :max="255"
+      />
+      <URange
+        v-model="gray"
+        color="teal"
+        :min="0"
+        :max="255"
+      />
     </div>
   </UCard>
 </template>

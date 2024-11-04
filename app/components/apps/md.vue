@@ -9,8 +9,14 @@
       </ClientOnly>
     </div>
     <div class="grid grid-cols-2 h-[60vh] w-full px-4 gap-4 m-auto">
-      <div ref="editor" class="border overflow-scroll" />
-      <div class="prose prose-primary dark:prose-invert max-w-none" v-html="cm_value" />
+      <div
+        ref="editor"
+        class="border overflow-scroll"
+      />
+      <div
+        class="prose prose-primary dark:prose-invert max-w-none"
+        v-html="cm_value"
+      />
     </div>
   </div>
 </template>

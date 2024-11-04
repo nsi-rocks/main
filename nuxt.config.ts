@@ -13,7 +13,6 @@ export default defineNuxtConfig({
   extends: ['@nuxt/ui-pro'],
   modules: [
     '@nuxthub/core',
-    '@nuxt/eslint',
     '@nuxt/content',
     '@nuxt/ui',
     'nuxt-auth-utils',
@@ -21,6 +20,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/icon',
+    '@nuxt/eslint',
   ],
   devtools: { enabled: true },
   app: {

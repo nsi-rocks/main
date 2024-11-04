@@ -1,7 +1,11 @@
 <template>
   <ClientOnly>
     <figure>
-      <img :src="`/${ld_src}`" style="margin: auto;" :width="iwidth">
+      <img
+        :src="`/${ld_src}`"
+        style="margin: auto;"
+        :width="iwidth"
+      >
       <figcaption style="text-align: center;">
         <slot />
       </figcaption>
