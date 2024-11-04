@@ -2,6 +2,7 @@
   <div class="h-screen w-screen">
     <AppsRgb v-if="appid === 'rgb'" />
     <AppsMd v-else-if="appid === 'md'" />
+    <AppsExif v-else-if="appid === 'exif'" />
 
     <ClientOnly>
       <LazyUContentSearch
