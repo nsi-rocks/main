@@ -14,10 +14,9 @@
           @mousedown="canvasMouseDown"
           @mousemove="canvasMouseMove"
           @mouseup="canvasMouseUp"
-          @touchstart="canvasMouseDown"
-          @touchmove="canvasMouseMove"
-          @touchend="canvasMouseUp"
-          @dragover.prevent
+          @touchstart.prevent="canvasMouseDown"
+          @touchmove.prevent="canvasMouseMove"
+          @touchend.prevent="canvasMouseUp"
         />
       </div>
       <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
@@ -366,12 +365,14 @@ const dragThreshold = 5
 const cellSelected = ref({ x: -1, y: -1 })
 
 const canvasMouseDown = (e) => {
+  e.preventDefault()
   if (isTouch && !e.touches) return
   dragging.value = true
   dragStartPos.value = getECoord(e)
 }
 
 const canvasMouseMove = (e) => {
+  e.preventDefault()
   if (isTouch && !e.touches) return
 
   if (!dragging.value) return
@@ -403,6 +404,7 @@ const canvasMouseMove = (e) => {
 }
 
 const canvasMouseUp = (e) => {
+  e.preventDefault()
   if (isTouch && !e.touches) return
 
   // Si le curseur n'a pas bougé de façon significative, considérer comme un clic
