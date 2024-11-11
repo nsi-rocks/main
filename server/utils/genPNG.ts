@@ -49,7 +49,7 @@ export const genPNG = async (jsonData: object) => {
   const width = imageSize
   const height = imageSize
 
-  console.log('imageSize, pixelSize, width, height:', imageSize, pixelSize, width, height)
+  // console.log('imageSize, pixelSize, width, height:', imageSize, pixelSize, width, height)
 
   const toBeBuffered = pixelData.map(pxs => drawFrame(pxs, width, height, nbCases, pixelSize))
   // Tableau de frames (ici une seule frame avec nos données)
