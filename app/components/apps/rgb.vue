@@ -2,41 +2,23 @@
   <ClientOnly>
     <div
       v-if="isGridReady"
-      class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between mb-8"
+      class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-around items-center mb-8"
     >
-      <canvas
-        ref="canvas"
-        class="w-full"
-        :width="canvasWidth"
-        :height="canvasHeight"
-        @click="canvasClick"
-      />
-      <div class="w-full md:grow self-center">
-        <div
-          id="pixel-grid"
-          class="grid gap-2 m-auto max-w-[50vh] md:max-w-[80vh] mt-4 md:mt-0"
-          :style="grcols"
-        >
-          <div
-            v-for="(d, i) in data"
-            :key="i"
-            class="border box-border cursor-pointer hover:border-2"
-            :class="curr === i && mode === 1 ? 'ring ring-blue-600 ring-offset-1' : ''"
-            :style="getbg(i)"
-            style="aspect-ratio: 1 / 1"
-            draggable="true"
-            :data-index="i"
-            @click="handleClick(i)"
-            @dragstart="handleDragStart($event, data[i])"
-            @dragenter="enterDrag"
-            @dragleave="leaveDrag"
-            @dragover.prevent
-            @drop="drop($event, i)"
-            @touchstart="handleTouchStart($event, data[i])"
-            @touchmove="handleTouchMove($event)"
-            @touchend="handleTouchEnd($event, i)"
-          />
-        </div>
+      <div class="grow flex flex-row justify-center items-center max-w-[600px] p-8">
+        <canvas
+          ref="canvas"
+          :width="canvasWidth+2*gutter"
+          :height="canvasHeight+2*gutter"
+          class="max-w-full"
+          @click="() => {}"
+          @mousedown="canvasMouseDown"
+          @mousemove="canvasMouseMove"
+          @mouseup="canvasMouseUp"
+          @touchstart="canvasMouseDown"
+          @touchmove="canvasMouseMove"
+          @touchend="canvasMouseUp"
+          @dragover.prevent
+        />
       </div>
       <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <AppsRgbToolbar
@@ -203,23 +185,83 @@
 </template>
 
 <script lang="ts" setup>
-const tmp = reactive({ r: 0, g: 0, b: 0 })
+defineShortcuts({
+  arrowLeft: () => move('left'),
+  arrowRight: () => move('right'),
+  arrowUp: () => move('up'),
+  arrowDown: () => move('down'),
+  a: () => addImg(),
+  c: () => addWCopyImg(currImg.value),
+})
+const toast = useToast()
+
+const slug = useRoute().params.slug
 
 const ctx = ref()
 const canvas = ref<HTMLCanvasElement | null>(null)
-const canvasWidth = ref(800)
-const canvasHeight = ref(800)
-const gutter = ref(10)
+const gutter = ref(15)
+
+const canvasWidth = ref(1000)
+const canvasHeight = ref(1000)
+let isTouch = false
+
+let clonedElement: HTMLElement | null = null
+
+// const ca = parseInt(useRoute().query.cases as string || '3')
+const ca = ref(3)
+const cases = computed(() => ca.value * ca.value)
+const data = ref<RGB[]>([])
+const isGridReady = computed(() => {
+  return data.value.length === cases.value
+})
+const base = { r: 0, g: 0, b: 0 }
+const allColors = ref(0)
+const curr = ref(1)
+const mode = ref(0)
+const isOpen = ref(false)
+const code = ref('')
+
+const items = [
+  {
+    key: 'bw',
+    label: 'Noir et blanc',
+  },
+  {
+    key: 'rgb',
+    label: 'Couleurs',
+  },
+]
+const sliders = [
+  {
+    label: 'Rouge',
+    color: 'red',
+    key: 'r',
+  },
+  {
+    label: 'Vert',
+    color: 'green',
+    key: 'g',
+  },
+  {
+    label: 'Bleu',
+    color: 'blue',
+    key: 'b',
+  },
+]
 
 watchEffect(() => {
   if (canvas.value) {
     ctx.value = canvas.value.getContext('2d')
+    isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     drawCanvas()
   }
 })
 
 const drawCanvas = () => {
   if (!ctx.value) return
+  ctx.value.clearRect(0, 0, canvasWidth.value + 2 * gutter.value, canvasHeight.value + 2 * gutter.value)
+  // ctx.value.fillStyle = useColorMode().value === 'light' ? 'black' : 'white'
+  // ctx.value.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
 
   const cellWidth = (canvasWidth.value - (ca.value - 1) * gutter.value) / ca.value
   const cellHeight = (canvasHeight.value - (ca.value - 1) * gutter.value) / ca.value
@@ -230,30 +272,56 @@ const drawCanvas = () => {
 
     ctx.value.fillStyle = `rgb(${d.r},${d.g},${d.b})`
     ctx.value.fillRect(
-      x * (cellWidth + gutter.value), // Ajoute le gutter dans la position x
-      y * (cellHeight + gutter.value), // Ajoute le gutter dans la position y
+      x * (cellWidth + gutter.value) + gutter.value, // Ajoute le gutter dans la position x
+      y * (cellHeight + gutter.value) + gutter.value, // Ajoute le gutter dans la position y
       cellWidth,
       cellHeight,
     )
+
+    if (curr.value === i && mode.value === 1) {
+      const lw = 4
+      ctx.value.strokeStyle = 'blue'
+      ctx.value.lineWidth = lw
+      ctx.value.strokeRect(
+        x * (cellWidth + gutter.value) - lw + gutter.value, // Ajoute le gutter
+        y * (cellHeight + gutter.value) - lw + gutter.value, // Ajoute le gutter
+        cellWidth + 2 * lw,
+        cellHeight + 2 * lw,
+      )
+    }
   })
 }
 
+const getECoord = (event) => {
+  if (isTouch) {
+    const touch = event.touches[0] || event.changedTouches[0]
+    return { x: touch!.clientX, y: touch!.clientY }
+  }
+  else {
+    return { x: event.clientX, y: event.clientY }
+  }
+}
+
 const canvasClick = (e) => {
+  console.log(e)
+
   if (!canvas.value) return
   const rect = canvas.value.getBoundingClientRect()
   const cellWidthWithGutter = (rect.width - (ca.value - 1) * gutter.value) / ca.value + gutter.value
   const cellHeightWithGutter = (rect.height - (ca.value - 1) * gutter.value) / ca.value + gutter.value
 
-  const x = Math.floor((e.clientX - rect.left) / cellWidthWithGutter)
-  const y = Math.floor((e.clientY - rect.top) / cellHeightWithGutter)
+  const coords = getECoord(e)
+
+  const x = Math.floor((coords.x - rect.left) / cellWidthWithGutter)
+  const y = Math.floor((coords.y - rect.top) / cellHeightWithGutter)
 
   // Calculer les limites de la cellule (incluant le gutter)
   const cellStartX = x * cellWidthWithGutter
   const cellStartY = y * cellHeightWithGutter
 
   // Calculer les limites internes de la cellule (sans le gutter)
-  const gutterOffsetX = (e.clientX - rect.left) - cellStartX
-  const gutterOffsetY = (e.clientY - rect.top) - cellStartY
+  const gutterOffsetX = (coords.x - rect.left) - cellStartX
+  const gutterOffsetY = (coords.y - rect.top) - cellStartY
   const cellInnerWidth = cellWidthWithGutter - gutter.value
   const cellInnerHeight = cellHeightWithGutter - gutter.value
 
@@ -261,8 +329,113 @@ const canvasClick = (e) => {
     console.log('Gutter')
   }
   else {
-    console.log('Cellule:', x, y)
+    console.log('Cellulea:', x, y)
+    if (mode.value === 1) {
+      curr.value = y * ca.value + x
+      allColors.value = 0
+    }
+    else {
+      const cellData = data.value[y * ca.value + x]
+      if (cellData) {
+        const sum = cellData.r + cellData.g + cellData.b
+        if (sum < 382) data.value[y * ca.value + x] = { r: 255, g: 255, b: 255 }
+        else data.value[y * ca.value + x] = { r: 0, g: 0, b: 0 }
+      }
+      drawCanvas()
+    }
   }
+}
+
+const getCellFromCoordinates = (x: number, y: number) => {
+  const rect = canvas.value!.getBoundingClientRect()
+  const cellWidthWithGutter = (rect.width - (ca.value - 1) * gutter.value) / ca.value + gutter.value
+  const cellHeightWithGutter = (rect.height - (ca.value - 1) * gutter.value) / ca.value + gutter.value
+
+  const cellX = Math.floor((x - rect.left) / cellWidthWithGutter)
+  const cellY = Math.floor((y - rect.top) / cellHeightWithGutter)
+
+  if (cellX >= 0 && cellX < ca.value && cellY >= 0 && cellY < ca.value) {
+    return { x: cellX, y: cellY }
+  }
+  return null
+}
+
+const dragging = ref(false)
+const dragStartPos = ref({ x: 0, y: 0 })
+const dragThreshold = 5
+const cellSelected = ref({ x: -1, y: -1 })
+
+const canvasMouseDown = (e) => {
+  if (isTouch && !e.touches) return
+  dragging.value = true
+  dragStartPos.value = getECoord(e)
+}
+
+const canvasMouseMove = (e) => {
+  if (isTouch && !e.touches) return
+
+  if (!dragging.value) return
+
+  const coords = getECoord(e)
+  // Vérifier si le déplacement est suffisant pour être considéré comme un glisser-déposer
+  const distanceMoved = Math.sqrt(
+    Math.pow(coords.x - dragStartPos.value.x, 2)
+    + Math.pow(coords.y - dragStartPos.value.y, 2),
+  )
+
+  if (distanceMoved > dragThreshold) {
+    // C'est un glisser-déposer
+    const cell = getCellFromCoordinates(coords.x, coords.y) || { x: 0, y: 0 }
+
+    dragging.value = true
+    if (!clonedElement)
+      clonedElement = createElement(data.value[cell.y * ca.value + cell.x] as RGB)
+    if (dragging.value) {
+      clonedElement.style.left = `${coords.x}px`
+      clonedElement.style.top = `${coords.y}px`
+    }
+
+    if (cell && cellSelected.value.x === -1 && dragging.value) {
+      console.log('Cellule:', cell)
+      cellSelected.value = cell
+    }
+  }
+}
+
+const canvasMouseUp = (e) => {
+  if (isTouch && !e.touches) return
+
+  // Si le curseur n'a pas bougé de façon significative, considérer comme un clic
+  const coords = getECoord(e)
+
+  if (clonedElement) {
+    document.body.removeChild(clonedElement)
+    clonedElement = null
+  }
+
+  const distanceMoved = Math.sqrt(
+    Math.pow(coords.x - dragStartPos.value.x, 2)
+    + Math.pow(coords.y - dragStartPos.value.y, 2),
+  )
+
+  if (distanceMoved <= dragThreshold) {
+    canvasClick(e) // Appeler la fonction de gestion de clic
+  }
+  else {
+    // C'est un glisser-déposer
+    console.log('Drag end')
+    console.log('Cell selected:', cellSelected.value)
+
+    const cell = getCellFromCoordinates(coords.x, coords.y)
+    if (cell && cellSelected.value.x !== -1) {
+      data.value[cell.y * ca.value + cell.x] = { ...data.value[cellSelected.value.y * ca.value + cellSelected.value.x] }
+      cellSelected.value = { x: -1, y: -1 }
+      drawCanvas()
+    }
+  }
+
+  dragging.value = false
+  cellSelected.value = { x: -1, y: -1 }
 }
 
 type RGB = { r: number, g: number, b: number }
@@ -338,15 +511,6 @@ const addWCopyImg = (imgId) => {
   cpImg(imgId)
 }
 
-defineShortcuts({
-  arrowLeft: () => move('left'),
-  arrowRight: () => move('right'),
-  arrowUp: () => move('up'),
-  arrowDown: () => move('down'),
-  a: () => addImg(),
-  c: () => addWCopyImg(currImg.value),
-})
-const toast = useToast()
 const clipCode = async () => {
   navigator.clipboard
     .writeText(`https://rgb.nsi.rocks/${code.value}`)
@@ -484,26 +648,6 @@ const getPNG = () => {
 const initGrid = () => {
   data.value = Array.from({ length: cases.value }, () => ({ ...base }))
 }
-// const ca = parseInt(useRoute().query.cases as string || '3')
-const ca = ref(3)
-const cases = computed(() => ca.value * ca.value)
-const data = ref<RGB[]>([])
-const isGridReady = computed(() => {
-  return data.value.length === cases.value
-})
-const grcols = computed(
-  () => `grid-template-columns: repeat(${ca.value}, minmax(0, 1fr));`,
-)
-const base = { r: 0, g: 0, b: 0 }
-const allColors = ref(0)
-const curr = ref(1)
-const mode = ref(0)
-const isOpen = ref(false)
-const code = ref('')
-
-// watch(allColors, (val) => {
-//   data.value[curr.value] = { r: val, g: val, b: val }
-// })
 
 const isOneFrame = (pixels) => {
   if (Array.isArray(pixels) && pixels.every(Number.isInteger)) {
@@ -544,49 +688,6 @@ const genImages = (pixels) => {
   }
 }
 
-const slug = useRoute().params.slug
-if (slug) {
-  $fetch(`/api/rgb/${slug}`)
-    .then((res) => {
-      ca.value = res.nbCases
-      genImages(res.pixels)
-      dur.value = res.duration
-    })
-    .catch((error) => {
-      console.error('Erreur lors de la récupération des données :', error)
-      initGrid()
-    })
-}
-else initGrid()
-
-const items = [
-  {
-    key: 'bw',
-    label: 'Noir et blanc',
-  },
-  {
-    key: 'rgb',
-    label: 'Couleurs',
-  },
-]
-const sliders = [
-  {
-    label: 'Rouge',
-    color: 'red',
-    key: 'r',
-  },
-  {
-    label: 'Vert',
-    color: 'green',
-    key: 'g',
-  },
-  {
-    label: 'Bleu',
-    color: 'blue',
-    key: 'b',
-  },
-]
-
 const getbg = (i: number) => {
   const color = data.value[i] || { r: 0, g: 0, b: 0 }
   const { r, g, b } = color
@@ -594,6 +695,7 @@ const getbg = (i: number) => {
 }
 
 const handleDragStart = (e: DragEvent, itemData) => {
+  if (!e.dataTransfer) return
   e.dataTransfer.setData('text/plain', JSON.stringify(itemData))
 }
 
@@ -613,111 +715,39 @@ const drop = (e, i) => {
   data.value[i] = JSON.parse(e.dataTransfer.getData('text/plain'))
 }
 
-let touchStartX = 0
-let touchStartY = 0
-let clonedElement: HTMLElement | null = null
-let draggedElement: HTMLElement | null = null
-const MIN_DRAG_DISTANCE = 10
+const createElement = (color: RGB) => {
+  console.log('Create element')
 
-const handleTouchStart = (e, itemData) => {
-  touchStartX = e.touches[0].clientX
-  touchStartY = e.touches[0].clientY
-
-  e.target.classList.add('dragging')
-  draggedElement = e.target
-}
-
-const handleTouchMove = (e) => {
-  e.preventDefault()
-
-  if (!draggedElement) return
-
-  const touch = e.touches[0]
-  const deltaX = touch.clientX - touchStartX
-  const deltaY = touch.clientY - touchStartY
-
-  console.log('Touch move', deltaX, deltaY)
-
-  if (Math.abs(deltaX) > MIN_DRAG_DISTANCE || Math.abs(deltaY) > MIN_DRAG_DISTANCE) {
-    console.log('Drag detected')
-
-    if (!clonedElement && draggedElement) {
-      clonedElement = draggedElement.cloneNode(true) as HTMLElement
-
-      clonedElement.style.position = 'absolute'
-      clonedElement.style.pointerEvents = 'none'
-      clonedElement.style.opacity = '0.6'
-      clonedElement.style.zIndex = '1000'
-      clonedElement.style.transform = 'translate(-50%, -50%)'
-
-      document.body.appendChild(clonedElement)
-
-      clonedElement.style.left = `${touchStartX}px`
-      clonedElement.style.top = `${touchStartY}px`
-    }
-
-    if (clonedElement) {
-      clonedElement.style.left = `${touch.clientX}px`
-      clonedElement.style.top = `${touch.clientY}px`
-    }
-  }
-
-  // Utilisation de elementFromPoint pour déterminer l'élément survolé
-  const targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
-
-  const elements = document.getElementsByClassName('box-border')
-  for (const el of elements) {
-    el.classList.remove('dragover')
-  }
-
-  // Ajouter la classe de survol si c'est une case valide
-  if (targetElement && targetElement.classList.contains('box-border')) {
-    targetElement.classList.add('dragover')
-  }
-}
-
-const handleTouchEnd = (e: TouchEvent, startIndex: number) => {
-  if (!clonedElement) return
-
-  // Utilisation de elementFromPoint pour déterminer la cible finale
-  if (e.changedTouches[0] !== undefined) {
-    const touch = e.changedTouches[0]
-    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
-
-    // Vérifie si l'élément ciblé est une case et si on a bien un index cible
-    if (targetElement && targetElement.classList.contains('box-border')) {
-      const targetIndex = parseInt(targetElement.getAttribute('data-index'))
-
-      if (!isNaN(targetIndex) && targetIndex !== startIndex) {
-        data.value[targetIndex] = { ...data.value[startIndex] }
-      }
-
-      targetElement.classList.remove('dragover')
-    }
-
-    // Retirer le clone du document
-    document.body.removeChild(clonedElement)
-    clonedElement = null
-
-    e.target.classList.remove('dragging')
-  }
-}
-
-const handleClick = (i: number) => {
-  if (mode.value === 1) {
-    curr.value = i
-    allColors.value = 0
-  }
-  else {
-    const sum = data.value[i].r + data.value[i].g + data.value[i].b
-    if (sum < 382) data.value[i] = { r: 255, g: 255, b: 255 }
-    else data.value[i] = { r: 0, g: 0, b: 0 }
-  }
+  const el = document.createElement('div')
+  el.style.width = '50px'
+  el.style.height = '50px'
+  el.style.backgroundColor = `rgb(${color.r},${color.g},${color.b})`
+  el.style.position = 'absolute'
+  el.style.zIndex = '1000'
+  el.style.pointerEvents = 'none'
+  el.style.opacity = '0.6'
+  el.style.transform = 'translate(-50%, -50%)'
+  document.body.appendChild(el)
+  return el
 }
 
 const resetCases = (color?) => {
   data.value = Array.from({ length: cases.value }, () => ({ ...base, ...color }))
 }
+
+if (slug) {
+  $fetch(`/api/rgb/${slug}`)
+    .then((res) => {
+      ca.value = res.nbCases
+      genImages(res.pixels)
+      dur.value = res.duration
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la récupération des données :', error)
+      initGrid()
+    })
+}
+else initGrid()
 </script>
 
 <style>
