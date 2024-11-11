@@ -4,6 +4,13 @@
       v-if="isGridReady"
       class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-between mb-8"
     >
+      <canvas
+        ref="canvas"
+        class="w-full"
+        :width="canvasWidth"
+        :height="canvasHeight"
+        @click="canvasClick"
+      />
       <div class="w-full md:grow self-center">
         <div
           id="pixel-grid"
@@ -197,12 +204,84 @@
 
 <script lang="ts" setup>
 const tmp = reactive({ r: 0, g: 0, b: 0 })
-const images = ref([
+
+const ctx = ref()
+const canvas = ref<HTMLCanvasElement | null>(null)
+const canvasWidth = ref(800)
+const canvasHeight = ref(800)
+const gutter = ref(10)
+
+watchEffect(() => {
+  if (canvas.value) {
+    ctx.value = canvas.value.getContext('2d')
+    drawCanvas()
+  }
+})
+
+const drawCanvas = () => {
+  if (!ctx.value) return
+
+  const cellWidth = (canvasWidth.value - (ca.value - 1) * gutter.value) / ca.value
+  const cellHeight = (canvasHeight.value - (ca.value - 1) * gutter.value) / ca.value
+
+  data.value.forEach((d, i) => {
+    const x = i % ca.value
+    const y = Math.floor(i / ca.value)
+
+    ctx.value.fillStyle = `rgb(${d.r},${d.g},${d.b})`
+    ctx.value.fillRect(
+      x * (cellWidth + gutter.value), // Ajoute le gutter dans la position x
+      y * (cellHeight + gutter.value), // Ajoute le gutter dans la position y
+      cellWidth,
+      cellHeight,
+    )
+  })
+}
+
+const canvasClick = (e) => {
+  if (!canvas.value) return
+  const rect = canvas.value.getBoundingClientRect()
+  const cellWidthWithGutter = (rect.width - (ca.value - 1) * gutter.value) / ca.value + gutter.value
+  const cellHeightWithGutter = (rect.height - (ca.value - 1) * gutter.value) / ca.value + gutter.value
+
+  const x = Math.floor((e.clientX - rect.left) / cellWidthWithGutter)
+  const y = Math.floor((e.clientY - rect.top) / cellHeightWithGutter)
+
+  // Calculer les limites de la cellule (incluant le gutter)
+  const cellStartX = x * cellWidthWithGutter
+  const cellStartY = y * cellHeightWithGutter
+
+  // Calculer les limites internes de la cellule (sans le gutter)
+  const gutterOffsetX = (e.clientX - rect.left) - cellStartX
+  const gutterOffsetY = (e.clientY - rect.top) - cellStartY
+  const cellInnerWidth = cellWidthWithGutter - gutter.value
+  const cellInnerHeight = cellHeightWithGutter - gutter.value
+
+  if (gutterOffsetX > cellInnerWidth || gutterOffsetY > cellInnerHeight) {
+    console.log('Gutter')
+  }
+  else {
+    console.log('Cellule:', x, y)
+  }
+}
+
+type RGB = { r: number, g: number, b: number }
+
+type ImageData = {
+  id: number
+  label: string
+  icon: string
+  data: RGB[] // Chaque élément est un objet avec r, g, et b pour représenter une couleur
+  click: () => void
+}
+
+// Maintenant, tu peux typer `images` comme un tableau d'objets `ImageData`
+const images = ref<ImageData[]>([
   {
     id: 0,
     label: 'Image 0',
     icon: 'ion:md-image',
-    data: [],
+    data: [], // Tu pourrais initialiser avec des valeurs si nécessaire
     click: () => {
       changeImg(0)
     },
@@ -408,7 +487,7 @@ const initGrid = () => {
 // const ca = parseInt(useRoute().query.cases as string || '3')
 const ca = ref(3)
 const cases = computed(() => ca.value * ca.value)
-const data = ref([])
+const data = ref<RGB[]>([])
 const isGridReady = computed(() => {
   return data.value.length === cases.value
 })
