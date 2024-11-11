@@ -1,10 +1,17 @@
 <template>
-  <div class="container">
+  <div class="container-jc">
     <div
       id="zone"
       ref="zone"
       tabindex="0"
-    />
+    >
+      <div
+        v-if="!isRunning"
+        class="text-black font-semibold text-xl w-full h-full flex flex-row justify-center items-center"
+      >
+        <div>Appuyer sur la touche A pour commencer</div>
+      </div>
+    </div>
     <ul id="chronoList">
       <li
         v-for="(time, index) in chronos"
@@ -34,7 +41,7 @@ function popItem() {
   console.log('popItem')
 
   const newDiv = document.createElement('div')
-  newDiv.classList.add('item')
+  newDiv.classList.add('item-jc')
 
   // Positionnement aléatoire
   const randomTop = Math.floor(Math.random() * 451)
@@ -63,6 +70,7 @@ function popItem() {
 
 function handleKeyDown(event) {
   if (event.key === 'a') {
+    isRunning.value = true
     popItem()
   }
 }
@@ -78,7 +86,7 @@ onUnmounted(() => {
 </script>
 
 <style>
-.container {
+.container-jc {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,7 +101,7 @@ onUnmounted(() => {
   position: relative;
 }
 
-.item {
+.item-jc {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -105,12 +113,5 @@ onUnmounted(() => {
 #chronoList {
   list-style-type: none;
   padding: 0;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
 }
 </style>
