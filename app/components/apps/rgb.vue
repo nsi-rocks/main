@@ -19,7 +19,7 @@
           @touchend.prevent="canvasMouseUp"
         />
       </div>
-      <div class="w-full h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
+      <div class="w-full md:h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <AppsRgbToolbar
           :can-apply="mode === 1"
           :canup="ca < 10 && images.length === 1"
