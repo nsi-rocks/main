@@ -14,8 +14,17 @@
 </template>
 
 <script lang="ts" setup>
-const semaine = 10
+const dateRentree = new Date('2024-09-02')
+const semaine = weeksElapsedSince(dateRentree.getTime())
+
 const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 2, 5]
+
+function weeksElapsedSince(startDate: number) {
+  const now = Date.now()
+  const diffInMilliseconds = now - startDate
+  const millisecondsPerWeek = 7 * 24 * 60 * 60 * 1000
+  return Math.floor(diffInMilliseconds / millisecondsPerWeek) + 1
+}
 
 const periodesAccumulated = periodes.reduce((acc, el) => {
   acc.push(acc[acc.length - 1]! + el)
