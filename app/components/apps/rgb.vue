@@ -2,7 +2,7 @@
   <ClientOnly>
     <div
       v-if="isGridReady"
-      class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-full md:max-w-[100vw] justify-around items-center mb-8"
+      class="flex flex-col-reverse md:flex-row items-start md:items-center md:max-h-[100vh] md:max-w-[100vw] justify-around items-center mb-8"
     >
       <div class="grow flex flex-row justify-center items-center max-w-[600px] p-8">
         <canvas
@@ -19,7 +19,7 @@
           @touchend.prevent="canvasMouseUp"
         />
       </div>
-      <div class="w-full md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
+      <div class="w-full h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <AppsRgbToolbar
           :can-apply="mode === 1"
           :canup="ca < 10 && images.length === 1"
@@ -80,7 +80,10 @@
             </template>
           </template>
         </UTabs>
-        <UCard class="hidden md:block">
+        <UCard
+          class="hidden md:block grow overflow-y-scroll"
+          :ui="{ body: { base: 'flex flex-col' } }"
+        >
           <template #header>
             <div class="flex flex-row items-center">
               <h3 class="grow">
@@ -90,68 +93,76 @@
                 v-model="dur"
                 class="max-w-16"
               />
-              <UButton
-                icon="ion:md-copy"
-                variant="ghost"
-                class="text-lg"
-                @click="addWCopyImg(currImg)"
-              />
-              <UButton
-                icon="ion:md-add"
-                variant="ghost"
-                class="text-lg"
-                @click="addImg"
-              />
+              <UTooltip
+                text="Dupliquer l'image courante"
+                :popper="{ arrow: true }"
+              >
+                <UButton
+                  icon="ion:md-copy"
+                  variant="ghost"
+                  class="text-lg"
+                  @click="addWCopyImg(currImg)"
+                />
+              </UTooltip>
+              <UTooltip
+                text="Ajouter une image vide"
+                :popper="{ arrow: true }"
+              >
+                <UButton
+                  icon="ion:md-add"
+                  variant="ghost"
+                  class="text-lg"
+                  @click="addImg"
+                />
+              </UTooltip>
             </div>
           </template>
 
-          <div class="flex flex-col">
+          <div
+            v-for="img in images"
+            :key="img.id"
+            class="flex flex-row justify-between w-52"
+          >
             <div
-              v-for="img in images"
-              :key="img.id"
-              class="flex flex-row justify-between w-52"
+              class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36"
+              @click="img.click"
             >
-              <div
-                class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36"
-                @click="img.click"
+              <UIcon
+                :name="img.icon"
+                class="w-5 h-5"
+                :class="img.id === currImg ? 'text-primary-500' : ''"
+              />
+              <span
+                class="grow"
+                :class="img.id === currImg ? 'text-primary-500' : ''"
+              >{{ img.label }}</span>
+            </div>
+            <div>
+              <UTooltip
+                v-if="images.length > 1 && img.id !== currImg"
+                text="Copier les pixels dans l'image actuelle"
+                :popper="{ arrow: true }"
               >
-                <UIcon
-                  :name="img.icon"
-                  class="w-5 h-5"
-                  :class="img.id === currImg ? 'text-primary-500' : ''"
+                <UButton
+                  icon="ion:arrow-up-right-box-outline"
+                  variant="ghost"
+                  class="text-lg"
+                  :class="img.id === 0 ? 'mr-8' : ''"
+                  @click="cpImg(img.id)"
                 />
-                <span
-                  class="grow"
-                  :class="img.id === currImg ? 'text-primary-500' : ''"
-                >{{ img.label }}</span>
-              </div>
-              <div>
-                <UTooltip
-                  v-if="images.length > 1 && img.id !== currImg"
-                  text="Copier les pixels dans l'image actuelle"
-                  :popper="{ arrow: true }"
-                >
-                  <UButton
-                    icon="ion:arrow-up-right-box-outline"
-                    variant="ghost"
-                    class="text-lg"
-                    :class="img.id === 0 ? 'mr-8' : ''"
-                    @click="cpImg(img.id)"
-                  />
-                </UTooltip>
-                <UTooltip
-                  v-if="img.id > 0"
-                  text="Supprimer l'image"
-                  :popper="{ arrow: true }"
-                >
-                  <UButton
-                    icon="ion:trash-outline"
-                    variant="ghost"
-                    class="text-lg"
-                    @click="delImg(img.id)"
-                  />
-                </UTooltip>
-              </div>
+              </UTooltip>
+              <UTooltip
+                v-if="img.id > 0"
+                text="Supprimer l'image"
+                :popper="{ arrow: true }"
+              >
+                <UButton
+                  icon="ion:trash-outline"
+                  variant="ghost"
+                  class="text-lg"
+                  @click="delImg(img.id)"
+                />
+              </UTooltip>
             </div>
           </div>
         </UCard>
