@@ -2,14 +2,14 @@
   <ClientOnly>
     <div
       v-if="isGridReady"
-      class="flex flex-col-reverse md:flex-row items-start md:items-center md:max-h-[100vh] md:max-w-[100vw] justify-around items-center mb-8"
+      class="flex flex-col-reverse md:flex-row items-start md:items-center md:h-[100vh] md:max-w-[100vw] justify-center items-center mb-8"
     >
-      <div class="grow flex flex-row justify-center items-center max-w-[600px] p-8">
+      <div class="grow flex flex-row justify-center items-center max-w-[800px] p-8">
         <canvas
           ref="canvas"
           :width="canvasWidth+2*gutter"
           :height="canvasHeight+2*gutter"
-          class="max-w-full"
+          class="max-w-full max-h-[90vh]"
           @click="() => {}"
           @mousedown="canvasMouseDown"
           @mousemove="canvasMouseMove"
@@ -19,7 +19,7 @@
           @touchend.prevent="canvasMouseUp"
         />
       </div>
-      <div class="w-full md:h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
+      <div class="w-full md:max-h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <AppsRgbToolbar
           :can-apply="mode === 1"
           :canup="ca < 10 && images.length === 1"
@@ -385,16 +385,11 @@ const dragThreshold = 5
 const cellSelected = ref({ x: -1, y: -1 })
 
 const canvasMouseDown = (e) => {
-  e.preventDefault()
-  if (isTouch && !e.touches) return
   dragging.value = true
   dragStartPos.value = getECoord(e)
 }
 
 const canvasMouseMove = (e) => {
-  e.preventDefault()
-  if (isTouch && !e.touches) return
-
   if (!dragging.value) return
 
   const coords = getECoord(e)
@@ -424,9 +419,6 @@ const canvasMouseMove = (e) => {
 }
 
 const canvasMouseUp = (e) => {
-  e.preventDefault()
-  if (isTouch && !e.touches) return
-
   // Si le curseur n'a pas bougé de façon significative, considérer comme un clic
   const coords = getECoord(e)
 
