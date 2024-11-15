@@ -10,7 +10,6 @@
           :width="canvasWidth+2*gutter"
           :height="canvasHeight+2*gutter"
           class="max-w-full max-h-[90vh]"
-          @click="() => {}"
           @mousedown="canvasMouseDown"
           @mousemove="canvasMouseMove"
           @mouseup="canvasMouseUp"
