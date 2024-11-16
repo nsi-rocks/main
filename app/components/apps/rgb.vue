@@ -221,7 +221,6 @@ const gutter = ref(15)
 
 const canvasWidth = ref(1000)
 const canvasHeight = ref(1000)
-let isTouch = false
 
 let clonedElement: HTMLElement | null = null
 
@@ -311,24 +310,37 @@ const drawCanvas = () => {
 }
 
 const getECoord = (event) => {
-  if (isTouch) {
-    const touch = event.touches[0] || event.changedTouches[0]
-    return { x: touch!.clientX, y: touch!.clientY }
+  let x, y
+  if (event.touches && event.touches.length > 0) {
+    const touch = event.touches[0] // Premier point actif
+    x = touch.clientX
+    y = touch.clientY
+  }
+  else if (event.changedTouches && event.changedTouches.length > 0) {
+    const touch = event.changedTouches[0] // Premier point changé
+    x = touch.clientX
+    y = touch.clientY
+  }
+  else if (event.clientX && event.clientY) { // Cas souris
+    x = event.clientX
+    y = event.clientY
   }
   else {
-    return { x: event.clientX, y: event.clientY }
+    console.warn('Aucune coordonnée trouvée dans l\'événement', event)
+    return null // Pas de coordonnées disponibles
   }
+
+  return { x, y }
 }
 
 const canvasClick = (e) => {
-  console.log(e)
-
   if (!canvas.value) return
   const rect = canvas.value.getBoundingClientRect()
   const cellWidthWithGutter = (rect.width - (ca.value - 1) * gutter.value) / ca.value + gutter.value
   const cellHeightWithGutter = (rect.height - (ca.value - 1) * gutter.value) / ca.value + gutter.value
 
   const coords = getECoord(e)
+  if (!coords) return // Sécurité en cas de problème
 
   const x = Math.floor((coords.x - rect.left) / cellWidthWithGutter)
   const y = Math.floor((coords.y - rect.top) / cellHeightWithGutter)
@@ -347,7 +359,7 @@ const canvasClick = (e) => {
     console.log('Gutter')
   }
   else {
-    console.log('Cellulea:', x, y)
+    console.log('Cellule:', x, y)
     if (mode.value === 1) {
       curr.value = y * ca.value + x
       allColors.value = 0
@@ -385,18 +397,19 @@ const cellSelected = ref({ x: -1, y: -1 })
 
 const canvasMouseDown = (e) => {
   dragging.value = true
-  dragStartPos.value = getECoord(e)
+  const coords = getECoord(e)
+  if (!coords) return // Sécurité en cas de problème
+
+  dragStartPos.value = coords
 }
 
 const canvasMouseMove = (e) => {
   if (!dragging.value) return
 
   const coords = getECoord(e)
-  // Vérifier si le déplacement est suffisant pour être considéré comme un glisser-déposer
-  const distanceMoved = Math.sqrt(
-    Math.pow(coords.x - dragStartPos.value.x, 2)
-    + Math.pow(coords.y - dragStartPos.value.y, 2),
-  )
+  if (!coords) return // Sécurité en cas de problème
+
+  const distanceMoved = getDistance(dragStartPos.value, coords)
 
   if (distanceMoved > dragThreshold) {
     // C'est un glisser-déposer
@@ -418,18 +431,15 @@ const canvasMouseMove = (e) => {
 }
 
 const canvasMouseUp = (e) => {
-  // Si le curseur n'a pas bougé de façon significative, considérer comme un clic
   const coords = getECoord(e)
+  if (!coords) return // Sécurité en cas de problème
 
   if (clonedElement) {
     document.body.removeChild(clonedElement)
     clonedElement = null
   }
 
-  const distanceMoved = Math.sqrt(
-    Math.pow(coords.x - dragStartPos.value.x, 2)
-    + Math.pow(coords.y - dragStartPos.value.y, 2),
-  )
+  const distanceMoved = getDistance(dragStartPos.value, coords)
 
   if (distanceMoved <= dragThreshold) {
     canvasClick(e) // Appeler la fonction de gestion de clic
