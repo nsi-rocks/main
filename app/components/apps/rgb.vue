@@ -10,12 +10,10 @@
           :width="canvasWidth+2*gutter"
           :height="canvasHeight+2*gutter"
           class="max-w-full max-h-[90vh]"
-          @mousedown="canvasMouseDown"
-          @mousemove="canvasMouseMove"
-          @mouseup="canvasMouseUp"
-          @touchstart.prevent="canvasMouseDown"
-          @touchmove.prevent="canvasMouseMove"
-          @touchend.prevent="canvasMouseUp"
+          @pointerdown.prevent="canvasMouseDown"
+          @pointermove.prevent="canvasMouseMove"
+          @pointerup.prevent="canvasMouseUp"
+          @touchmove.prevent
         />
       </div>
       <div class="w-full md:max-h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
@@ -211,25 +209,6 @@ defineShortcuts({
   c: () => addWCopyImg(currImg.value),
 })
 
-type PointerEventType = MouseEvent | TouchEvent
-function isTouchEvent(event: PointerEventType): event is TouchEvent {
-  return 'touches' in event && event.touches.length > 0
-}
-
-function isChangedTouchEvent(event: PointerEventType): event is TouchEvent {
-  return 'changedTouches' in event && event.changedTouches.length > 0
-}
-
-function isMouseEvent(event: PointerEventType): event is MouseEvent {
-  return 'clientX' in event && 'clientY' in event
-}
-
-function getFirstTouch(event: TouchEvent): Touch | null {
-  if (event.touches.length > 0) return event.touches[0]
-  if (event.changedTouches.length > 0) return event.changedTouches[0]
-  return null
-}
-
 const toast = useToast()
 const currCol = ref(0)
 const toHex = (obj: RGB) => obj.r.toString(16).padStart(2, '0') + obj.g.toString(16).padStart(2, '0') + obj.b.toString(16).padStart(2, '0')
@@ -329,25 +308,9 @@ const drawCanvas = () => {
   })
 }
 
-const getECoord = (event: PointerEventType) => {
-  console.log('Event:', event)
-
-  let x, y
-  if (isTouchEvent(event) || isChangedTouchEvent(event)) {
-    const touch = getFirstTouch(event) // Premier point touché
-    x = touch.clientX
-    y = touch.clientY
-  }
-  else if (isMouseEvent(event)) { // Cas souris
-    x = event.clientX
-    y = event.clientY
-  }
-  else {
-    console.warn('Aucune coordonnée trouvée dans l\'événement', event)
-    return null // Pas de coordonnées disponibles
-  }
-
-  return { x, y }
+const getEventCoods = (event: PointerEvent) => {
+  const coords = { x: event.clientX, y: event.clientY }
+  return coords
 }
 
 const canvasClick = (e) => {
@@ -356,7 +319,7 @@ const canvasClick = (e) => {
   const cellWidthWithGutter = (rect.width - (ca.value - 1) * gutter.value) / ca.value + gutter.value
   const cellHeightWithGutter = (rect.height - (ca.value - 1) * gutter.value) / ca.value + gutter.value
 
-  const coords = getECoord(e)
+  const coords = getEventCoods(e)
   if (!coords) return // Sécurité en cas de problème
 
   const x = Math.floor((coords.x - rect.left) / cellWidthWithGutter)
@@ -373,10 +336,8 @@ const canvasClick = (e) => {
   const cellInnerHeight = cellHeightWithGutter - gutter.value
 
   if (gutterOffsetX > cellInnerWidth || gutterOffsetY > cellInnerHeight) {
-    console.log('Gutter')
   }
   else {
-    console.log('Cellule:', x, y)
     if (mode.value === 1) {
       curr.value = y * ca.value + x
       allColors.value = 0
@@ -414,7 +375,7 @@ const cellSelected = ref({ x: -1, y: -1 })
 
 const canvasMouseDown = (e) => {
   dragging.value = true
-  const coords = getECoord(e)
+  const coords = getEventCoods(e)
   if (!coords) return // Sécurité en cas de problème
 
   dragStartPos.value = coords
@@ -423,7 +384,7 @@ const canvasMouseDown = (e) => {
 const canvasMouseMove = (e) => {
   if (!dragging.value) return
 
-  const coords = getECoord(e)
+  const coords = getEventCoods(e)
   if (!coords) return // Sécurité en cas de problème
 
   const distanceMoved = getDistance(dragStartPos.value, coords)
@@ -441,14 +402,13 @@ const canvasMouseMove = (e) => {
     }
 
     if (cell && cellSelected.value.x === -1 && dragging.value) {
-      console.log('Cellule:', cell)
       cellSelected.value = cell
     }
   }
 }
 
 const canvasMouseUp = (e) => {
-  const coords = getECoord(e)
+  const coords = getEventCoods(e)
   if (!coords) return // Sécurité en cas de problème
 
   if (clonedElement) {
@@ -463,9 +423,6 @@ const canvasMouseUp = (e) => {
   }
   else {
     // C'est un glisser-déposer
-    console.log('Drag end')
-    console.log('Cell selected:', cellSelected.value)
-
     const cell = getCellFromCoordinates(coords.x, coords.y)
     if (cell && cellSelected.value.x !== -1) {
       data.value[cell.y * ca.value + cell.x] = { ...data.value[cellSelected.value.y * ca.value + cellSelected.value.x] }
@@ -725,13 +682,11 @@ const genImages = (pixels) => {
 }
 
 const createElement = (color: RGB) => {
-  console.log('Create element')
-
   const el = document.createElement('div')
   el.style.width = '50px'
   el.style.height = '50px'
   el.style.backgroundColor = `rgb(${color.r},${color.g},${color.b})`
-  el.style.position = 'absolute'
+  el.style.position = 'fixed'
   el.style.zIndex = '1000'
   el.style.pointerEvents = 'none'
   el.style.opacity = '0.6'
