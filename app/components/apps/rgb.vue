@@ -210,6 +210,26 @@ defineShortcuts({
   a: () => addImg(),
   c: () => addWCopyImg(currImg.value),
 })
+
+type PointerEventType = MouseEvent | TouchEvent
+function isTouchEvent(event: PointerEventType): event is TouchEvent {
+  return 'touches' in event && event.touches.length > 0
+}
+
+function isChangedTouchEvent(event: PointerEventType): event is TouchEvent {
+  return 'changedTouches' in event && event.changedTouches.length > 0
+}
+
+function isMouseEvent(event: PointerEventType): event is MouseEvent {
+  return 'clientX' in event && 'clientY' in event
+}
+
+function getFirstTouch(event: TouchEvent): Touch | null {
+  if (event.touches.length > 0) return event.touches[0]
+  if (event.changedTouches.length > 0) return event.changedTouches[0]
+  return null
+}
+
 const toast = useToast()
 const currCol = ref(0)
 const toHex = (obj: RGB) => obj.r.toString(16).padStart(2, '0') + obj.g.toString(16).padStart(2, '0') + obj.b.toString(16).padStart(2, '0')
@@ -237,6 +257,9 @@ const curr = ref(1)
 const mode = ref(0)
 const isOpen = ref(false)
 const code = ref('')
+
+const dur = ref(1000)
+const currImg = ref(0)
 
 const items = [
   {
@@ -269,7 +292,6 @@ const sliders = [
 watchEffect(() => {
   if (canvas.value) {
     ctx.value = canvas.value.getContext('2d')
-    isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     drawCanvas()
   }
 })
@@ -277,8 +299,6 @@ watchEffect(() => {
 const drawCanvas = () => {
   if (!ctx.value) return
   ctx.value.clearRect(0, 0, canvasWidth.value + 2 * gutter.value, canvasHeight.value + 2 * gutter.value)
-  // ctx.value.fillStyle = useColorMode().value === 'light' ? 'black' : 'white'
-  // ctx.value.fillRect(0, 0, canvasWidth.value, canvasHeight.value)
 
   const cellWidth = (canvasWidth.value - (ca.value - 1) * gutter.value) / ca.value
   const cellHeight = (canvasHeight.value - (ca.value - 1) * gutter.value) / ca.value
@@ -309,19 +329,16 @@ const drawCanvas = () => {
   })
 }
 
-const getECoord = (event) => {
+const getECoord = (event: PointerEventType) => {
+  console.log('Event:', event)
+
   let x, y
-  if (event.touches && event.touches.length > 0) {
-    const touch = event.touches[0] // Premier point actif
+  if (isTouchEvent(event) || isChangedTouchEvent(event)) {
+    const touch = getFirstTouch(event) // Premier point touché
     x = touch.clientX
     y = touch.clientY
   }
-  else if (event.changedTouches && event.changedTouches.length > 0) {
-    const touch = event.changedTouches[0] // Premier point changé
-    x = touch.clientX
-    y = touch.clientY
-  }
-  else if (event.clientX && event.clientY) { // Cas souris
+  else if (isMouseEvent(event)) { // Cas souris
     x = event.clientX
     y = event.clientY
   }
@@ -467,11 +484,10 @@ type ImageData = {
   id: number
   label: string
   icon: string
-  data: RGB[] // Chaque élément est un objet avec r, g, et b pour représenter une couleur
+  data: RGB[]
   click: () => void
 }
 
-// Maintenant, tu peux typer `images` comme un tableau d'objets `ImageData`
 const images = ref<ImageData[]>([
   {
     id: 0,
@@ -483,8 +499,6 @@ const images = ref<ImageData[]>([
     },
   },
 ])
-
-const dur = ref(1000)
 
 const logImg = () => {
   images.value.find(el => el.id === currImg.value).data = [...data.value]
@@ -512,7 +526,6 @@ const changeImg = (imgId) => {
   const newImg = images.value.find(el => el.id === imgId).data
   data.value = [...newImg]
 }
-const currImg = ref(0)
 
 const delImg = (imgId) => {
   if (images.value.length === 1) return
@@ -709,33 +722,6 @@ const genImages = (pixels) => {
       },
     }))
   }
-}
-
-const getbg = (i: number) => {
-  const color = data.value[i] || { r: 0, g: 0, b: 0 }
-  const { r, g, b } = color
-  return `background-color: rgb(${r},${g},${b});`
-}
-
-const handleDragStart = (e: DragEvent, itemData) => {
-  if (!e.dataTransfer) return
-  e.dataTransfer.setData('text/plain', JSON.stringify(itemData))
-}
-
-const enterDrag = (e) => {
-  e.preventDefault()
-  e.target.classList.add('dragover')
-}
-
-const leaveDrag = (e) => {
-  e.preventDefault()
-  e.target.classList.remove('dragover')
-}
-
-const drop = (e, i) => {
-  e.preventDefault()
-  e.target.classList.remove('dragover')
-  data.value[i] = JSON.parse(e.dataTransfer.getData('text/plain'))
 }
 
 const createElement = (color: RGB) => {
