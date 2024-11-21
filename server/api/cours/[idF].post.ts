@@ -10,6 +10,7 @@ const createId = init({
 })
 
 export default defineEventHandler(async (event) => {
+  const idF = getRouterParam(event, 'idF')
   const bodyData = await readBody(event)
   const { api, ...body } = bodyData
   const apiKey: ApiKey | null = await hubKV().get(`api:cles:${api}`)
@@ -37,12 +38,12 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  if (await hubKV().has('cours:1510')) {
-    const data = await hubKV().get('cours:1510')
+  if (await hubKV().has(`cours:${idF}`)) {
+    const data = await hubKV().get(`cours:${idF}`)
     data.push(body)
-    await hubKV().set('cours:1510', data)
+    await hubKV().set(`cours:${idF}`, data)
   }
-  else await hubKV().set('cours:1510', [body])
+  else await hubKV().set(`cours:${idF}`, [body])
 
   return body
 })
