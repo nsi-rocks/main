@@ -19,6 +19,17 @@ import type { ParsedContent } from '@nuxt/content'
 
 const appid = useAttrs().appid || 'default'
 
+onMounted(() => {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  if (isMobile) {
+    useHead({
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
+      ],
+    })
+  }
+})
+
 const { data: files } = useLazyFetch<ParsedContent[]>('/api/search.json', { default: () => [], server: false })
 
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
