@@ -6,6 +6,13 @@ const createId = init({
 
 export default defineEventHandler(async (event) => {
   setResponseHeader(event, 'content-type', 'text/plain; charset=utf-8')
+
+  await hubKV().set(`api:get:${createId()}`, Date.now(), { ttl: 1800 })
+  const apiCalls = await hubKV().keys('api:get')
+  if (apiCalls.length >= 100) {
+    return createError({ status: 429, message: 'Limite de requêtes pour cette API atteinte. Veuillez rééssayer dans quelques minutes.' })
+  }
+
   const fullD = getRouterParam(event, 'idF')
   if (fullD && !fullD.includes(':')) {
     if ((await hubKV().keys(`cours:${fullD}`)).length > 0) {
