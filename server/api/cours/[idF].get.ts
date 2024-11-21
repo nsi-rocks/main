@@ -5,6 +5,7 @@ const createId = init({
 })
 
 export default defineEventHandler(async (event) => {
+  setResponseHeader(event, 'content-type', 'text/plain; charset=utf-8')
   const fullD = getRouterParam(event, 'idF')
   if (fullD && !fullD.includes(':')) {
     if ((await hubKV().keys(`cours:${fullD}`)).length > 0) {
