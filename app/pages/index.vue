@@ -17,7 +17,7 @@
 const dateRentree = new Date('2024-09-02')
 const semaine = weeksElapsedSince(dateRentree.getTime())
 
-const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 2, 5]
+const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 6, 5]
 
 function weeksElapsedSince(startDate: number) {
   const now = Date.now()
