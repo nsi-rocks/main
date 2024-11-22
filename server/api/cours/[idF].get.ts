@@ -20,7 +20,8 @@ export default defineEventHandler(async (event) => {
     }
     else {
       const secret = createId()
-      await hubKV().set(`cours:${fullD}:${secret}`, [])
+      const session = await getUserSession(event)
+      await hubKV().set(`cours:${fullD}:${secret}`, session?.user?.id || 'Anonyme')
       await hubKV().set(`cours:${fullD}`, [])
       return `Clé publique : ${fullD}\nClé secrète : ${secret}`
     }
