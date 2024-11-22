@@ -9,13 +9,15 @@ export default defineEventHandler(async (event) => {
 
   await hubKV().set(`api:get:${createId()}`, Date.now(), { ttl: 1800 })
   const apiCalls = await hubKV().keys('api:get')
-  if (apiCalls.length >= 100) {
+  if (apiCalls.length >= 10000) {
     return createError({ status: 429, message: 'Limite de requêtes pour cette API atteinte. Veuillez rééssayer dans quelques minutes.' })
   }
 
   const fullD = getRouterParam(event, 'idF')
   if (fullD && !fullD.includes(':')) {
-    if ((await hubKV().keys(`cours:${fullD}`)).length > 0) {
+    const keyz = await hubKV().keys(`cours:${fullD}`)
+    console.log(keyz.length)
+    if (keyz.length > 0) {
       return 'Cette clé existe déjà. Veuillez en choisir une autre, ou ajouter votre clé secrète à la fin de la clé publique. Exemple : /api/cours/formu-toto:F6D8'
     }
     else {
