@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (await hubKV().has(`cours:${idF}:${sKey}`)) {
+    setResponseHeader(event, 'content-type', 'application/json; charset=utf-8')
     const data = await hubKV().get(`cours:${idF}`)
     return data
   }
