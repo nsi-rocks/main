@@ -19,7 +19,7 @@
       <div class="w-full md:max-h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
         <AppsRgbToolbar
           :can-apply="mode === 1"
-          :canup="ca < 10 && images.length === 1"
+          :canup="ca < (isKonamiCode ? 20 : 10) && images.length === 1"
           :candown="ca > 1 && images.length === 1"
           @reset-cases="resetCases"
           @apply-color="resetCases(data[curr])"
@@ -205,11 +205,48 @@ defineShortcuts({
   arrowRight: () => move('right'),
   arrowUp: () => move('up'),
   arrowDown: () => move('down'),
-  a: () => addImg(),
+  a: () => logSequence('a'),
+  b: () => logSequence('b'),
+  d: () => addImg(),
   c: () => addWCopyImg(currImg.value),
 })
 
+const konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a']
+const isKonamiCode = ref(false)
 const toast = useToast()
+
+const invertColors = () => {
+  data.value = data.value.map(d => ({
+    r: 255 - d.r,
+    g: 255 - d.g,
+    b: 255 - d.b,
+  }))
+}
+
+const logSequence = (key: string) => {
+  if (konamiCode[0] === key) {
+    konamiCode.shift()
+    if (konamiCode.length === 0) {
+      toast.add({
+        title: 'Konami Code activé, vous pouvez désormais utiliser 20 cases maximum',
+      })
+      isKonamiCode.value = true
+      const interval = setInterval(() => {
+        invertColors()
+        drawCanvas()
+      }, 200)
+      setTimeout(() => {
+        clearInterval(interval)
+        initGrid()
+      }, 2000)
+      konamiCode.push('up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a')
+    }
+  }
+  else {
+    konamiCode.push('up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a')
+  }
+}
+
 const currCol = ref(0)
 const toHex = (obj: RGB) => obj.r.toString(16).padStart(2, '0') + obj.g.toString(16).padStart(2, '0') + obj.b.toString(16).padStart(2, '0')
 const slug = useRoute().params.slug
@@ -520,7 +557,7 @@ const clipCode = async () => {
 }
 
 const resize = (updown: string) => {
-  if (updown === 'up' && ca.value < 10) {
+  if (updown === 'up' && ca.value < (isKonamiCode.value ? 20 : 10)) {
     const backup = toRaw(data.value)
     ca.value += 1
     initGrid()
@@ -544,6 +581,7 @@ const refreshAllColors = () => {
 }
 
 const move = (direction: string) => {
+  logSequence(direction)
   if (direction === 'left') toLeft()
   else if (direction === 'right') toRight()
   else if (direction === 'up') toUp()
