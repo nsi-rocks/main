@@ -52,9 +52,6 @@ const sum = ref(0)
 periodes.map(el => sum.value += el)
 
 const route = useRoute()
-const { data: page } = await useAsyncData(route.path, () => {
-  return queryCollection('content').path(route.path).first()
-})
 
 const linksnsi = ref([
   {

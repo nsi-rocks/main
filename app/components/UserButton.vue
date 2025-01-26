@@ -1,22 +1,34 @@
 <template>
   <div class="flex items-center">
-    <NuxtLink
-      v-if="!store.session.loggedIn"
-      class="cursor-pointer"
-      @click="login"
-    >
-      <UAvatar icon="material-symbols:bolt" />
-    </NuxtLink>
-    <span
-      v-else
-      class="cursor-pointer"
-      @click="logout"
-    >
-      <UAvatar
-        :alt="`${store.session.user.firstName} ${store.session.user.lastName}`"
-        :src="store.session.user.avatar"
-      />
-    </span>
+    <AuthState>
+      <template #default="{ loggedIn, clear }">
+        <span
+          v-if="loggedIn"
+          class="cursor-pointer"
+          @click="logout"
+        >
+          <UAvatar
+            :alt="`${store.session.user.firstName} ${store.session.user.lastName}`"
+            :src="store.session.user.avatar"
+          />
+        </span>
+        <NuxtLink
+          v-else
+          class="cursor-pointer"
+          @click="login"
+        >
+          <UAvatar icon="material-symbols:bolt" />
+        </NuxtLink>
+      </template>
+      <template #placeholder>
+        <NuxtLink
+          class="cursor-pointer"
+          @click="login"
+        >
+          <UAvatar icon="material-symbols:bolt" />
+        </NuxtLink>
+      </template>
+    </AuthState>
   </div>
 </template>
 

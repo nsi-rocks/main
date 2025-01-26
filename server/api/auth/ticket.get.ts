@@ -56,7 +56,8 @@ export default defineEventHandler(async (event) => {
         await sendRedirect(event, `https://${redirectCookie}.nsi.rocks`)
       }
       else
-        await sendRedirect(event, `https://nsi.rocks?ck=${redirectCookie}`)
+        // await sendRedirect(event, `https://nsi.rocks?ck=${redirectCookie}`)
+        await sendRedirect(event, `https://nsi.rocks`)
     }
   }
 })
