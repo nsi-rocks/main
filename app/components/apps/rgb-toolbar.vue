@@ -1,21 +1,15 @@
 <template>
-  <div class="m-auto w-fit my-4 flex flex-col items-end">
-    <ClientOnly>
-      <div class="flex flex-row items-center gap-4">
-        <UColorModeSwitch />
-        <UserButton redirect-app="rgb" />
-      </div>
-    </ClientOnly>
+  <div class="w-fit my-4 flex">
     <div class="flex flex-row gap-4">
       <UTooltip
         text="Télécharger l'image"
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="material-symbols:cloud-download"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           @click="$emit('getPng')"
         />
       </UTooltip>
@@ -25,10 +19,10 @@
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="material-symbols:format-color-reset"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           @click="$emit('resetCases')"
         />
       </UTooltip>
@@ -38,10 +32,10 @@
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="ion:ios-color-fill"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           :disabled="!canApply"
           @click="$emit('applyColor')"
         />
@@ -52,10 +46,10 @@
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="ion:ios-remove-circle"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           :disabled="!candown"
           @click="$emit('sizeDown')"
         />
@@ -66,10 +60,10 @@
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="ion:ios-add-circle"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           :disabled="!canup"
           @click="$emit('sizeUp')"
         />
@@ -80,10 +74,10 @@
         :popper="{ arrow: true }"
       >
         <UButton
-          size="xl"
+          size="2xl"
           variant="ghost"
           icon="ion:ios-share"
-          :ui="{ rounded: 'rounded-full' }"
+          class="cursor-pointer"
           @click="$emit('share')"
         />
       </UTooltip>
