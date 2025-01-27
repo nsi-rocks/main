@@ -77,9 +77,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-07-30',
   // nitro: {
   //   prerender: {
-  //     // Pre-render the homepage
-  //     routes: ['/'],
-  //     // Then crawl all the links on the page
+  //     routes: ['/snt', '/nsi'],
   //     crawlLinks: true,
   //   },
   // },

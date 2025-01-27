@@ -1,5 +1,5 @@
 <template>
-  <UCard :ui="{ background: 'bg-gray-50 dark:bg-gray-800 ring-gray-200 dark:ring-gray-700' }">
+  <UCard>
     <template #header>
       <div class="flex flex-row justify-center font-semibold text-lg">
         RGB : ({{ rouge }}, {{ vert }}, {{ bleu }})
@@ -16,30 +16,30 @@
     </template>
 
     <div class="flex flex-col gap-4">
-      <URange
+      <USlider
         v-model="rouge"
-        size="2xl"
-        color="red"
+        size="xl"
+        color="error"
         :min="0"
         :max="255"
       />
-      <URange
+      <USlider
         v-model="vert"
-        size="2xl"
-        color="green"
+        size="xl"
+        color="success"
         :min="0"
         :max="255"
       />
-      <URange
+      <USlider
         v-model="bleu"
-        size="2xl"
-        color="blue"
+        size="xl"
+        color="info"
         :min="0"
         :max="255"
       />
-      <URange
+      <USlider
         v-model="gray"
-        color="teal"
+        color="neutral"
         :min="0"
         :max="255"
       />
@@ -48,10 +48,14 @@
 </template>
 
 <script lang="ts" setup>
+function randint(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min)) + min
+}
+
 const rouge = ref(0)
 const vert = ref(0)
 const bleu = ref(0)
-const gray = ref()
+const gray = ref(0)
 
 watch(gray, (val) => {
   rouge.value = val

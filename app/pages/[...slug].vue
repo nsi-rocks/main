@@ -6,8 +6,8 @@ const { data: page } = await useAsyncData(route.path, () => {
 
 const { data: test } = await useAsyncData(() => queryCollectionNavigation('content', ['description']))
 
-const datest = test.value.find(el => el.path == '/' + route.path.split('/')[1])
-const dada = datest?.children.find(el => el.path == route.path)
+const datest = test.value?.find(el => el.path == '/' + route.path.split('/')[1]) || []
+const dada = datest?.children.find((el: any) => el.path == route.path) || []
 </script>
 
 <template>
