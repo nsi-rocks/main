@@ -1,5 +1,12 @@
 <template>
-  <UHeader />
+  <UHeader>
+    <template #title>
+      <Logo
+        class="block w-auto h-10"
+        what="RGB"
+      />
+    </template>
+  </UHeader>
   <UMain>
     <UContainer>
       <ClientOnly>
@@ -21,7 +28,7 @@
           </div>
           <div class="w-full md:max-h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
             <AppsRgbToolbar
-              :can-apply="mode === 1"
+              :can-apply="mode === '1'"
               :canup="ca < (isKonamiCode ? 20 : 10) && images.length === 1"
               :candown="ca > 1 && images.length === 1"
               @reset-cases="resetCases"
@@ -54,7 +61,7 @@
                     v-for="a in sliders"
                     :key="a.key"
                     v-model="data[curr][a.key]"
-                    :color="'neutral'"
+                    :color="a.color"
                     :step="1"
                     :min="0"
                     :max="255"
@@ -271,17 +278,17 @@ const items = [
 const sliders = [
   {
     label: 'Rouge',
-    color: 'red',
+    color: 'error',
     key: 'r',
   },
   {
     label: 'Vert',
-    color: 'green',
+    color: 'success',
     key: 'g',
   },
   {
     label: 'Bleu',
-    color: 'blue',
+    color: 'info',
     key: 'b',
   },
 ]
@@ -312,7 +319,7 @@ const drawCanvas = () => {
       cellHeight,
     )
 
-    if (curr.value === i && mode.value === 1) {
+    if (curr.value === i && mode.value === '1') {
       const lw = 4
       ctx.value.strokeStyle = 'blue'
       ctx.value.lineWidth = lw
@@ -356,7 +363,7 @@ const canvasClick = (e) => {
   if (gutterOffsetX > cellInnerWidth || gutterOffsetY > cellInnerHeight) {
   }
   else {
-    if (mode.value === 1) {
+    if (mode.value === '1') {
       curr.value = y * ca.value + x
       allColors.value = 0
     }
