@@ -2,7 +2,7 @@
 @import "@nuxt/ui-pro";
 
 @theme {
---container-8xl: 100%;
+--container-8xl: 80%;
 }
 
 :root {
