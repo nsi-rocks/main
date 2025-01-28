@@ -11,7 +11,7 @@
       <template #right>
         <UContentSearchButton label="" />
         <ClientOnly>
-          <UColorModeSwitch />
+          <UColorModeButton />
           <UserButton />
         </ClientOnly>
       </template>

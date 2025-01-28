@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UHeader mode="slideover">
+    <UHeader>
       <template #content>
         <UContentNavigation :navigation="navigation ?? []" />
       </template>
@@ -11,7 +11,7 @@
       <template #right>
         <UContentSearchButton label="" />
         <ClientOnly>
-          <UColorModeSwitch />
+          <UColorModeButton />
           <UserButton />
         </ClientOnly>
       </template>

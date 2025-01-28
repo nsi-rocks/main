@@ -19,7 +19,6 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/icon',
     '@nuxt/eslint',
-    '@nuxtjs/mdc',
   ],
   devtools: { enabled: true },
   app: {

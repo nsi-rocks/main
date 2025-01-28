@@ -23,7 +23,7 @@
     <template #right>
       <ClientOnly>
         <div class="flex flex-row items-center gap-4">
-          <UColorModeSwitch />
+          <UColorModeButton />
           <UserButton redirect-app="rgb" />
         </div>
       </ClientOnly>

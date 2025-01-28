@@ -4,7 +4,6 @@
       <UPageCard
         title="NSI"
         description="Numérique et Sciences Informatiques. Cette matière est enseignée en classe de première et de terminale."
-        icon="i-simple-icons-tailwindcss"
         variant="subtle"
         orientation="horizontal"
       >
@@ -13,7 +12,6 @@
       <UPageCard
         title="SNT"
         description="Sciences Numériques et Technologie. Cette matière est enseignée en classe de seconde."
-        icon="i-simple-icons-tailwindcss"
         variant="subtle"
         orientation="horizontal"
       >
