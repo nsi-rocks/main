@@ -1,7 +1,10 @@
 <template>
   <UPageBody>
     <AuthState>
-      <template #default="{ loggedIn, user, clear }">
+      <template #default="{ loggedIn, user, clear, ready }">
+        <p>{{ loggedIn }}</p>
+        <p>{{ user }}</p>
+        <p>{{ ready }}</p>
         <div class="flex flex-wrap gap-4">
           <img
             v-for="img in data"
