@@ -270,7 +270,7 @@ const currImg = ref(0)
 
 function open() {
   modal.open(LazyAppsRgbModal, {
-    description: 'And you can even provide a description!',
+    title: `Partager l'image`,
     code: code.value,
     onGetPNG: getPNG,
   })

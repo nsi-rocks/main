@@ -60,6 +60,6 @@ export const genPNG = async (jsonData: object) => {
   // Encode l'image avec UPNG (ici on utilise 0 pour "sans perte")
   const pngArrayBuffer = UPNG.encode(frames, width, height, 0, frames.map(el => duration))
   const png = new Uint8Array(pngArrayBuffer)
-
+  console.log('genPNG')
   return png
 }

@@ -27,6 +27,13 @@ export default defineEventHandler(async (event) => {
     else if (val === null) {
       caniset = true
       await hubKV().set(`rgb:${body.hash.slice(slash)}`, body.data)
+      const { nbCases, pixels, duration } = body.data
+
+      await hubBlob().put(`rgb/${body.hash.slice(slash)}.png`, await genPNG({
+        nbCases: nbCases,
+        pixels: pixels,
+        duration: duration,
+      }))
       await logId(body.hash.slice(slash))
       return body.hash.slice(slash)
     }

@@ -85,6 +85,11 @@ export default defineNuxtConfig({
     kv: true,
     blob: true,
   },
+  vite: {
+    server: {
+      allowedHosts: ['localhost.com', 'rgb.localhost.com'],
+    },
+  },
   eslint: {
     config: {
       stylistic: {

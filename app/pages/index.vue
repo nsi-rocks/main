@@ -30,6 +30,9 @@
 </template>
 
 <script lang="ts" setup>
+definePageMeta({
+  layout: 'landing',
+})
 const dateRentree = new Date('2024-09-02')
 const semaine = weeksElapsedSince(dateRentree.getTime())
 
