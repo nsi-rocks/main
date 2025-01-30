@@ -1,18 +1,19 @@
 <template>
   <UPageBody>
     <AuthState>
-      <template #default="{ loggedIn, user, clear, ready }">
-        <p>{{ loggedIn }}</p>
-        <p>{{ user }}</p>
-        <p>{{ ready }}</p>
+      <template #default="{ loggedIn, user, clear, session }">
         <div class="flex flex-wrap gap-4">
-          <img
+          <a
             v-for="img in data"
             :key="img"
-            :src="`/api/rgb/${img.split(':')[1]}?img`"
-            class="w-20"
-            @click="delImg(img.split(':')[1])"
+            :href="`https://rgb.nsi.rocks/${img.split(':')[1]}`"
+            target="_blank"
           >
+            <img
+              :src="`/api/rgb/${img.split(':')[1]}?img`"
+              class="w-20"
+            >
+          </a>
         </div>
       </template>
     </AuthState>

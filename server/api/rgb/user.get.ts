@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const key = `rgb:user:${userId}`
   if (await hubKV().has(key)) {
     const data: string[] = await hubKV().get(key) || []
-    return data
+    return data.map(el => 'rgb:' + el)
   }
   const data: string[] = await hubKV().keys('rgb')
 
