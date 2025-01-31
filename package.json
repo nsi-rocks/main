@@ -49,6 +49,7 @@
     "@iconify-json/lucide": "^1.2.25",
     "@iconify-json/material-symbols": "^1.2.13",
     "@iconify-json/ph": "^1.2.2",
+    "@iconify-json/vscode-icons": "^1.2.11",
     "@nuxt/icon": "^1.10.3",
     "@types/upng-js": "^2.1.5",
     "drizzle-kit": "^0.30.3",
