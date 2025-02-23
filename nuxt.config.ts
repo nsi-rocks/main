@@ -109,4 +109,9 @@ export default defineNuxtConfig({
   //     sizeLimitKb: 512,
   //   },
   // },
+  $development: {
+    hub: {
+      remote: true
+    }
+  }
 })
