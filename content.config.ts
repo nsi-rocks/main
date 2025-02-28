@@ -11,6 +11,7 @@ export default defineContentConfig({
       schema: z.object({
         icon: z.string(),
         landing: z.boolean(),
+        links: z.array(z.string()),
       }),
     }),
   },
