@@ -1,10 +1,8 @@
 <template>
   <UApp>
-    <UBanner
-      v-if="isFirefox"
+    <UBanner v-if="isFirefox"
       title="Ce site n'est pour l'instant pas complètement optimisé pour le navigateur Firefox, veuillez utiliser Google Chrome."
-      close
-    />
+      close />
     <NuxtLayout :appid="appid">
       <NuxtPage />
     </NuxtLayout>
@@ -15,7 +13,7 @@
 import { getSubdomain } from 'tldts'
 import { LazyModalCompat } from '#components'
 
-const modal = useModal()
+const overlay = useOverlay()
 
 const isFirefox = ref(false)
 
@@ -47,10 +45,13 @@ onMounted(() => {
     || (browser.name === 'Safari' && browser.version < 16.4)
   ) {
     console.warn('Votre navigateur n\'est pas totalement compatible avec Tailwind CSS v4 !')
-    modal.open(LazyModalCompat, {
-      nav: browser.name,
-      version: browser.version.toString(),
+    const modal = overlay.create(LazyModalCompat, {
+      props: {
+        nav: browser.name,
+        version: browser.version.toString(),
+      }
     })
+    modal.open()
   }
 })
 

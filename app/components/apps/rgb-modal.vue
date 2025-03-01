@@ -1,28 +1,17 @@
 <template>
-  <UModal>
+  <UModal :title="title">
     <template #footer>
       <div class="flex flex-col items-center">
         <p>Votre image est désormais disponible à l'adresse suivante :</p>
         <div class="flex justify-between items-center gap-2">
           <span>https://rgb.nsi.rocks/{{ code }}</span>
-          <UButton
-            icon="ion:md-clipboard"
-            class="text-lg my-4"
-            variant="ghost"
-            @click="clipCode"
-          />
+          <UButton icon="ion:md-clipboard" class="text-lg my-4" variant="ghost" @click="clipCode" />
         </div>
 
         <figure>
-          <img
-            :src="`/api/rgb/${code}?img`"
-            alt="Image"
-          >
+          <img :src="`/api/rgb/${code}?img`" alt="Image">
           <figcaption class="flex justify-center my-4">
-            <UButton
-              variant="ghost"
-              @click="getPNG"
-            >
+            <UButton variant="ghost" @click="getPNG">
               Télécharger
             </UButton>
           </figcaption>
@@ -36,6 +25,7 @@
 const toast = useToast()
 
 const props = defineProps<{
+  title: string
   code: string
 }>()
 
@@ -67,6 +57,4 @@ const clipCode = async () => {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
