@@ -20,6 +20,17 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/eslint',
   ],
+  // icon: {
+  //   clientBundle: {
+  //     scan: true,
+  //     sizeLimitKb: 512,
+  //   },
+  // },
+  $development: {
+    hub: {
+      remote: true,
+    },
+  },
   devtools: { enabled: true },
   app: {
     head: {
@@ -87,7 +98,7 @@ export default defineNuxtConfig({
   },
   vite: {
     server: {
-      allowedHosts: ['localhost.com', 'rgb.localhost.com'],
+      allowedHosts: ['localhost.com', 'rgb.localhost.com', 'lang.localhost.com'],
     },
   },
   eslint: {
@@ -103,15 +114,4 @@ export default defineNuxtConfig({
       dir: './app/assets/icons',
     }],
   },
-  // icon: {
-  //   clientBundle: {
-  //     scan: true,
-  //     sizeLimitKb: 512,
-  //   },
-  // },
-  $development: {
-    hub: {
-      remote: true
-    }
-  }
 })
