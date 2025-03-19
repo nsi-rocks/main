@@ -33,6 +33,7 @@
     "pinia": "^3.0.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
+    "shiki": "^3.2.1",
     "tailwindcss": "4.0.14",
     "tldts": "^6.1.84",
     "upng-js": "^2.1.0",
