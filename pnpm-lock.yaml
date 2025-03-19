@@ -47,9 +47,6 @@ importers:
       fast-xml-parser:
         specifier: ^5.0.9
         version: 5.0.9
-      highlight.js:
-        specifier: ^11.11.1
-        version: 11.11.1
       marked-katex-extension:
         specifier: ^5.1.4
         version: 5.1.4(katex@0.16.21)(marked@15.0.7)
@@ -71,9 +68,6 @@ importers:
       remark-math:
         specifier: ^6.0.0
         version: 6.0.0
-      shiki:
-        specifier: ^3.2.1
-        version: 3.2.1
       tailwindcss:
         specifier: 4.0.14
         version: 4.0.14
@@ -3635,10 +3629,6 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
-
-  highlight.js@11.11.1:
-    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
-    engines: {node: '>=12.0.0'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -10092,8 +10082,6 @@ snapshots:
       space-separated-tokens: 2.0.2
 
   he@1.2.0: {}
-
-  highlight.js@11.11.1: {}
 
   hookable@5.5.3: {}
 
