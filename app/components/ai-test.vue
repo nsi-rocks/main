@@ -6,9 +6,9 @@
       placeholder="Posez une question"
       class="w-full"
       @keydown.enter="fetchStream"
-      v-if="loggedIn"
+      v-if="loggedIn || true"
     />
-    <MDC v-if="loggedIn && textr.length > 0" :value="textr" />
+    <MDC v-if="textr.length > 0" :value="textr" />
   </template> 
   </AuthState>
 </template>
@@ -16,28 +16,41 @@
 <script lang="ts" setup>
 const textr = ref('')
 const question = ref('')
-
 async function fetchStream() {
   textr.value = ''
-  const response = await fetch('/api/ai/test', {
+  
+  const response = await $fetch<ReadableStream>('/api/ai/test', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    responseType: 'stream',
     body: JSON.stringify({ query: question.value }),
   })
 
-  if (!response.ok) {
-    console.error('Erreur de requête :', response.status)
-    return
-  }
-
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
+  const reader = response.pipeThrough(new TextDecoderStream()).getReader()
 
   while (true) {
     const { value, done } = await reader.read()
     if (done) break
 
-    textr.value += decoder.decode(value, { stream: true })
+    const lines = value.split("\n") // Découpage par lignes
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue // Ignore les lignes vides ou invalides
+      const jsonStr = line.replace("data: ", "").trim()
+
+      if (jsonStr === "[DONE]") {
+        console.log("Fin du stream")
+        return
+      }
+
+      try {
+        const json = JSON.parse(jsonStr)
+        const content = json.choices?.[0]?.delta?.content || "" 
+        if (content) {
+          textr.value += content
+        }
+      } catch (e) {
+        console.error("Erreur de parsing JSON:", e, "Données brutes:", jsonStr)
+      }
+    }
   }
 }
 
