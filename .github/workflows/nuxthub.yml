@@ -34,6 +34,7 @@ jobs:
         run: pnpm build
         env: 
           NUXT_UI_PRO_LICENSE: ${{ secrets.NUXT_UI_PRO_LICENSE }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
