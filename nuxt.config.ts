@@ -71,6 +71,7 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    mistralAPI: process.env.MISTRAL_API_KEY,
     session: {
       cookie: {
         domain: '.nsi.rocks',

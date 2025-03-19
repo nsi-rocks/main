@@ -2,15 +2,15 @@ export default defineEventHandler(async (event) => {
   setResponseHeader(event, 'Content-Type', 'text/html')
   setResponseHeader(event, 'Cache-Control', 'no-cache')
   setResponseHeader(event, 'Transfer-Encoding', 'chunked')
-
   const body = await readBody(event)
   console.log('Body:', body)
+  const config = useRuntimeConfig()
 
   const stream = new ReadableStream({
     async start(controller) {
       const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
         headers: {
-          Authorization: `Bearer ${process.env.MISTRAL_API_KEY}`,
+          Authorization: `Bearer ${config.mistralAPI}`,
           'Content-Type': 'application/json',
         },
         method: 'POST',
