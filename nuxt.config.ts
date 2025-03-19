@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxthub/core',
     '@nuxt/ui-pro',
     '@nuxt/content',
+    '@nuxtjs/mdc',
     'nuxt-auth-utils',
     '@pinia/nuxt',
     '@nuxt/scripts',
@@ -64,13 +65,9 @@ export default defineNuxtConfig({
             // Theme used if `html.sepia`
             sepia: 'monokai',
           },
-          langs: ['py', 'md', 'http'],
+          langs: ['py', 'md', 'http', 'typescript'],
         },
       },
-    },
-    database: {
-      type: 'd1',
-      binding: 'DB',
     },
   },
   runtimeConfig: {

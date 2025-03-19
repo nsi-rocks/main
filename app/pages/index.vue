@@ -26,6 +26,7 @@
         :class="[periodesAccumulated.findIndex(el => el >= i) % 2 == 0 ? 'bg-blue-400' : 'bg-slate-700', i === semaine ? 'ring-2 ring-offset-2' : '']"
       />
     </div>
+    <AiTest />
   </UPageBody>
 </template>
 

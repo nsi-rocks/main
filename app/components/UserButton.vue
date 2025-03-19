@@ -1,15 +1,14 @@
 <template>
   <div class="flex items-center">
     <AuthState>
-      <template #default="{ loggedIn, clear }">
+      <template #default="{ loggedIn, user, clear }">
         <span
-          v-if="loggedIn"
+          v-if="loggedIn && user"
           class="cursor-pointer"
           @click="logout"
         >
           <UAvatar
-            :alt="`${store.session.user.firstName} ${store.session.user.lastName}`"
-            :src="store.session.user.avatar"
+            :alt="`${user.firstName} ${user.lastName}`"
           />
         </span>
         <NuxtLink
