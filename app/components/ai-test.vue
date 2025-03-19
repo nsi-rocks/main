@@ -6,7 +6,7 @@
       placeholder="Posez une question"
       class="w-full"
       @keydown.enter="fetchStream"
-      v-if="loggedIn || true"
+      v-if="loggedIn"
     />
     <MDC v-if="textr.length > 0" :value="textr" />
   </template> 
