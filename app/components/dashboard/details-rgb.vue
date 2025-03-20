@@ -14,8 +14,7 @@
       <div v-if="!data" class="h-8"></div>
     </template>
     <template #title>
-      <UPageCard :to="`https://rgb.localhost.com:3000/${idRgb}`" target="_blank" variant="outline" spotlight
-        class="mb-8">
+      <UPageCard :to="localURL('rgb', idRgb)" target="_blank" variant="outline" spotlight class="mb-8">
         <template #body>
           <div class="flex flex-row justify-center items-start">
             <span class="text-xl">{{ idRgb }}</span>
@@ -31,6 +30,9 @@
 const props = defineProps<{ idRgb: string }>()
 const { data } = await useLazyFetch(`/api/rgb/${props.idRgb}?details`)
 
+const localURL = (prefix: string, route: string) => {
+  return import.meta.dev ? `http://${prefix}.localhost.com:3000/${route}` : `https://${prefix}.nsi.rocks/${route}`
+}
 const pluriel = (nb: number, str: string) => nb > 1 ? nb + ' ' + str + 's' : nb + ' ' + str
 const delImg = async (img: string) => {
   data.value = data.value.filter((el: string) => el.split(':')[1] !== img)
