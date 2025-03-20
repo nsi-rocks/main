@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
     if (data) {
       if (query && Object.keys(query).includes('img')) {
         setResponseHeader(event, 'Content-Type', 'image/png')
+        setResponseHeader(event, 'Cache-Control', 'public, max-age=604800')
         const { nbCases, pixels, duration } = data
 
         let blob = null
@@ -39,6 +40,12 @@ export default defineEventHandler(async (event) => {
           pixels: pixels,
           duration: duration,
         })
+      } else if (query && Object.keys(query).includes('details')) {
+        return {
+          nbCases: data.nbCases,
+          duration: data.duration,
+          nbImages: data.pixels.reduce((count, item) => count + (Array.isArray(item) ? 1 : 0), 0) || 1
+        }
       }
       else return data
     }

@@ -18,24 +18,6 @@ onMounted(() => {
     })
   }
 })
-
-const links = [
-  {
-    label: 'ENT Hauts-de-France',
-    icon: 'i-heroicons-user-group',
-    to: 'https://enthdf.fr',
-  },
-  {
-    label: 'Excalidraw',
-    icon: 'i-heroicons-pencil',
-    to: 'https://excalidraw.com',
-  },
-  {
-    label: 'Capytale',
-    icon: 'i-heroicons-code-bracket-square',
-    to: 'https://capytale2.ac-paris.fr',
-  },
-]
 </script>
 
 <style></style>

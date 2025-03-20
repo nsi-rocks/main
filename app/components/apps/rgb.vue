@@ -35,7 +35,7 @@
                   <UTooltip text="Passer de RGB à hexadécimal" class="flex justify-center cursor-pointer">
                     <div class="font-semibold text-xl" @click="currCol += 1">
                       <span v-if="currCol % 2 === 0">r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b
-                        }}</span>
+                      }}</span>
                       <span v-if="currCol % 2 === 1">#{{ toHex(data[curr]) }}</span>
                     </div>
                   </UTooltip>
@@ -145,7 +145,7 @@ const logSequence = (key: string) => {
 
 const currCol = ref(0)
 const toHex = (obj: RGB) => obj.r.toString(16).padStart(2, '0') + obj.g.toString(16).padStart(2, '0') + obj.b.toString(16).padStart(2, '0')
-const slug = useRoute().params.slug
+const slug = useRoute().params.id
 
 const ctx = ref()
 const canvas = ref<HTMLCanvasElement | null>(null)
