@@ -30,6 +30,7 @@
     "modern-screenshot": "^4.6.0",
     "nuxt": "^3.16.0",
     "nuxt-auth-utils": "^0.5.16",
+    "nuxt-authorization": "0.3.3",
     "pinia": "^3.0.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",

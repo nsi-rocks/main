@@ -4,7 +4,12 @@
       <UDashboardNavbar title="Images" />
     </template>
     <template #body>
-      coucou
+      <Can :ability="adminOrDev">
+        c'est oui
+      </Can>
+      <Cannot :ability="adminOrDev">
+        c'est non
+      </Cannot>
     </template>
   </UDashboardPanel>
 </template>

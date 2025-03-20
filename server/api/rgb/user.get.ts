@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const isQuery = query.query || false
   
   const session = await getUserSession(event)
-  const userId = session?.user?.id
+  const userId = import.meta.dev ? '4ff19728-94d0-46de-a4b6-49308cf81803' : session?.user?.id
   // if (!userId) return []
   const key = `rgb:user:${userId}`
   if (isQuery === 'my') {

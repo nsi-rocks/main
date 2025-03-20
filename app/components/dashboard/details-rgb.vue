@@ -3,6 +3,8 @@
     <a :href="`https://rgb.nsi.rocks/${idRgb}`" target="_blank">
       <img :src="`/api/rgb/${idRgb}?img`" class="w-full">
     </a>
+    <UButton @click="addToMy" size="sm" variant="solid">Ajouter à mes images</UButton>
+
     <template #description>
       <transition name="fade">
         <div class="flex flex-row gap-4" v-if="data">
@@ -27,9 +29,23 @@
 </template>
 
 <script lang="ts" setup>
+
 const props = defineProps<{ idRgb: string }>()
 const { data } = await useLazyFetch(`/api/rgb/${props.idRgb}?details`)
+const toast = useToast()
 
+const addToMy = async () => {
+  try {
+    const answ = await $fetch<ToastMessage>(`/api/rgb/${props.idRgb}`, { method: "POST" });
+    console.log("Réponse du serveur :", answ);
+    toast.add(answ)
+  } catch (error: any) {
+    console.error("Erreur lors de l'ajout :", error);
+    if (error.data) toast.add(error.data)
+    // Optionnel : afficher une notification utilisateur
+    // showErrorMessage(error);
+  }
+};
 const localURL = (prefix: string, route: string) => {
   return import.meta.dev ? `http://${prefix}.localhost.com:3000/${route}` : `https://${prefix}.nsi.rocks/${route}`
 }

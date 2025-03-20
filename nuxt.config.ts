@@ -1,14 +1,3 @@
-const mdSource = process.env.NODE_ENV === 'development'
-  ? {
-      driver: 'fs',
-      base: '../nsi-md',
-    }
-  : {
-      driver: 'github',
-      repo: 'mathieunicolas/nsi-md',
-      branch: 'main',
-    }
-
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
@@ -20,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/icon',
     '@nuxt/eslint',
+    'nuxt-authorization',
   ],
   // icon: {
   //   clientBundle: {

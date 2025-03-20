@@ -13,7 +13,8 @@
   </UDashboardPanel>
   <UDashboardPanel id="rgb-2" resizable :min-size="20" :max-size="80" :default-size="30">
     <template #header>
-      <UDashboardNavbar title="Détails" />
+      <UDashboardNavbar title="Détails">
+      </UDashboardNavbar>
     </template>
     <template #body>
       <NuxtPage />
@@ -25,6 +26,7 @@
 definePageMeta({
   layout: 'dashboard'
 })
+
 
 const tab = ref('my')
 const tmp = reactive({ my: '', all: '' })
