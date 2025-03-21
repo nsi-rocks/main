@@ -31,14 +31,14 @@ export default defineEventHandler(async (event) => {
         classes: tmp['classes'],
       }
 
-      if (!user.teacher && user.classes) {
-        try {
-          user.classes = JSON.parse(user.classes).map((c: string) => c.split('$')[1])
-        }
-        catch (e) {
-          console.error(e)
-        }
-      }
+      // if (!user.teacher && user.classes) {
+      //   try {
+      //     user.classes = JSON.parse(user.classes).map((c: string) => c.split('$')[1])
+      //   }
+      //   catch (e) {
+      //     console.error(e)
+      //   }
+      // }
 
       const res = await useDrizzle().insert(tables.users).values(user as User).onConflictDoNothing().returning()
 
