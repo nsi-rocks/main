@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
   if (body.ticket) {
     console.log(body.ticket)
 
-    const data = parser.parse(await $fetch(
+    const data = parser.parse(await $fetch<any>(
       'https://enthdf.fr/cas/serviceValidate?service=https://nsi.rocks&ticket='
       + body.ticket,
     ))
