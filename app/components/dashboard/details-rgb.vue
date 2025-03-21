@@ -3,7 +3,7 @@
     <a :href="`https://rgb.nsi.rocks/${idRgb}`" target="_blank">
       <img :src="`/api/rgb/${idRgb}?img`" class="w-full">
     </a>
-    <UButton @click="addToMy" size="sm" variant="solid">Ajouter à mes images</UButton>
+    <UButton @click="addToMy" size="lg" variant="solid" class="text-center">Ajouter à mes images</UButton>
 
     <template #description>
       <transition name="fade">

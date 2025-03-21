@@ -8,6 +8,9 @@
       </template>
       <template #default>
         <UNavigationMenu :items="links" orientation="vertical" />
+        <Can :ability="adminOrDev">
+          <UNavigationMenu :items="linksAdmin" orientation="vertical" />
+        </Can>
       </template>
     </UDashboardSidebar>
 
@@ -23,7 +26,7 @@ if (await denies(userOrDev)) {
 }
 
 const route = useRoute()
-const links = [
+const links = computed(() => [
   {
     label: 'Dashboard',
     to: '/dashboard',
@@ -39,20 +42,18 @@ const links = [
     to: '/dashboard/api',
     active: route.path.startsWith('/dashboard/api'),
   }
-]
+])
 
-if (await allows(adminOrDev)) {
-  links.push({
-    label: 'Eleves',
-    to: '/dashboard/eleves',
-    active: route.path.startsWith('/dashboard/eleves'),
-  })
-  links.push({
-    label: 'Logs',
-    to: '/dashboard/logs',
-    active: route.path.startsWith('/dashboard/logs'),
-  })
+const linksAdmin = computed(() => [{
+  label: 'Eleves',
+  to: '/dashboard/eleves',
+  active: route.path.startsWith('/dashboard/eleves'),
+}, {
+  label: 'Logs',
+  to: '/dashboard/logs',
+  active: route.path.startsWith('/dashboard/logs'),
 }
+])
 </script>
 
 <style scoped></style>
