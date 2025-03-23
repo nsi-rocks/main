@@ -17,8 +17,8 @@
                 class="cursor-pointer">
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
-              <div v-else>
-                <UAlert color="primary" variant="soft" title="Vous êtes bien connecté"
+              <div class="w-full">
+                <UAlert v-if="false" color="primary" variant="soft" title="Vous êtes bien connecté"
                   :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes || `['']`)[0]})`"
                   :actions="[{ label: 'se déconnecter', onClick: logout }]" />
                 <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
@@ -38,7 +38,7 @@
                   </UCard>
                 </div>
                 <div v-else>
-                  <UPageCard>
+                  <UPageCard class="w-full">
                     <template #header>
                       <div class="flex flex-row items-center justify-between">
                         <div>
@@ -49,21 +49,24 @@
                     </template>
 
                     <template #footer>
-                      <UButton @click="sendChoice" size="xl">Confirmer</UButton>
+                      <UButton @click="sendChoice" size="xl" class="block ml-auto">Confirmer</UButton>
                     </template>
-                    <UCollapsible v-for="choix in choix" :key="choix[0]">
-                      <UButton variant="soft" class="w-full">
-                        <div class="flex flex-row items-center justify-between w-full">
-                          <span>{{ateliers.find(el => el.id === choix[0])?.titre}}</span>
-                          <span>
-                            <UIcon name="i-lucide-chevron-down" />
-                          </span>
-                        </div>
-                      </UButton>
-                      <template #content>
-                        <MDC :value="ateliers.find(el => el.id === choix[0])?.description" />
-                      </template>
-                    </UCollapsible>
+
+                    <template #body>
+                      <UCollapsible v-for="choix in choix" :key="choix[0]" class="my-4">
+                        <UButton variant="soft" class="w-full">
+                          <div class="flex flex-row items-center justify-between w-full">
+                            <span>{{ateliers.find(el => el.id === choix[0])?.titre}}</span>
+                            <span>
+                              <UIcon name="i-lucide-chevron-down" />
+                            </span>
+                          </div>
+                        </UButton>
+                        <template #content>
+                          <MDC :value="ateliers.find(el => el.id === choix[0])?.description" />
+                        </template>
+                      </UCollapsible>
+                    </template>
                   </UPageCard>
                 </div>
               </div>
@@ -85,6 +88,7 @@
 const store = useStore()
 const tabJours = ref(1)
 const stepChoix = ref(0)
+const toast = useToast()
 
 const choix = ref([[0, 0], [0, 0]])
 
@@ -92,11 +96,19 @@ const choixAtelier = (choixJour: number, idAtelier: number, jour: number) => {
   console.log(`Choix de l'atelier ${idAtelier} pour le jour ${jour}`)
   choix.value[choixJour] = [idAtelier, jour]
   stepChoix.value += 1
+  toast.add({
+    title: 'Atelier choisi',
+    description: `Vous avez choisi l'atelier ${ateliers.find(el => el.id === idAtelier)?.titre} du ${tabs.value.find(el => el.value === jour).label}`,
+  })
 }
 
 const sendChoice = () => {
   console.log('Envoi des choix')
   console.log(choix.valueOf())
+  toast.add({
+    title: 'Choix envoyés',
+    description: 'Vos choix ont bien été envoyés, merci !',
+  })
 }
 
 const steps = ref([{
