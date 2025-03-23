@@ -6,6 +6,7 @@ declare module '#auth-utils' {
     lastName: string
     birthdate: string
     teacher: boolean
+    classes: string
   }
 
   interface UserSession {

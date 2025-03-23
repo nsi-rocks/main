@@ -17,9 +17,9 @@
                 class="cursor-pointer">
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
-              <!-- <UAlert v-else color="primary" variant="soft" title="Vous êtes bien connecté"
-                :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes)[0]})`" /> -->
-              <pre v-else>{{ user }}</pre>
+              <UAlert v-else color="primary" variant="soft" title="Vous êtes bien connecté"
+                :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes || `['']`)[0]})`"
+                :actions="[{ label: 'se déconnecter', onClick: logout }]" />
             </div>
           </template>
           <template #placeholder>
@@ -30,10 +30,7 @@
     </UDashboardPanel>
     <UDashboardPanel resizable :max-size="80" :min-size="30" :default-size="50">
       <template #header>
-        <UDashboardNavbar title="test">
-          <template #right>
-            <UColorModeSwitch />
-          </template>
+        <UDashboardNavbar title="Détails sur l'atelier">
         </UDashboardNavbar>
       </template>
       <template #body>
@@ -54,6 +51,7 @@
 </template>
 
 <script lang="ts" setup>
+const store = useStore()
 const classes = ref(['2nde01', '2nde02', '2nde03', '2nde04', '2nde05', '2nde06', '2nde07', '2nde08', '2nde09', '2nde10', '2nde11'])
 const eleve = reactive({
   nom: 'Doe',
@@ -76,6 +74,11 @@ const login = async () => {
   cookie.value = 'langues'
 
   await navigateTo('https://enthdf.fr/cas/login?service=https://nsi.rocks', { external: true })
+}
+
+const logout = async () => {
+  store.session.clear()
+  await navigateTo('https://langues.nsi.rocks')
 }
 </script>
 
