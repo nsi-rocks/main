@@ -102,12 +102,16 @@ const choixAtelier = (choixJour: number, idAtelier: number, jour: number) => {
   })
 }
 
-const sendChoice = () => {
+const sendChoice = async () => {
   console.log('Envoi des choix')
   console.log(choix.valueOf())
   toast.add({
     title: 'Choix envoyés',
     description: 'Vos choix ont bien été envoyés, merci !',
+  })
+  await $fetch('/api/langues', {
+    method: 'POST',
+    body: JSON.stringify(choix.valueOf()),
   })
 }
 
