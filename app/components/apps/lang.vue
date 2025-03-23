@@ -17,8 +17,9 @@
                 class="cursor-pointer">
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
-              <UAlert v-else color="primary" variant="soft" title="Vous êtes bien connecté"
-                :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes)[0]})`" />
+              <!-- <UAlert v-else color="primary" variant="soft" title="Vous êtes bien connecté"
+                :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes)[0]})`" /> -->
+              <pre v-else>{{ user }}</pre>
             </div>
           </template>
           <template #placeholder>
