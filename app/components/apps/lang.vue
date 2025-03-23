@@ -17,8 +17,8 @@
                 class="cursor-pointer">
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
-              <div class="w-full">
-                <UAlert v-if="false" color="primary" variant="soft" title="Vous êtes bien connecté"
+              <div v-else class="w-full">
+                <UAlert color="primary" variant="soft" title="Vous êtes bien connecté"
                   :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes || `['']`)[0]})`"
                   :actions="[{ label: 'se déconnecter', onClick: logout }]" />
                 <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
