@@ -1,7 +1,7 @@
 <template>
   <div class="h-screen w-screen">
     <AppsRgb v-if="appid === 'rgb'" />
-    <AppsLang v-else-if="appid === 'lang'" />
+    <AppsLang v-else-if="appid === 'langues'" />
   </div>
 </template>
 
