@@ -31,9 +31,9 @@ export default defineEventHandler(async (event) => {
         classes: tmp['classes'],
       }
 
-      if (!user.teacher && user.classes && Array.isArray(user.classes)) {
+      if (!user.teacher && user.classes) {
         try {
-          user.classes = JSON.stringify(user.classes.map((c: string) => c.split('$')[1]))
+          user.classes = JSON.stringify(JSON.parse(user.classes).map((c: string) => c.split('$')[1]))
         }
         catch (e) {
           console.error(e)
