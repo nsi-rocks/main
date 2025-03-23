@@ -111,7 +111,7 @@ const sendChoice = async () => {
   })
   await $fetch('/api/langues', {
     method: 'POST',
-    body: JSON.stringify(choix.valueOf()),
+    body: choix.value,
   })
 }
 
