@@ -11,7 +11,7 @@
       <template #body>
         <AuthState>
           <template #default="{ loggedIn, user, clear }">
-            <div class="flex items-center justify-center">
+            <div class="flex flex-col items-center justify-center">
               <UPageCard v-if="!loggedIn" orientation="vertical" title="S'identifier"
                 description="Veuillez vous identifier grâce à l'ENT Hauts-de-France" @click="login"
                 class="cursor-pointer">
@@ -21,7 +21,7 @@
                 <UAlert color="primary" variant="soft" title="Vous êtes bien connecté"
                   :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes || `['']`)[0]})`"
                   :actions="[{ label: 'se déconnecter', onClick: logout }]" />
-                <UStepper :items="steps" v-model="stepChoix" disabled />
+                <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
                 <div v-if="stepChoix === 0 || stepChoix === 1">
                   <UTabs v-model="tabJours" :items="tabs" :content="false" />
                   <UCard v-for="atelier in filterAteliers.filter(el => el.jours.includes(tabJours))"
@@ -45,9 +45,11 @@
                           <ProseH2 class="my-0">Vous avez fait vos choix !</ProseH2>
                           <p>Il ne vous reste plus qu'à les relire, puis à confirmer votre sélection.</p>
                         </div>
-                        <UButton @click="sendChoice" size="xl">Confirmer</UButton>
                       </div>
+                    </template>
 
+                    <template #footer>
+                      <UButton @click="sendChoice" size="xl">Confirmer</UButton>
                     </template>
                     <UCollapsible v-for="choix in choix" :key="choix[0]">
                       <UButton variant="soft" class="w-full">
