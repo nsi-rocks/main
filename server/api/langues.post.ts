@@ -1,13 +1,18 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const user = await getUserSession(event)
-  
-  if (user) {
-    await hubKV().set(`langues:${user.user.id}`, body)
-    return 'ok'
-  }
-  else {
+  const session = await getUserSession(event)
+
+  if (await allows(event, allowLangues)) {
+    if (session.user) {
+      await hubKV().set(`langues:${session.user.id}`, body)
+      return 'ok'
+    }
+    else {
+      setResponseStatus(event, 401, 'Unauthorized')
+      return 'not logged'
+    }
+  } else {
     setResponseStatus(event, 401, 'Unauthorized')
-    return 'not logged'
-  }
+    return 'not allowed'
+  } 
 })
