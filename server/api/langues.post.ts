@@ -1,8 +1,9 @@
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const user = await getUserSession(event)
+  
   if (user) {
-    await hubKV().set(`langues:${user.id}`, body)
+    await hubKV().set(`langues:${user.user.id}`, body)
     return 'ok'
   }
   else {

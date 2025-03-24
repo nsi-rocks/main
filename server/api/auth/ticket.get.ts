@@ -31,9 +31,9 @@ export default defineEventHandler(async (event) => {
         classes: tmp['classes'],
       }
 
-      console.log(data);
+      // console.log(data);
       
-      console.log(user);
+      // console.log(user);
       
 
       if (!user.teacher && user.classes) {
