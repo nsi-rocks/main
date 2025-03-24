@@ -31,6 +31,11 @@ export default defineEventHandler(async (event) => {
         classes: tmp['classes'],
       }
 
+      console.log(data);
+      
+      console.log(user);
+      
+
       if (!user.teacher && user.classes) {
         try {
           user.classes = JSON.stringify(JSON.parse(user.classes).map((c: string) => c.split('$')[1]))
