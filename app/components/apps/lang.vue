@@ -131,7 +131,7 @@ const filterAteliers = computed(() => {
     const choixJ1 = choix.value[0]?.[0] ?? 0
     if (ateliers.find(el => el.id === choixJ1)?.isExcluding) {
       return ateliers.filter(el => !el.isExcluding)
-    }
+    } else return ateliers.filter(el => el.id !== choixJ1)
   } else return ateliers
 })
 
