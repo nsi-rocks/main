@@ -192,21 +192,24 @@ const ateliers = [
     "titre": "Ciné débat allemand",
     "description": "**GOETHE INSTITUT**: Cléo, en quête de rédemption après la perte de ses parents, se lance dans un voyage onirique à travers la ville et le temps, mêlant réalité et fantastique. Schmitt capture avec brio l'âme de Berlin, une ville marquée par son histoire, tout en offrant une exploration intime du deuil et du désir de changer le passé.",
     "max": 25,
-    "jours": [3]
+    "jours": [3],
+    "isCine": true
   },
   {
     "id": 7,
     "titre": "Ciné débat espagnol",
     "description": "20 000 especies de abejas. \n\nDrama conmovedor sobre la identidad y la búsqueda de aceptación. La historia sigue a Aitor, una niña trans de ocho años que aún es llamada por su nombre de nacimiento, pero que no se siente reconocida en su entorno. Durante un verano en el País Vasco, rodeada de su familia y del mundo apícola de su abuela, Aitor explora su identidad de género mientras enfrenta el miedo al rechazo y el deseo de ser comprendida.\n\nLa película es un retrato íntimo y sensible de la infancia trans, destacando la importancia del apoyo familiar y el autodescubrimiento. Con una narrativa delicada y actuaciones profundas, *20.000 especies de abejas* ofrece una mirada poderosa y necesaria sobre la diversidad y la aceptación.\n\n*20,000 espèces d’abeilles* est un voyage intime et bouleversant sur l’identité, l’acceptation et la découverte de soi. Laissez-vous toucher par cette histoire poignante et lumineuse. ",
     "max": 24,
-    "jours": [1]
+    "jours": [1],
+    "isCine": true
   },
   {
     "id": 8,
     "titre": "Ciné débat italien",
     "description": "",
     "max": 25,
-    "jours": [2]
+    "jours": [2],
+    "isCine": true
   },
   {
     "id": 9,
@@ -228,14 +231,16 @@ const ateliers = [
     "titre": "Ciné débat anglais",
     "description": "'Bend It Like Beckham':\n\n Jess Bhamra rêve de devenir footballeuse professionnelle, mais ses parents sikhs préfèrent qu'elle fasse des études de droit et se marie.",
     "max": 25,
-    "jours": [2, 4]
+    "jours": [2, 4],
+    "isCine": true
   },
   {
     "id": 12,
     "titre": "Ciné débat anglais 2",
     "description": "",
     "max": 0,
-    "jours": []
+    "jours": [],
+    "isCine": true
   },
   {
     "id": 13,
@@ -247,7 +252,7 @@ const ateliers = [
   },
   {
     "id": 14,
-    "titre": "Jeux découverte AL",
+    "titre": "Jeux découverte Amérique Latine",
     "description": "Chasse au trésor qui permettra d’en apprendre beaucoup sur la culture des pays d’Amérique Latine.",
     "max": 24,
     "jours": [3]
