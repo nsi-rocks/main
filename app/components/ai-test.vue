@@ -1,24 +1,23 @@
 <template>
   <AuthState>
-  <template #default="{ loggedIn, user, clear }">
-    <UInput
-      v-model="question"
-      placeholder="Posez une question"
-      class="w-full"
-      @keydown.enter="fetchStream"
-      v-if="loggedIn"
-    />
-    <MDC v-if="textr.length > 0" :value="textr" />
-  </template> 
+    <template #default="{ loggedIn, user, clear }">
+      <UInput v-model="question" placeholder="Posez une question" class="w-full" @keydown.enter="fetchStream"
+        v-if="loggedIn" />
+      <MDC v-if="textr.length > 0" :value="textr" />
+    </template>
   </AuthState>
 </template>
 
 <script lang="ts" setup>
 const textr = ref('')
 const question = ref('')
+const isStreaming = ref(false)
+
 async function fetchStream() {
+  if (isStreaming.value) return
+  isStreaming.value = true
   textr.value = ''
-  
+
   const response = await $fetch<ReadableStream>('/api/ai/test', {
     method: 'POST',
     responseType: 'stream',
@@ -38,12 +37,13 @@ async function fetchStream() {
 
       if (jsonStr === "[DONE]") {
         console.log("Fin du stream")
+        isStreaming.value = false
         return
       }
 
       try {
         const json = JSON.parse(jsonStr)
-        const content = json.choices?.[0]?.delta?.content || "" 
+        const content = json.choices?.[0]?.delta?.content || ""
         if (content) {
           textr.value += content
         }
