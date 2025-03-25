@@ -18,3 +18,11 @@ export const logs = sqliteTable('logs', {
   logData: text('logData').notNull(),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
 })
+
+// export const langues = sqliteTable('langues', {
+//   id: text('id').primaryKey().$defaultFn(() => createId()),
+//   userId: text('user_id').references(() => users.id).unique().notNull(),
+//   atelier1: text('atelier1').notNull(),
+//   atelier2: text('atelier2').notNull(),
+//   timestamp: text('timestamp').$defaultFn(() => Date.now().toString()),
+// })
