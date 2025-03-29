@@ -19,10 +19,21 @@ export const logs = sqliteTable('logs', {
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
 })
 
-// export const langues = sqliteTable('langues', {
-//   id: text('id').primaryKey().$defaultFn(() => createId()),
-//   userId: text('user_id').references(() => users.id).unique().notNull(),
-//   atelier1: text('atelier1').notNull(),
-//   atelier2: text('atelier2').notNull(),
-//   timestamp: text('timestamp').$defaultFn(() => Date.now().toString()),
-// })
+export const langues = sqliteTable('langues', {
+  id: text('id').primaryKey().$defaultFn(() => createId()),
+  userId: text('user_id').references(() => users.id).unique().notNull(),
+  a1choix: integer('a1choix').references(() => ateliers.id).notNull(),
+  a1jour: integer('a1jour').notNull(),
+  a2choix: integer('a2choix').references(() => ateliers.id).notNull(),
+  timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
+})
+
+export const ateliers = sqliteTable('ateliers', {
+  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
+  titre: text('titre').notNull(),
+  description: text('description'),
+  max: integer('max').notNull(),
+  jours: text('jours', { mode: 'json' }).$type<number[]>().notNull(),
+  isExcluding: integer('isExcluding', { mode: 'boolean' }).default(false),
+  isCine: integer('isCine', { mode: 'boolean' }).default(false),
+})

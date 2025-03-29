@@ -1,0 +1,1 @@
+ALTER TABLE `langues` RENAME COLUMN "timestamp" TO "created_at";
