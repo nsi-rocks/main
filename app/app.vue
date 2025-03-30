@@ -17,6 +17,11 @@ const overlay = useOverlay()
 
 const isFirefox = ref(false)
 
+onErrorCaptured((err, instance, info) => {
+  console.error('💥 Erreur capturée dans App.vue', err, info)
+  return false
+})
+
 // onMounted(() => {
 //   const browser = useBrowserInfo()
 //   console.log(`Browser: ${browser.name}, Version: ${browser.version}`)
