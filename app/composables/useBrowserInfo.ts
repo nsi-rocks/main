@@ -4,7 +4,7 @@ export interface BrowserInfo {
 }
 
 export function useBrowserInfo(): BrowserInfo {
-    if (!process.client) {
+    if (!import.meta.client) {
         return { name: 'Unknown', version: 0 }
     }
 
