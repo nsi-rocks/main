@@ -39,7 +39,7 @@
             <div class="flex flex-col items-center justify-center">
               <UPageCard v-if="!loggedIn" orientation="vertical" title="S'identifier"
                 description="Veuillez vous identifier grâce à l'ENT Hauts-de-France" @click="login"
-                class="cursor-pointer">
+                class="cursor-pointer" variant="subtle">
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
               <Can :ability="userOrDev">
