@@ -1,5 +1,5 @@
 <template>
-  <VisXYContainer :data="data" :width="500" :height="300">
+  <VisXYContainer :data="sorted">
     <VisGroupedBar :x="x" :y="y" />
     <VisAxis :gridLine="false" type="x" :tickFormat="tickFormat" :numTicks="data.length" />
     <VisTooltip :triggers="triggers" />
@@ -15,6 +15,22 @@ interface DataRecord {
   count: number
 }
 const props = defineProps<{ data: DataRecord[] }>()
+
+const sorted: DataRecord[] = props.data.sort((a, b) => {
+  const [niveauA, numA] = a.classe.split(' ');
+  const [niveauB, numB] = b.classe.split(' ');
+
+  const niveauxOrdre = ['2NDE', '1ERE', 'TERMINALE'];
+
+  const niveauIndexA = niveauxOrdre.indexOf(niveauA || '');
+  const niveauIndexB = niveauxOrdre.indexOf(niveauB || '');
+  if (niveauIndexA !== niveauIndexB) {
+    return niveauIndexA - niveauIndexB;
+  }
+
+  return parseInt(numA!, 10) - parseInt(numB!, 10);
+});
+
 const x = (d: DataRecord, i: number) => i
 const y = [(d: DataRecord) => d.count]
 

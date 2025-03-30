@@ -12,12 +12,14 @@ export default defineEventHandler(async (event) => {
       a1choix: body.a1choix,
       a1jour: body.a1jour,
       a2choix: body.a2choix,
+      toReset: body.toReset,
     }).onConflictDoUpdate({
       target: tables.langues.userId,
       set: {
         a1jour: body.a1jour,
         a1choix: body.a1choix,
         a2choix: body.a2choix,
+        toReset: body.toReset,
       },
     }).returning()
     setResponseStatus(event, 200)

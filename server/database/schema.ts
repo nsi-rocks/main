@@ -26,6 +26,7 @@ export const langues = sqliteTable('langues', {
   a1jour: integer('a1jour').notNull(),
   a2choix: integer('a2choix').references(() => ateliers.id).notNull(),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
+  toReset: integer('toReset', { mode: 'boolean' }).default(false),
 })
 
 export const ateliers = sqliteTable('ateliers', {
