@@ -43,7 +43,7 @@
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
               <Can :ability="userOrDev">
-                <div v-if="ownVoteStatus === 'success'">
+                <div v-if="ownVoteStatus === 'success'" class="w-full">
                   <LangVote v-if="ownVote?.timestamp === null || ownVote?.toReset" :user="user" :ateliers="ateliers"
                     @choice-sent="ownVoteRefresh" />
                   <LangShow v-else :vote="ownVote!" @vote-again="ownVoteRefresh" />
