@@ -6,7 +6,7 @@
     <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
     <div v-if="stepChoix === 0 || stepChoix === 1">
       <UTabs v-if="stepChoix === 0" v-model="tabJours" :items="tabs" :content="false" />
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         <UCard v-for="atelier in filterAteliers" :key="atelier.titre" class="mt-4" variant="subtle"
           :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''">
           <template #header>
