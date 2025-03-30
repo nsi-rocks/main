@@ -29,10 +29,6 @@
           </div>
         </template>
 
-        <template #footer>
-          <UButton @click="sendChoice" size="xl" class="block ml-auto">Confirmer</UButton>
-        </template>
-
         <template #body>
           <UCollapsible class="my-4">
             <UButton variant="soft" class="w-full">
