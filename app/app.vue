@@ -1,10 +1,8 @@
 <template>
   <UApp>
-    <UBanner
-      v-if="isFirefox"
+    <UBanner v-if="isFirefox"
       title="Ce site n'est pour l'instant pas complètement optimisé pour le navigateur Firefox, veuillez utiliser Google Chrome."
-      close
-    />
+      close />
     <NuxtLayout :appid="appid">
       <NuxtPage />
     </NuxtLayout>
@@ -19,25 +17,8 @@ const overlay = useOverlay()
 
 const isFirefox = ref(false)
 
-function getBrowserInfo() {
-  const ua = navigator.userAgent
-  if (ua.includes('Chrome')) {
-    const version = parseInt(ua.match(/Chrome\/(\d+)/)?.[1], 10)
-    return { name: 'Chrome', version }
-  }
-  if (ua.includes('Firefox')) {
-    const version = parseInt(ua.match(/Firefox\/(\d+)/)?.[1], 10)
-    return { name: 'Firefox', version }
-  }
-  if (ua.includes('Safari') && !ua.includes('Chrome')) {
-    const version = parseInt(ua.match(/Version\/(\d+)/)?.[1], 10)
-    return { name: 'Safari', version }
-  }
-  return { name: 'Unknown', version: 0 }
-}
-
 onMounted(() => {
-  const browser = getBrowserInfo()
+  const browser = useBrowserInfo()
   console.log(`Browser: ${browser.name}, Version: ${browser.version}`)
 
   // Vérification pour Tailwind v4 (Chrome 111+, Safari 16.4+, Firefox 128+)
