@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col items-center justify-center w-2/3">
-    <UPageCard class="w-full" title="Vous avez voté !" spotlight highlight>
+  <div class="flex flex-col items-center justify-center w-full md:w-2/3 lg:w-1/2 m-auto">
+    <UPageCard class="w-full" title="Vous avez voté !" variant="subtle">
       <template #description>
         <ProseP>Vous n'avez plus aucune action à réaliser pour votre inscription aux ateliers de la semaine des langues.
         </ProseP>
