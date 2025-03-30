@@ -4,6 +4,7 @@ export interface BrowserInfo {
 }
 
 export function useBrowserInfo(): BrowserInfo {
+    console.log('✅ useBrowserInfo.ts chargé côté :', import.meta.server ? 'serveur' : 'client')
     if (!import.meta.client) {
         return { name: 'Unknown', version: 0 }
     }
