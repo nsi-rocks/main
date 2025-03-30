@@ -8,18 +8,18 @@
 <script lang="ts" setup>
 const appid = useAttrs().appid || 'default'
 
-// onMounted(() => {
-//   if (import.meta.client) {
-//     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-//     if (isMobile) {
-//       useHead({
-//         meta: [
-//           { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
-//         ],
-//       })
-//     }
-//   }
-// })
+onMounted(() => {
+  if (import.meta.client) {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    if (isMobile) {
+      useHead({
+        meta: [
+          { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
+        ],
+      })
+    }
+  }
+})
 </script>
 
 <style></style>

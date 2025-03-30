@@ -22,26 +22,26 @@ onErrorCaptured((err, instance, info) => {
   return false
 })
 
-// onMounted(() => {
-//   const browser = useBrowserInfo()
-//   console.log(`Browser: ${browser.name}, Version: ${browser.version}`)
+onMounted(() => {
+  const browser = useBrowserInfo()
+  console.log(`Browser: ${browser.name}, Version: ${browser.version}`)
 
-//   // Vérification pour Tailwind v4 (Chrome 111+, Safari 16.4+, Firefox 128+)
-//   if (
-//     (browser.name === 'Chrome' && browser.version < 111)
-//     || (browser.name === 'Firefox' && browser.version < 128)
-//     || (browser.name === 'Safari' && browser.version < 16.4)
-//   ) {
-//     console.warn('Votre navigateur n\'est pas totalement compatible avec Tailwind CSS v4 !')
-//     const modal = overlay.create(LazyModalCompat, {
-//       props: {
-//         nav: browser.name,
-//         version: browser.version.toString(),
-//       },
-//     })
-//     modal.open()
-//   }
-// })
+  // Vérification pour Tailwind v4 (Chrome 111+, Safari 16.4+, Firefox 128+)
+  if (
+    (browser.name === 'Chrome' && browser.version < 111)
+    || (browser.name === 'Firefox' && browser.version < 128)
+    || (browser.name === 'Safari' && browser.version < 16.4)
+  ) {
+    console.warn('Votre navigateur n\'est pas totalement compatible avec Tailwind CSS v4 !')
+    const modal = overlay.create(LazyModalCompat, {
+      props: {
+        nav: browser.name,
+        version: browser.version.toString(),
+      },
+    })
+    modal.open()
+  }
+})
 
 const ticket = useRoute().query.ticket
 
