@@ -9,10 +9,10 @@
       </template>
       <template #footer>
         <div class="flex flex-row items-center justify-around w-full">
-          <UButton variant="outline" color="warning" @click="resetChoice">
+          <UButton class="cursor-pointer" variant="outline" color="neutral" @click="resetChoice">
             Modifier mes choix
           </UButton>
-          <UButton variant="solid" @click="logout">
+          <UButton class="cursor-pointer" variant="solid" @click="logout">
             Se déconnecter
           </UButton>
         </div>

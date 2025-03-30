@@ -7,7 +7,16 @@
             <UDrawer>
               <UButton icon="i-lucide-kanban" variant="soft" rounded class="mr-1 cursor-pointer"></UButton>
 
-              <template #content>
+              <template #header>
+                <div class="flex flex-row justify-end">
+                  <UButton v-if="simuStatus === 'idle' || simuStatus === 'success'" icon="i-lucide-dices" variant="soft"
+                    size="xl" rounded class="ml-auto cursor-pointer" @click="simuRun">Simuler
+                  </UButton>
+                  <UButton v-else icon="i-lucide-loader" variant="soft" size="xl" rounded class="ml-auto cursor-pointer"
+                    :ui="{ leadingIcon: 'animate-spin' }" disabled>Simulation en cours</UButton>
+                </div>
+              </template>
+              <template #body>
                 <LangBoard :tabs="tabs" :ateliers="ateliers" @dashboard-mount="boardMount"
                   @dashboard-unmount="boardUnmount" />
               </template>
@@ -75,10 +84,12 @@ const { data: ownVote, refresh: ownVoteRefresh } = await useFetch<LangueAvecAtel
 
 const { data: ateliers, refresh, status, clear } = await useLazyAsyncData('ateliers', () => $fetch('/api/langues/getAteliers'))
 
+const { refresh: simuRefresh, status: simuStatus, execute: simuRun } = await useLazyAsyncData('simu', () => $fetch('/api/langues/simu'), { immediate: false })
+
 function boardMount() {
   intervalId.value = setInterval(() => {
     refresh()
-  }, 5000)
+  }, 2000)
 }
 
 function boardUnmount() {

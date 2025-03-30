@@ -1,7 +1,7 @@
 <template>
   <div>
     <UCollapsible class="my-4" v-for="atelier in [choix.atelier1, choix.atelier2]" :key="atelier?.id">
-      <UButton variant="ghost" class="w-full">
+      <UButton variant="soft" class="w-full cursor-pointer">
         <div class="flex flex-row items-center justify-start w-full gap-2">
           <UIcon name="i-lucide-chevron-down" />
           <span>{{ atelier?.titre }}</span>

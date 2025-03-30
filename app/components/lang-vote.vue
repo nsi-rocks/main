@@ -6,32 +6,44 @@
     <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
     <div v-if="stepChoix === 0 || stepChoix === 1">
       <UTabs v-if="stepChoix === 0" v-model="tabJours" :items="tabs" :content="false" />
-      <UCard v-for="atelier in filterAteliers" :key="atelier.titre" class="mt-4">
-        <template #header>
-          <div class="flex flex-row items-center justify-between">
-            <ProseH3 class="my-0">{{ atelier.titre }}</ProseH3>
-            <UButton @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())" class="ml-auto">
-              Choisir</UButton>
-          </div>
-        </template>
-        <MDC :value="atelier.description || ''" />
-      </UCard>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <UCard v-for="atelier in filterAteliers" :key="atelier.titre" class="mt-4" variant="subtle"
+          :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''">
+          <template #header>
+            <div class="flex flex-row items-center justify-between">
+              <ProseH3 class="my-0">{{ atelier.titre }}</ProseH3>
+              <UButton @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())"
+                class="ml-auto cursor-pointer">
+                Choisir</UButton>
+            </div>
+          </template>
+          <MDC :value="atelier.description || ''" />
+        </UCard>
+      </div>
     </div>
     <div v-else>
-      <UPageCard class="w-full">
+      <UPageCard class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 m-auto" variant="subtle">
         <template #header>
           <div class="flex flex-row items-center justify-between">
             <div>
               <ProseH2 class="my-0">Vous avez fait vos choix !</ProseH2>
               <p>Il ne vous reste plus qu'à les relire, puis à confirmer votre sélection.</p>
             </div>
-            <UButton @click="sendChoice" size="xl" class="block ml-auto">Confirmer</UButton>
+          </div>
+        </template>
+
+        <template #footer>
+          <div class="flex flex-row items-center justify-around">
+            <UButton @click="stepChoix = 0" color="neutral" variant="outline" size="xl" class="cursor-pointer">Modifier
+              mes choix
+            </UButton>
+            <UButton @click="sendChoice" size="xl" class="cursor-pointer">Confirmer</UButton>
           </div>
         </template>
 
         <template #body>
           <UCollapsible class="my-4">
-            <UButton variant="soft" class="w-full">
+            <UButton variant="soft" class="w-full cursor-pointer">
               <div class="flex flex-row items-center justify-between w-full">
                 <span>{{ateliers?.find(el => el.id === choix.a1choix)?.titre}}</span>
                 <span>
@@ -44,7 +56,7 @@
             </template>
           </UCollapsible>
           <UCollapsible class="my-4">
-            <UButton variant="soft" class="w-full">
+            <UButton variant="soft" class="w-full cursor-pointer">
               <div class="flex flex-row items-center justify-between w-full">
                 <span>{{ateliers?.find(el => el.id === choix.a2choix)?.titre}}</span>
                 <span>
@@ -139,8 +151,6 @@ const sendChoice = async () => {
   if (res.status === 200) {
     emit('choiceSent')
   }
-  // TODO : gérer la réussite de l'envoi des données, et rediriger vers une page de confirmation
-  // TODO : ajouter aussi la récup des votes d'un élève dans le cas où il se reconnecte après avoir voté
 }
 
 const getABI = (id: number) => props.ateliers?.find(el => el.id === id)
@@ -158,7 +168,8 @@ const jourCompat = (id1: number, el: Atelier) => {
 const filterAteliers = computed(() => {
   if (stepChoix.value === 1) {
     return props.ateliers?.filter(el => el.id !== choix.a1choix)
-      .filter(el => (getABI(choix.a1choix)?.isExcluding && !el.isExcluding) || !getABI(choix.a1choix)?.isExcluding)
+      .filter(el => !getABI(choix.a1choix)?.isExcluding || !el.isExcluding)
+      .filter(el => !getABI(choix.a1choix)?.isCine || !el.isCine)
       .filter(el => jourCompat(choix.a1choix, el))
   } else {
     return props.ateliers?.filter(el => el.jours.includes(tabJours.value))

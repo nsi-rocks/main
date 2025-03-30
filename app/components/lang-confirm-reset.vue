@@ -2,9 +2,10 @@
   <UModal :close="{ onClick: () => emit('close', false) }" title="Confirmation">
     <template #footer>
       <div class="w-full flex flex-row justify-between">
-        <UButton color="warning" variant="outline" label="Modifier mes choix" @click="emit('close', true)" />
+        <UButton color="neutral" variant="outline" label="Modifier mes choix" @click="emit('close', true)"
+          class="cursor-pointer" />
 
-        <UButton label="Annuler" @click="emit('close', false)" />
+        <UButton class="cursor-pointer" label="Annuler" @click="emit('close', false)" />
       </div>
     </template>
     <template #body>
