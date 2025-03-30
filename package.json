@@ -10,7 +10,9 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "gh:deploy": "gh workflow run nuxthub.yml",
+    "gh:watch": "gh run watch"
   },
   "dependencies": {
     "@nuxt/content": "3.4.0",
