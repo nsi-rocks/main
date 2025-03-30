@@ -43,9 +43,11 @@
                 <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png" />
               </UPageCard>
               <Can :ability="userOrDev">
-                <LangVote v-if="ownVote?.timestamp === null || ownVote?.toReset" :user="user" :ateliers="ateliers"
-                  @choice-sent="ownVoteRefresh" />
-                <LangShow v-else :vote="ownVote!" @vote-again="ownVoteRefresh" />
+                <div v-if="ownVoteStatus === 'success'">
+                  <LangVote v-if="ownVote?.timestamp === null || ownVote?.toReset" :user="user" :ateliers="ateliers"
+                    @choice-sent="ownVoteRefresh" />
+                  <LangShow v-else :vote="ownVote!" @vote-again="ownVoteRefresh" />
+                </div>
               </Can>
             </div>
           </template>
@@ -80,7 +82,7 @@ const tabs = ref([{
   value: 4
 }])
 
-const { data: ownVote, refresh: ownVoteRefresh } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
+const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
 
 const { data: ateliers, refresh, status, clear } = await useLazyAsyncData('ateliers', () => $fetch('/api/langues/getAteliers'))
 
