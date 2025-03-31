@@ -26,7 +26,6 @@ export default defineEventHandler(async (event) => {
     return res
   }
   catch (e) {
-    console.log('e:', e);
-
+    console.log('e:', e)
   }
 })

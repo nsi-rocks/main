@@ -1,7 +1,15 @@
 <template>
   <VisXYContainer :data="sorted">
-    <VisGroupedBar :x="x" :y="y" />
-    <VisAxis :gridLine="false" type="x" :tickFormat="tickFormat" :numTicks="data.length" />
+    <VisGroupedBar
+      :x="x"
+      :y="y"
+    />
+    <VisAxis
+      :grid-line="false"
+      type="x"
+      :tick-format="tickFormat"
+      :num-ticks="data.length"
+    />
     <VisTooltip :triggers="triggers" />
   </VisXYContainer>
 </template>
@@ -17,19 +25,19 @@ interface DataRecord {
 const props = defineProps<{ data: DataRecord[] }>()
 
 const sorted: DataRecord[] = props.data.sort((a, b) => {
-  const [niveauA, numA] = a.classe.split(' ');
-  const [niveauB, numB] = b.classe.split(' ');
+  const [niveauA, numA] = a.classe.split(' ')
+  const [niveauB, numB] = b.classe.split(' ')
 
-  const niveauxOrdre = ['2NDE', '1ERE', 'TERMINALE'];
+  const niveauxOrdre = ['2NDE', '1ERE', 'TERMINALE']
 
-  const niveauIndexA = niveauxOrdre.indexOf(niveauA || '');
-  const niveauIndexB = niveauxOrdre.indexOf(niveauB || '');
+  const niveauIndexA = niveauxOrdre.indexOf(niveauA || '')
+  const niveauIndexB = niveauxOrdre.indexOf(niveauB || '')
   if (niveauIndexA !== niveauIndexB) {
-    return niveauIndexA - niveauIndexB;
+    return niveauIndexA - niveauIndexB
   }
 
-  return parseInt(numA!, 10) - parseInt(numB!, 10);
-});
+  return parseInt(numA!, 10) - parseInt(numB!, 10)
+})
 
 const x = (d: DataRecord, i: number) => i
 const y = [(d: DataRecord) => d.count]
@@ -39,11 +47,10 @@ const tickFormat = (d: number) => props.data[d]?.classe
 const triggers = {
   [GroupedBar.selectors.bar]: (d: DataRecord) => `
       <span>${d.classe}: ${d.count}</span>
-    `
+    `,
 }
 
-console.log(props.data);
-
+console.log(props.data)
 </script>
 
 <style scoped></style>

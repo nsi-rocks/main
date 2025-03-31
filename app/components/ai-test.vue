@@ -1,9 +1,17 @@
 <template>
   <AuthState>
     <template #default="{ loggedIn, user, clear }">
-      <UInput v-model="question" placeholder="Posez une question" class="w-full" @keydown.enter="fetchStream"
-        v-if="loggedIn" />
-      <MDC v-if="textr.length > 0" :value="textr" />
+      <UInput
+        v-if="loggedIn"
+        v-model="question"
+        placeholder="Posez une question"
+        class="w-full"
+        @keydown.enter="fetchStream"
+      />
+      <MDC
+        v-if="textr.length > 0"
+        :value="textr"
+      />
     </template>
   </AuthState>
 </template>
@@ -30,25 +38,26 @@ async function fetchStream() {
     const { value, done } = await reader.read()
     if (done) break
 
-    const lines = value.split("\n") // Découpage par lignes
+    const lines = value.split('\n') // Découpage par lignes
     for (const line of lines) {
-      if (!line.startsWith("data: ")) continue // Ignore les lignes vides ou invalides
-      const jsonStr = line.replace("data: ", "").trim()
+      if (!line.startsWith('data: ')) continue // Ignore les lignes vides ou invalides
+      const jsonStr = line.replace('data: ', '').trim()
 
-      if (jsonStr === "[DONE]") {
-        console.log("Fin du stream")
+      if (jsonStr === '[DONE]') {
+        console.log('Fin du stream')
         isStreaming.value = false
         return
       }
 
       try {
         const json = JSON.parse(jsonStr)
-        const content = json.choices?.[0]?.delta?.content || ""
+        const content = json.choices?.[0]?.delta?.content || ''
         if (content) {
           textr.value += content
         }
-      } catch (e) {
-        console.error("Erreur de parsing JSON:", e, "Données brutes:", jsonStr)
+      }
+      catch (e) {
+        console.error('Erreur de parsing JSON:', e, 'Données brutes:', jsonStr)
       }
     }
   }

@@ -32,9 +32,8 @@ export default defineEventHandler(async (event) => {
       }
 
       // console.log(data);
-      
+
       // console.log(user);
-      
 
       if (!user.teacher && user.classes) {
         try {

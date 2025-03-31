@@ -1,14 +1,27 @@
 <template>
-  <UHeader :ui="{
-    center: 'lg:flex-1 flex items-center gap-1.5 grow justify-center',
-    left: 'hidden lg:flex'
-  }">
+  <UHeader
+    :ui="{
+      center: 'lg:flex-1 flex items-center gap-1.5 grow justify-center',
+      left: 'hidden lg:flex',
+    }"
+  >
     <template #title>
-      <Logo class="block w-auto h-10" what="RGB" />
+      <Logo
+        class="block w-auto h-10"
+        what="RGB"
+      />
     </template>
-    <AppsRgbToolbar :can-apply="mode === '1'" :canup="ca < (isKonamiCode ? 20 : 10) && images.length === 1"
-      :candown="ca > 1 && images.length === 1" @reset-cases="resetCases" @apply-color="resetCases(data[curr])"
-      @get-png="getPNG" @size-up="resize('up')" @size-down="resize('down')" @share="shareGrid" />
+    <AppsRgbToolbar
+      :can-apply="mode === '1'"
+      :canup="ca < (isKonamiCode ? 20 : 10) && images.length === 1"
+      :candown="ca > 1 && images.length === 1"
+      @reset-cases="resetCases"
+      @apply-color="resetCases(data[curr])"
+      @get-png="getPNG"
+      @size-up="resize('up')"
+      @size-down="resize('down')"
+      @share="shareGrid"
+    />
     <template #right>
       <ClientOnly>
         <div class="flex flex-row items-center gap-4">
@@ -22,63 +35,149 @@
     <UContainer>
       <UPage>
         <ClientOnly>
-          <div v-if="isGridReady"
-            class="flex flex-col-reverse md:flex-row items-start md:items-start md:h-[100vh] md:max-w-[100vw] justify-center mb-8">
+          <div
+            v-if="isGridReady"
+            class="flex flex-col-reverse md:flex-row items-start md:items-start md:h-[100vh] md:max-w-[100vw] justify-center mb-8"
+          >
             <div class="grow flex flex-row justify-center items-start max-w-[800px] p-8">
-              <canvas ref="canvas" :width="canvasWidth + 2 * gutter" :height="canvasHeight + 2 * gutter"
-                class="max-w-full max-h-[90vh]" @pointerdown.prevent="canvasMouseDown"
-                @pointermove.prevent="canvasMouseMove" @pointerup.prevent="canvasMouseUp" @touchmove.prevent />
+              <canvas
+                ref="canvas"
+                :width="canvasWidth + 2 * gutter"
+                :height="canvasHeight + 2 * gutter"
+                class="max-w-full max-h-[90vh]"
+                @pointerdown.prevent="canvasMouseDown"
+                @pointermove.prevent="canvasMouseMove"
+                @pointerup.prevent="canvasMouseUp"
+                @touchmove.prevent
+              />
             </div>
             <div class="w-full md:max-h-[100vh] md:w-fit md:self-start flex flex-col gap-2 p-0 sm:p-4">
-              <UTabs v-model="mode" :items="items" class="mb-2 px-4" :ui="{ trigger: 'cursor-pointer' }">
+              <UTabs
+                v-model="mode"
+                :items="items"
+                class="mb-2 px-4"
+                :ui="{ trigger: 'cursor-pointer' }"
+              >
                 <template #rgb="{ item }">
-                  <UTooltip text="Passer de RGB à hexadécimal" class="flex justify-center cursor-pointer">
-                    <div class="font-semibold text-xl" @click="currCol += 1">
+                  <UTooltip
+                    text="Passer de RGB à hexadécimal"
+                    class="flex justify-center cursor-pointer"
+                  >
+                    <div
+                      class="font-semibold text-xl"
+                      @click="currCol += 1"
+                    >
                       <span v-if="currCol % 2 === 0">r: {{ data[curr].r }}, g: {{ data[curr].g }}, b: {{ data[curr].b
                       }}</span>
                       <span v-if="currCol % 2 === 1">#{{ toHex(data[curr]) }}</span>
                     </div>
                   </UTooltip>
                   <div>
-                    <USlider v-for="a in sliders" :key="a.key" v-model="data[curr][a.key]" :color="a.color" :step="1"
-                      :min="0" :max="255" class="my-8" />
-                    <USlider v-model="allColors" color="neutral" :step="1" :min="0" :max="255" @update:model-value="
-                      data[curr] = { r: allColors, g: allColors, b: allColors }
-                      " />
+                    <USlider
+                      v-for="a in sliders"
+                      :key="a.key"
+                      v-model="data[curr][a.key]"
+                      :color="a.color"
+                      :step="1"
+                      :min="0"
+                      :max="255"
+                      class="my-8"
+                    />
+                    <USlider
+                      v-model="allColors"
+                      color="neutral"
+                      :step="1"
+                      :min="0"
+                      :max="255"
+                      @update:model-value="
+                        data[curr] = { r: allColors, g: allColors, b: allColors }
+                      "
+                    />
                   </div>
                 </template>
               </UTabs>
-              <UCard class="hidden md:block grow overflow-y-scroll" :ui="{ body: { base: 'flex flex-col' } }">
+              <UCard
+                class="hidden md:block grow overflow-y-scroll"
+                :ui="{ body: { base: 'flex flex-col' } }"
+              >
                 <template #header>
                   <div class="flex flex-row items-center">
                     <h3 class="grow">
                       Images
                     </h3>
-                    <UInput v-model="dur" class="max-w-16" />
-                    <UTooltip text="Dupliquer l'image courante" :popper="{ arrow: true }">
-                      <UButton icon="ion:md-copy" variant="ghost" class="text-lg" @click="addWCopyImg(currImg)" />
+                    <UInput
+                      v-model="dur"
+                      class="max-w-16"
+                    />
+                    <UTooltip
+                      text="Dupliquer l'image courante"
+                      :popper="{ arrow: true }"
+                    >
+                      <UButton
+                        icon="ion:md-copy"
+                        variant="ghost"
+                        class="text-lg"
+                        @click="addWCopyImg(currImg)"
+                      />
                     </UTooltip>
-                    <UTooltip text="Ajouter une image vide" :popper="{ arrow: true }">
-                      <UButton icon="ion:md-add" variant="ghost" class="text-lg" @click="addImg" />
+                    <UTooltip
+                      text="Ajouter une image vide"
+                      :popper="{ arrow: true }"
+                    >
+                      <UButton
+                        icon="ion:md-add"
+                        variant="ghost"
+                        class="text-lg"
+                        @click="addImg"
+                      />
                     </UTooltip>
                   </div>
                 </template>
 
-                <div v-for="img in images" :key="img.id" class="flex flex-row justify-between w-52">
+                <div
+                  v-for="img in images"
+                  :key="img.id"
+                  class="flex flex-row justify-between w-52"
+                >
                   <div
                     class="flex items-center rounded-md p-2 gap-2 cursor-pointer text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white w-36"
-                    @click="img.click">
-                    <UIcon :name="img.icon" class="w-5 h-5" :class="img.id === currImg ? 'text-primary-500' : ''" />
-                    <span class="grow" :class="img.id === currImg ? 'text-primary-500' : ''">{{ img.label }}</span>
+                    @click="img.click"
+                  >
+                    <UIcon
+                      :name="img.icon"
+                      class="w-5 h-5"
+                      :class="img.id === currImg ? 'text-primary-500' : ''"
+                    />
+                    <span
+                      class="grow"
+                      :class="img.id === currImg ? 'text-primary-500' : ''"
+                    >{{ img.label }}</span>
                   </div>
                   <div>
-                    <UTooltip v-if="images.length > 1 && img.id !== currImg"
-                      text="Copier les pixels dans l'image actuelle" :popper="{ arrow: true }">
-                      <UButton icon="ion:arrow-up-right-box-outline" variant="ghost" class="text-lg"
-                        :class="img.id === 0 ? 'mr-8' : ''" @click="cpImg(img.id)" />
+                    <UTooltip
+                      v-if="images.length > 1 && img.id !== currImg"
+                      text="Copier les pixels dans l'image actuelle"
+                      :popper="{ arrow: true }"
+                    >
+                      <UButton
+                        icon="ion:arrow-up-right-box-outline"
+                        variant="ghost"
+                        class="text-lg"
+                        :class="img.id === 0 ? 'mr-8' : ''"
+                        @click="cpImg(img.id)"
+                      />
                     </UTooltip>
-                    <UTooltip v-if="img.id > 0" text="Supprimer l'image" :popper="{ arrow: true }">
-                      <UButton icon="ion:trash-outline" variant="ghost" class="text-lg" @click="delImg(img.id)" />
+                    <UTooltip
+                      v-if="img.id > 0"
+                      text="Supprimer l'image"
+                      :popper="{ arrow: true }"
+                    >
+                      <UButton
+                        icon="ion:trash-outline"
+                        variant="ghost"
+                        class="text-lg"
+                        @click="delImg(img.id)"
+                      />
                     </UTooltip>
                   </div>
                 </div>
@@ -171,9 +270,6 @@ const code = ref('')
 
 const dur = ref(1000)
 const currImg = ref(0)
-
-
-
 
 const items = [
   {
@@ -567,7 +663,7 @@ const modal = overlay.create(LazyAppsRgbModal, {
     title: `Partager l'image`,
     code: code,
     onGetPNG: getPNG,
-  }
+  },
 })
 
 function open() {

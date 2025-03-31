@@ -1,8 +1,10 @@
 <template>
   <UApp>
-    <UBanner v-if="isFirefox"
+    <UBanner
+      v-if="isFirefox"
       title="Ce site n'est pour l'instant pas complètement optimisé pour le navigateur Firefox, veuillez utiliser Google Chrome."
-      close />
+      close
+    />
     <NuxtLayout :appid="appid">
       <NuxtPage />
     </NuxtLayout>

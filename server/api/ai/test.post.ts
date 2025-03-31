@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   const response = await $fetch('https://api.mistral.ai/v1/chat/completions', {
     headers: {
-      Authorization: `Bearer ${config.mistralAPI}`,
+      'Authorization': `Bearer ${config.mistralAPI}`,
       'Content-Type': 'application/json',
     },
     method: 'POST',

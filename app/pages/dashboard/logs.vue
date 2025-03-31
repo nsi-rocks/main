@@ -1,17 +1,42 @@
 <template>
-  <UDashboardPanel id="eleves-1" resizable :min-size="20" :max-size="80" :default-size="30">
+  <UDashboardPanel
+    id="eleves-1"
+    resizable
+    :min-size="20"
+    :max-size="80"
+    :default-size="30"
+  >
     <template #header>
       <UDashboardNavbar title="Logs">
         <template #right>
-          <UInput v-model="search" placeholder="Rechercher" class="w-40" />
+          <UInput
+            v-model="search"
+            placeholder="Rechercher"
+            class="w-40"
+          />
         </template>
       </UDashboardNavbar>
     </template>
     <template #body>
-      <UCard v-for="log in data?.filter(el => el.logData.includes(search))" :key="log.id">
+      <UCard
+        v-for="log in data?.filter(el => el.logData.includes(search))"
+        :key="log.id"
+      >
         <div class="flex items-center gap-4">
-          <UBadge variant="soft" size="lg" :color="typeColor(log.logType)">{{ log.logType }}</UBadge>
-          <UBadge variant="soft" size="lg" color="warning">{{ log.timestamp }}</UBadge>
+          <UBadge
+            variant="soft"
+            size="lg"
+            :color="typeColor(log.logType)"
+          >
+            {{ log.logType }}
+          </UBadge>
+          <UBadge
+            variant="soft"
+            size="lg"
+            color="warning"
+          >
+            {{ log.timestamp }}
+          </UBadge>
           <span class="ml-auto">{{ log.logData }}</span>
         </div>
       </UCard>
@@ -21,7 +46,7 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
 })
 if (await denies(adminOrDev)) {
   navigateTo('/')

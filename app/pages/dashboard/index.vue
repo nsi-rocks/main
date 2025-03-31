@@ -1,5 +1,10 @@
 <template>
-  <UDashboardPanel resizable :min-size="20" :max-size="80" :default-size="30">
+  <UDashboardPanel
+    resizable
+    :min-size="20"
+    :max-size="80"
+    :default-size="30"
+  >
     <template #header>
       <UDashboardNavbar title="Images" />
     </template>
@@ -16,7 +21,7 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
 })
 </script>
 

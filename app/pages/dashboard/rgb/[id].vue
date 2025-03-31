@@ -1,5 +1,5 @@
 <template>
-  <LazyDashboardDetailsRgb :idRgb="$route.params.id?.toString() || ''" />
+  <LazyDashboardDetailsRgb :id-rgb="$route.params.id?.toString() || ''" />
 </template>
 
 <script lang="ts" setup>

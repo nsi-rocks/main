@@ -2,14 +2,23 @@
   <UDashboardGroup>
     <UDashboardSidebar>
       <template #header>
-        <NuxtLink to="/" class="font-bold text-xl">
+        <NuxtLink
+          to="/"
+          class="font-bold text-xl"
+        >
           <Logo />
         </NuxtLink>
       </template>
       <template #default>
-        <UNavigationMenu :items="links" orientation="vertical" />
+        <UNavigationMenu
+          :items="links"
+          orientation="vertical"
+        />
         <Can :ability="adminOrDev">
-          <UNavigationMenu :items="linksAdmin" orientation="vertical" />
+          <UNavigationMenu
+            :items="linksAdmin"
+            orientation="vertical"
+          />
         </Can>
       </template>
     </UDashboardSidebar>
@@ -41,7 +50,7 @@ const links = computed(() => [
     label: 'API',
     to: '/dashboard/api',
     active: route.path.startsWith('/dashboard/api'),
-  }
+  },
 ])
 
 const linksAdmin = computed(() => [{
@@ -52,7 +61,7 @@ const linksAdmin = computed(() => [{
   label: 'Logs',
   to: '/dashboard/logs',
   active: route.path.startsWith('/dashboard/logs'),
-}
+},
 ])
 </script>
 

@@ -40,11 +40,12 @@ export default defineEventHandler(async (event) => {
           pixels: pixels,
           duration: duration,
         })
-      } else if (query && Object.keys(query).includes('details')) {
+      }
+      else if (query && Object.keys(query).includes('details')) {
         return {
           nbCases: data.nbCases,
           duration: data.duration,
-          nbImages: data.pixels.reduce((count, item) => count + (Array.isArray(item) ? 1 : 0), 0) || 1
+          nbImages: data.pixels.reduce((count, item) => count + (Array.isArray(item) ? 1 : 0), 0) || 1,
         }
       }
       else return data

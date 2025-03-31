@@ -1,20 +1,45 @@
 <template>
   <div class="w-full">
-    <UAlert v-if="user" color="primary" variant="soft" title="Vous êtes bien connecté"
+    <UAlert
+      v-if="user"
+      color="primary"
+      variant="soft"
+      title="Vous êtes bien connecté"
       :description="`Vous êtes connecté en tant que ${user?.firstName} ${user?.lastName} (${JSON.parse(user?.classes || `['']`)[0]})`"
-      :actions="[{ label: 'se déconnecter', onClick: logout }]" />
-    <UStepper :items="steps" v-model="stepChoix" disabled class="my-12" />
+      :actions="[{ label: 'se déconnecter', onClick: logout }]"
+    />
+    <UStepper
+      v-model="stepChoix"
+      :items="steps"
+      disabled
+      class="my-12"
+    />
     <div v-if="stepChoix === 0 || stepChoix === 1">
-      <UTabs v-if="stepChoix === 0" v-model="tabJours" :items="tabs" :content="false" />
+      <UTabs
+        v-if="stepChoix === 0"
+        v-model="tabJours"
+        :items="tabs"
+        :content="false"
+      />
       <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <UCard v-for="atelier in filterAteliers" :key="atelier.titre" class="mt-4" variant="subtle"
-          :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''">
+        <UCard
+          v-for="atelier in filterAteliers"
+          :key="atelier.titre"
+          class="mt-4"
+          variant="subtle"
+          :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''"
+        >
           <template #header>
             <div class="flex flex-row items-center justify-between">
-              <ProseH3 class="my-0">{{ atelier.titre }}</ProseH3>
-              <UButton @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())"
-                class="ml-auto cursor-pointer">
-                Choisir</UButton>
+              <ProseH3 class="my-0">
+                {{ atelier.titre }}
+              </ProseH3>
+              <UButton
+                class="ml-auto cursor-pointer"
+                @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())"
+              >
+                Choisir
+              </UButton>
             </div>
           </template>
           <MDC :value="atelier.description || ''" />
@@ -22,11 +47,16 @@
       </div>
     </div>
     <div v-else>
-      <UPageCard class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 m-auto" variant="subtle">
+      <UPageCard
+        class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2 m-auto"
+        variant="subtle"
+      >
         <template #header>
           <div class="flex flex-row items-center justify-between">
             <div>
-              <ProseH2 class="my-0">Vous avez fait vos choix !</ProseH2>
+              <ProseH2 class="my-0">
+                Vous avez fait vos choix !
+              </ProseH2>
               <p>Il ne vous reste plus qu'à les relire, puis à confirmer votre sélection.</p>
             </div>
           </div>
@@ -34,18 +64,34 @@
 
         <template #footer>
           <div class="flex flex-row items-center justify-around">
-            <UButton @click="stepChoix = 0" color="neutral" variant="outline" size="xl" class="cursor-pointer">Modifier
+            <UButton
+              color="neutral"
+              variant="outline"
+              size="xl"
+              class="cursor-pointer"
+              @click="stepChoix = 0"
+            >
+              Modifier
               mes choix
             </UButton>
-            <UButton @click="sendChoice" size="xl" class="cursor-pointer">Confirmer</UButton>
+            <UButton
+              size="xl"
+              class="cursor-pointer"
+              @click="sendChoice"
+            >
+              Confirmer
+            </UButton>
           </div>
         </template>
 
         <template #body>
           <UCollapsible class="my-4">
-            <UButton variant="soft" class="w-full cursor-pointer">
+            <UButton
+              variant="soft"
+              class="w-full cursor-pointer"
+            >
               <div class="flex flex-row items-center justify-between w-full">
-                <span>{{ateliers?.find(el => el.id === choix.a1choix)?.titre}}</span>
+                <span>{{ ateliers?.find(el => el.id === choix.a1choix)?.titre }}</span>
                 <span>
                   <UIcon name="i-lucide-chevron-down" />
                 </span>
@@ -56,9 +102,12 @@
             </template>
           </UCollapsible>
           <UCollapsible class="my-4">
-            <UButton variant="soft" class="w-full cursor-pointer">
+            <UButton
+              variant="soft"
+              class="w-full cursor-pointer"
+            >
               <div class="flex flex-row items-center justify-between w-full">
-                <span>{{ateliers?.find(el => el.id === choix.a2choix)?.titre}}</span>
+                <span>{{ ateliers?.find(el => el.id === choix.a2choix)?.titre }}</span>
                 <span>
                   <UIcon name="i-lucide-chevron-down" />
                 </span>
@@ -109,25 +158,25 @@ const steps = ref([{
 
 const tabs = ref([{
   label: 'Lundi',
-  value: 1
+  value: 1,
 }, {
   label: 'Mardi',
-  value: 2
+  value: 2,
 }, {
   label: 'Jeudi',
-  value: 3
+  value: 3,
 }, {
   label: 'Vendredi',
-  value: 4
+  value: 4,
 }])
-
 
 const choixAtelier = (step: number, idAtelier: number, jour: number) => {
   // console.log(`Choix de l'atelier ${idAtelier} pour le jour ${jour}`)
   if (step === 0) {
     choix.a1jour = jour
     choix.a1choix = idAtelier
-  } else {
+  }
+  else {
     choix.a2choix = idAtelier
   }
   stepChoix.value += 1
@@ -160,7 +209,8 @@ const jourCompat = (id1: number, el: Atelier) => {
 
   if (jours1?.length === 1 && jours2.length === 1) {
     return jours1[0] !== jours2[0]
-  } else {
+  }
+  else {
     return true
   }
 }
@@ -171,11 +221,11 @@ const filterAteliers = computed(() => {
       .filter(el => !getABI(choix.a1choix)?.isExcluding || !el.isExcluding)
       .filter(el => !getABI(choix.a1choix)?.isCine || !el.isCine)
       .filter(el => jourCompat(choix.a1choix, el))
-  } else {
+  }
+  else {
     return props.ateliers?.filter(el => el.jours.includes(tabJours.value))
   }
 })
-
 
 const logout = async () => {
   store.session.clear()

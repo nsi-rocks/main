@@ -12,10 +12,8 @@ definePageMeta({
     // Check if the id is made up of digits
     const appid = getSubdomain(useRequestURL().hostname) || ''
     return ['rgb'].includes(appid)
-  }
+  },
 })
-
 </script>
-
 
 <style scoped></style>

@@ -1,15 +1,15 @@
 export default defineEventHandler(async (event) => {
   function getRandomInt(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
   const eleves = await useDrizzle().select().from(tables.users)
   for (const eleve of eleves) {
     if (eleve.teacher) continue
     // Générer les valeurs aléatoires avant d'effectuer l'insertion
-    const a1choix = getRandomInt(1, 30);
-    const a1jour = getRandomInt(1, 4);
-    const a2choix = getRandomInt(1, 30);
+    const a1choix = getRandomInt(1, 30)
+    const a1jour = getRandomInt(1, 4)
+    const a2choix = getRandomInt(1, 30)
 
     // Insérer ou mettre à jour les données
     await useDrizzle()
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
           a1choix: a1choix,
           a2choix: a2choix,
         },
-      });
+      })
   }
-  return "coucou"
+  return 'coucou'
 })

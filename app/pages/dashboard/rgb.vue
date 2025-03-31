@@ -1,9 +1,22 @@
 <template>
-  <UDashboardPanel id="rgb-1" resizable :min-size="20" :max-size="80" :default-size="30">
+  <UDashboardPanel
+    id="rgb-1"
+    resizable
+    :min-size="20"
+    :max-size="80"
+    :default-size="30"
+  >
     <template #header>
       <UDashboardNavbar title="Images">
         <template #right>
-          <UTabs v-model="tab" :items="items" default-value="all" size="sm" class="w-40" :content="false" />
+          <UTabs
+            v-model="tab"
+            :items="items"
+            default-value="all"
+            size="sm"
+            class="w-40"
+            :content="false"
+          />
         </template>
       </UDashboardNavbar>
     </template>
@@ -11,10 +24,15 @@
       <DashboardListRgb :query="tab" />
     </template>
   </UDashboardPanel>
-  <UDashboardPanel id="rgb-2" resizable :min-size="20" :max-size="80" :default-size="30">
+  <UDashboardPanel
+    id="rgb-2"
+    resizable
+    :min-size="20"
+    :max-size="80"
+    :default-size="30"
+  >
     <template #header>
-      <UDashboardNavbar title="Détails">
-      </UDashboardNavbar>
+      <UDashboardNavbar title="Détails" />
     </template>
     <template #body>
       <NuxtPage />
@@ -24,14 +42,13 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'dashboard'
+  layout: 'dashboard',
 })
-
 
 const tab = ref('my')
 const tmp = reactive({ my: '', all: '' })
 
-const route = useRoute();
+const route = useRoute()
 
 // watch(tab, (newValue, oldValue) => {
 //   if (!oldValue) return;
@@ -46,12 +63,12 @@ const route = useRoute();
 const items = [
   {
     label: 'Perso',
-    value: 'my'
+    value: 'my',
   },
   {
     label: 'Toutes',
-    value: 'all'
-  }
+    value: 'all',
+  },
 ]
 </script>
 

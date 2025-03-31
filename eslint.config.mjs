@@ -6,6 +6,7 @@ export default withNuxt(
   {
     rules: {
       'vue/no-v-html': 'off',
+      'vue/multi-word-component-names': 'off',
     },
   },
 )

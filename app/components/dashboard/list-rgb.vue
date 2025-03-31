@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-wrap gap-4 overflow-y-scroll">
-    <LazyDashboardSingleImage v-for="img in images" :key="img" :idRgb="img.split(':')[1] || ''" />
+    <LazyDashboardSingleImage
+      v-for="img in images"
+      :key="img"
+      :id-rgb="img.split(':')[1] || ''"
+    />
   </div>
 </template>
 
