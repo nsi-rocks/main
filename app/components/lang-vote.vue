@@ -124,9 +124,13 @@
 </template>
 
 <script lang="ts" setup>
+interface AtelierAvecNbChoix extends Atelier {
+  nbChoix: [number, number, number, number, number] // [a2, jour1, jour2, jour3, jour4]
+}
+
 const props = defineProps<{
   user: any
-  ateliers: Atelier[] | undefined
+  ateliers: AtelierAvecNbChoix[] | undefined
 }>()
 
 const emit = defineEmits<{
@@ -189,16 +193,34 @@ const choixAtelier = (step: number, idAtelier: number, jour: number) => {
 const sendChoice = async () => {
   // console.log('Envoi des choix')
   // console.log(choix.valueOf())
-  toast.add({
-    title: 'Choix envoyés',
-    description: 'Vos choix ont bien été envoyés, merci !',
-  })
-  const res = await $fetch.raw('/api/langues', {
-    method: 'POST',
-    body: choix.valueOf(),
-  })
-  if (res.status === 200) {
+
+  try {
+    const res = await $fetch.raw('/api/langues', {
+      method: 'POST',
+      // body: choix.valueOf(),
+      body: {
+        a1jour: 3,
+        a1choix: 2,
+        a2choix: 3,
+        toReset: false,
+      },
+    })
+    toast.add({
+      title: 'Choix envoyés',
+      description: 'Vos choix ont bien été envoyés, merci !',
+      color: 'success',
+      icon: 'i-lucide-check',
+    })
     emit('choiceSent')
+  }
+  catch (err) {
+    if (err.status === 400)
+      toast.add({
+        title: 'Erreur',
+        description: 'Les ateliers choisis sont complets, veuillez procéder à nouveau à votre sélection.',
+        color: 'error',
+        icon: 'i-lucide-x',
+      })
   }
 }
 
@@ -221,9 +243,27 @@ const filterAteliers = computed(() => {
       .filter(el => !getABI(choix.a1choix)?.isExcluding || !el.isExcluding)
       .filter(el => !getABI(choix.a1choix)?.isCine || !el.isCine)
       .filter(el => jourCompat(choix.a1choix, el))
+      .filter((el) => {
+        const jourCounts = el.jours?.reduce((acc, jour) => {
+          if (jour >= 1 && jour <= 4) {
+            acc[jour] = (acc[jour] || 0) + 1
+          }
+          return acc
+        }, {} as Record<number, number>) ?? {}
+
+        return Object.entries(jourCounts).some(([jourStr, count]) => {
+          const jour = Number(jourStr)
+          return el.nbChoix[jour]! < el.max * count
+        })
+      })
   }
   else {
     return props.ateliers?.filter(el => el.jours.includes(tabJours.value))
+      .filter((el) => {
+        const jour = tabJours.value
+        const sessions = el.jours.filter(j => j === jour).length
+        return el.nbChoix[jour]! < el.max * sessions
+      })
   }
 })
 

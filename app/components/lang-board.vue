@@ -11,8 +11,10 @@
       >
         {{ jour.label }}
       </UCard>
+
       <UCard
         v-for="atelier in ateliers?.filter(el => el.jours.includes(jour.value))"
+        :key="atelier.id + '-' + jour.value"
         :ui="{ body: 'p-4 sm:p-4' }"
         variant="subtle"
         class="w-full rounded-none"
@@ -20,8 +22,16 @@
       >
         <div class="flex flex-row justify-between">
           <span>{{ atelier.titre }}</span>
-          <span class="text-nowrap">{{ atelier.nbChoix }} / {{ atelier.max }}</span>
+          <span class="text-nowrap">
+            {{ atelier.nbChoix[jour.value] }} / {{ atelier.max * countSessions(atelier.jours, jour.value) }}
+          </span>
         </div>
+        <UProgress
+          :model-value="atelier.nbChoix.reduce((acc, val) => acc + val, 0)"
+          :max="atelier.max * atelier.jours.length"
+          size="xs"
+          class="mt-2"
+        />
       </UCard>
     </div>
   </div>
@@ -29,7 +39,7 @@
 
 <script lang="ts" setup>
 interface AtelierAvecNbChoix extends Atelier {
-  nbChoix: number
+  nbChoix: [number, number, number, number, number]
 }
 
 defineProps<{
@@ -41,8 +51,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'dashboardMount'): void
-  (e: 'dashboardUnmount'): void
+  (e: 'dashboardMount' | 'dashboardUnmount'): void
 }>()
 
 onMounted(() => {
@@ -52,6 +61,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   emit('dashboardUnmount')
 })
+
+const countSessions = (jours: number[], jour: number) => {
+  return jours.filter(j => j === jour).length
+}
 </script>
 
 <style scoped></style>

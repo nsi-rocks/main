@@ -8,7 +8,7 @@
       :grid-line="false"
       type="x"
       :tick-format="tickFormat"
-      :num-ticks="data.length"
+      :num-ticks="sorted.length"
     />
     <VisTooltip :triggers="triggers" />
   </VisXYContainer>
@@ -24,7 +24,7 @@ interface DataRecord {
 }
 const props = defineProps<{ data: DataRecord[] }>()
 
-const sorted: DataRecord[] = props.data.sort((a, b) => {
+const sorted: DataRecord[] = [...props.data].sort((a, b) => {
   const [niveauA, numA] = a.classe.split(' ')
   const [niveauB, numB] = b.classe.split(' ')
 
@@ -37,12 +37,12 @@ const sorted: DataRecord[] = props.data.sort((a, b) => {
   }
 
   return parseInt(numA!, 10) - parseInt(numB!, 10)
-})
+}).filter(d => d.classe.includes('2NDE'))
 
 const x = (d: DataRecord, i: number) => i
 const y = [(d: DataRecord) => d.count]
 
-const tickFormat = (d: number) => props.data[d]?.classe
+const tickFormat = (d: number) => `${sorted[d]?.classe} \n ${sorted[d]?.count}`
 
 const triggers = {
   [GroupedBar.selectors.bar]: (d: DataRecord) => `

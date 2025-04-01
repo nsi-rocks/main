@@ -369,6 +369,8 @@ const canvasClick = (e) => {
   const cellInnerHeight = cellHeightWithGutter - gutter.value
 
   if (gutterOffsetX > cellInnerWidth || gutterOffsetY > cellInnerHeight) {
+    // Do nothing as the click is outside the cell's inner area
+    return
   }
   else {
     if (mode.value === '1') {

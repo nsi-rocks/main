@@ -7,6 +7,9 @@ export default withNuxt(
     rules: {
       'vue/no-v-html': 'off',
       'vue/multi-word-component-names': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'vue/no-unused-vars': 'warn',
     },
   },
 )

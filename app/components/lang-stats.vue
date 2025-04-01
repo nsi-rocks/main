@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 interface AtelierAvecNbChoix extends Atelier {
-  nbChoix: number
+  nbChoix: [number, number, number, number, number]
 }
 
 interface DataRecord {
@@ -30,10 +30,7 @@ const props = defineProps<{
   }>
 }>()
 
-const emit = defineEmits<{
-  (e: 'dashboardMount'): void
-  (e: 'dashboardUnmount'): void
-}>()
+const emit = defineEmits<(e: 'dashboardMount' | 'dashboardUnmount') => void>()
 
 type MergedRow = Langue & Partial<User>
 
@@ -53,7 +50,9 @@ const dataGraph = computed(() => {
 })
 
 const ateliersTotal = computed(() => {
-  return props.ateliers?.reduce((acc, atelier) => acc + atelier.nbChoix, 0)
+  return props.ateliers?.reduce((acc, atelier) => {
+    return acc + atelier.nbChoix.reduce((sum, val) => sum + val, 0)
+  }, 0) ?? 0
 })
 
 function getClassesCount(data: MergedRow[]): DataRecord[] {
