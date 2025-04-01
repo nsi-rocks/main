@@ -20,8 +20,8 @@ export default defineEventHandler(async (event) => {
     })
     .from(tables.langues)
     .where(eq(tables.langues.userId, session.user?.id || '0daa3203-4e69-45d9-bafe-5f201aedabe6'))
-    .leftJoin(tables.ateliers, eq(tables.langues.a2choix, tables.ateliers.id))
-    .leftJoin(ateliers2, eq(tables.langues.a1choix, ateliers2.id))
+    .leftJoin(tables.ateliers, eq(tables.langues.a1choix, tables.ateliers.id))
+    .leftJoin(ateliers2, eq(tables.langues.a2choix, ateliers2.id))
     .all()
 
   if (res.length === 0) {

@@ -106,40 +106,24 @@
                   />
                 </UPageCard>
               </Can>
-              <Bouncer :ability="allowLangues">
-                <template #can>
-                  <div
-                    v-if="ownVoteStatus === 'success'"
-                    class="w-full"
-                  >
-                    <LangVote
-                      v-if="ownVote?.timestamp === null || ownVote?.toReset"
-                      :user="user"
-                      :ateliers="ateliers"
-                      @choice-sent="ownVoteRefresh"
-                    />
-                    <LangShow
-                      v-else
-                      :vote="ownVote!"
-                      @vote-again="ownVoteRefresh"
-                    />
-                  </div>
-                </template>
-                <template #cannot>
-                  <UPageCard
-                    orientation="vertical"
-                    title="Vous n'avez pas accès à cette page"
-                    description="Les inscriptions à la semaine des langues sont réservées aux élèves de Seconde."
-                    class="cursor-pointer"
-                    variant="subtle"
-                  >
-                    <Imago
-                      :src="'capy-gros-plan.png'"
-                      :nodark="true"
-                    />
-                  </UPageCard>
-                </template>
-              </Bouncer>
+              <Can :ability="allowLangues">
+                <div
+                  v-if="ownVoteStatus === 'success'"
+                  class="w-full"
+                >
+                  <LangVote
+                    v-if="ownVote?.timestamp === null || ownVote?.toReset"
+                    :user="user"
+                    :ateliers="ateliers"
+                    @choice-sent="ownVoteRefresh"
+                  />
+                  <LangShow
+                    v-else
+                    :vote="ownVote!"
+                    @vote-again="ownVoteRefresh"
+                  />
+                </div>
+              </Can>
             </div>
           </template>
           <template #placeholder>

@@ -28,7 +28,7 @@ export const userNotSecond = defineAbility((user: User) => {
 
   try {
     const classes: string[] = JSON.parse(user.classes)
-    return classes.some((c: string) => regex.test(c))
+    return !classes.some((c: string) => regex.test(c))
   }
   catch (e) {
     console.error('Erreur de parsing JSON dans user.classes :', e)
