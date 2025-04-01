@@ -197,13 +197,13 @@ const sendChoice = async () => {
   try {
     const res = await $fetch.raw('/api/langues', {
       method: 'POST',
-      // body: choix.valueOf(),
-      body: {
-        a1jour: 3,
-        a1choix: 2,
-        a2choix: 3,
-        toReset: false,
-      },
+      body: choix.valueOf(),
+      // body: {
+      //   a1jour: 3,
+      //   a1choix: 2,
+      //   a2choix: 3,
+      //   toReset: false,
+      // },
     })
     toast.add({
       title: 'Choix envoyés',
