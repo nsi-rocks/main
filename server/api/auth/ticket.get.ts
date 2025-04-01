@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
       console.log('✅ user l.61:', user)
 
       const res = await useDrizzle().insert(tables.users).values(user as User).onConflictDoNothing().returning()
-      user.classes = res[0].classes || user.classes
+      user.classes = res[0]?.classes || user.classes
       const log: Partial<Log> = {
         logType: res.length === 0 ? 'login' : 'first-login',
         logData: 'user : ' + user.user,
