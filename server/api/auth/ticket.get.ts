@@ -48,6 +48,9 @@ export default defineEventHandler(async (event) => {
             return c.split('$')[1] ?? c // ou tu peux filtrer, ou fallback sur c
           })
 
+          console.log('✅ Cleaned user.classes:', cleaned)
+          console.log('✅ user:', user)
+
           user.classes = JSON.stringify(cleaned)
         }
         catch (e) {
