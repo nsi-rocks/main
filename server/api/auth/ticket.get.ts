@@ -58,12 +58,15 @@ export default defineEventHandler(async (event) => {
         }
       }
 
+      console.log('✅ user l.61:', user)
+
       const res = await useDrizzle().insert(tables.users).values(user as User).onConflictDoNothing().returning()
       user.classes = res[0].classes || user.classes
       const log: Partial<Log> = {
         logType: res.length === 0 ? 'login' : 'first-login',
         logData: 'user : ' + user.user,
       }
+      console.log('✅ user l.69:', user)
 
       await useDrizzle().insert(tables.logs).values(log as Log).returning()
       // const req = `INSERT OR IGNORE INTO users (${Object.keys(user).join(',')},classes) VALUES (${Object.values(user).map(() => '?').join(',')},?)`
@@ -77,6 +80,8 @@ export default defineEventHandler(async (event) => {
         user: user,
         loggedInAt: new Date().toISOString(),
       })
+
+      console.log('✅ user l.84:', user)
 
       if (redirectCookie && ['rgb', 'langues'].includes(redirectCookie)) {
         setCookie(event, 'redirection', '', { maxAge: 0, domain: '.nsi.rocks' })
