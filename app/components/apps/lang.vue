@@ -92,7 +92,7 @@
                   <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png">
                 </UPageCard>
               </Cannot>
-              <Can :ability="userNotSecond">
+              <Cannot :ability="userNotSecond">
                 <UPageCard
                   orientation="vertical"
                   title="Vous n'avez pas accès à cette page"
@@ -105,7 +105,7 @@
                     :nodark="true"
                   />
                 </UPageCard>
-              </Can>
+              </Cannot>
               <Can :ability="allowLangues">
                 <div
                   v-if="ownVoteStatus === 'success'"
