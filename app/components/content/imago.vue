@@ -26,6 +26,8 @@ const props = defineProps({
   },
 })
 
+console.log('imago', props.src, props.nodark, props.iwidth)
+
 const c = useColorMode()
 const ld_src = computed(() => props.nodark ? props.src : c.value === 'dark' ? props.src?.replace('.png', '-d.png') : props.src)
 </script>

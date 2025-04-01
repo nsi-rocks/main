@@ -8,10 +8,10 @@ export const userOrDev = defineAbility({ allowGuest: true }, (user: User | null)
   return !!user || import.meta.dev
 })
 
-export const allowLangues = defineAbility((user: User) => {
+export const allowLangues = defineAbility({ allowGuest: true }, (user: User | null) => {
   const regex = /\b2NDE\b/i
 
-  if (user.teacher) return true
+  if (user?.teacher || import.meta.dev) return true
 
   try {
     const classes: string[] = JSON.parse(user.classes)

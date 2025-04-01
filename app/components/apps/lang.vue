@@ -80,35 +80,52 @@
         <AuthState>
           <template #default="{ loggedIn, user, clear }">
             <div class="flex flex-col items-center justify-center">
-              <UPageCard
-                v-if="!loggedIn"
-                orientation="vertical"
-                title="S'identifier"
-                description="Veuillez vous identifier grâce à l'ENT Hauts-de-France"
-                class="cursor-pointer"
-                variant="subtle"
-                @click="login"
-              >
-                <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png">
-              </UPageCard>
-              <Can :ability="userOrDev">
-                <div
-                  v-if="ownVoteStatus === 'success'"
-                  class="w-full"
+              <Cannot :ability="userOrDev">
+                <UPageCard
+                  orientation="vertical"
+                  title="S'identifier"
+                  description="Veuillez vous identifier grâce à l'ENT Hauts-de-France"
+                  class="cursor-pointer"
+                  variant="subtle"
+                  @click="login"
                 >
-                  <LangVote
-                    v-if="ownVote?.timestamp === null || ownVote?.toReset"
-                    :user="user"
-                    :ateliers="ateliers"
-                    @choice-sent="ownVoteRefresh"
-                  />
-                  <LangShow
-                    v-else
-                    :vote="ownVote!"
-                    @vote-again="ownVoteRefresh"
-                  />
-                </div>
-              </Can>
+                  <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png">
+                </UPageCard>
+              </Cannot>
+              <Bouncer :ability="allowLangues">
+                <template #can>
+                  <div
+                    v-if="ownVoteStatus === 'success'"
+                    class="w-full"
+                  >
+                    <LangVote
+                      v-if="ownVote?.timestamp === null || ownVote?.toReset"
+                      :user="user"
+                      :ateliers="ateliers"
+                      @choice-sent="ownVoteRefresh"
+                    />
+                    <LangShow
+                      v-else
+                      :vote="ownVote!"
+                      @vote-again="ownVoteRefresh"
+                    />
+                  </div>
+                </template>
+                <template #cannot>
+                  <UPageCard
+                    orientation="vertical"
+                    title="Vous n'avez pas accès à cette page"
+                    description="Les inscriptions à la semaine des langues sont réservées aux élèves de Seconde."
+                    class="cursor-pointer"
+                    variant="subtle"
+                  >
+                    <Imago
+                      :src="'capy-gros-plan.png'"
+                      :nodark="true"
+                    />
+                  </UPageCard>
+                </template>
+              </Bouncer>
             </div>
           </template>
           <template #placeholder>
