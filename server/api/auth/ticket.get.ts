@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
       // console.log(user);
 
-      if (!user.teacher && user.classes) {
+      if (user.classes) {
         try {
           user.classes = JSON.stringify(JSON.parse(user.classes).map((c: string) => c.split('$')[1]))
         }
