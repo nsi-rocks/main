@@ -31,16 +31,27 @@ export default defineEventHandler(async (event) => {
         classes: tmp['classes'],
       }
 
-      // console.log(data);
+      console.log(data)
 
-      // console.log(user);
+      console.log(user)
 
       if (user.classes) {
         try {
-          user.classes = JSON.stringify(JSON.parse(user.classes).map((c: string) => c.split('$')[1]))
+          const parsed = typeof user.classes === 'string'
+            ? JSON.parse(user.classes)
+            : user.classes
+
+          console.log('👀 Parsed user.classes:', parsed)
+
+          const cleaned = parsed.map((c: string) => {
+            if (!c.includes('$')) console.warn('❌ Pas de $ dans', c)
+            return c.split('$')[1] ?? c // ou tu peux filtrer, ou fallback sur c
+          })
+
+          user.classes = JSON.stringify(cleaned)
         }
         catch (e) {
-          console.error(e)
+          console.error('💥 Erreur en traitant user.classes :', e)
         }
       }
 
