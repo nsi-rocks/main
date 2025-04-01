@@ -92,6 +92,20 @@
                   <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png">
                 </UPageCard>
               </Cannot>
+              <Can :ability="userNotSecond">
+                <UPageCard
+                  orientation="vertical"
+                  title="Vous n'avez pas accès à cette page"
+                  description="Les inscriptions à la semaine des langues sont réservées aux élèves de Seconde."
+                  class="cursor-pointer"
+                  variant="subtle"
+                >
+                  <Imago
+                    :src="'capy-gros-plan.png'"
+                    :nodark="true"
+                  />
+                </UPageCard>
+              </Can>
               <Bouncer :ability="allowLangues">
                 <template #can>
                   <div
