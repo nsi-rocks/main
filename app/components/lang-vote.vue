@@ -122,7 +122,7 @@
           <UTextarea
             v-model="choix.commentaire"
             label="Remarques"
-            placeholder="Rendez-vous importants, questions, etc."
+            placeholder="Remarque éventuelle : rdv médical (date/heure/professionnel)."
             class="mt-4 w-full"
           />
         </template>
