@@ -1,7 +1,7 @@
 <template>
-  <div class="grid grid-cols-5 grid-rows-4 gap-8 p-8">
+  <div class="grid grid-cols-5 grid-rows-1 gap-8 p-8 h-48">
     <UCard class="self-start">
-      {{ ateliersTotal }} inscriptions au total
+      {{ ateliersTotal / 2 }} inscriptions au total
     </UCard>
 
     <BarsGraph
@@ -10,6 +10,11 @@
       class="col-span-2"
     />
   </div>
+  <UTable
+    v-if="votes.length > 0"
+    :data="votes"
+    :columns="columns"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -22,6 +27,20 @@ interface DataRecord {
   count: number
 }
 
+const columns = [
+  { accessorKey: 'user', label: 'Utilisateur' },
+  { accessorKey: 'a1choix', label: 'Atelier 1', cell: ({ cell }) => {
+    const atelier = props.ateliers?.find(atelier => atelier.id === cell.getValue())
+    return atelier ? atelier.titre : 'Inconnu'
+  } },
+  { accessorKey: 'a1jour', label: 'Jour 1', cell: ({ cell }) => ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][cell.getValue()] },
+  { accessorKey: 'a2choix', label: 'Atelier 2', cell: ({ cell }) => {
+    const atelier = props.ateliers?.find(atelier => atelier.id === cell.getValue())
+    return atelier ? atelier.titre : 'Inconnu'
+  } },
+  { accessorKey: 'classes', label: 'Classe', cell: ({ cell }) => JSON.parse(cell.getValue())[0] },
+  { accessorKey: 'commentaire', label: 'Commentaire' },
+]
 const props = defineProps<{
   ateliers: AtelierAvecNbChoix[] | undefined
   tabs: Array<{

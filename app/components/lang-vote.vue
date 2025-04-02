@@ -21,30 +21,32 @@
         :items="tabs"
         :content="false"
       />
-      <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-        <UCard
-          v-for="atelier in filterAteliers"
-          :key="atelier.titre"
-          class="mt-4"
-          variant="subtle"
-          :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''"
-        >
-          <template #header>
-            <div class="flex flex-row items-center justify-between">
-              <ProseH3 class="my-0">
-                {{ atelier.titre }}
-              </ProseH3>
-              <UButton
-                class="ml-auto cursor-pointer"
-                @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())"
-              >
-                Choisir
-              </UButton>
-            </div>
-          </template>
-          <MDC :value="atelier.description || ''" />
-        </UCard>
-      </div>
+      <ClientOnly>
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <LazyUCard
+            v-for="atelier in filterAteliers"
+            :key="atelier.id"
+            class="mt-4"
+            variant="subtle"
+            :class="[7, 28].includes(atelier.id) ? 'row-span-2' : ''"
+          >
+            <template #header>
+              <div class="flex flex-row items-center justify-between">
+                <ProseH3 class="my-0">
+                  {{ atelier.titre }}
+                </ProseH3>
+                <UButton
+                  class="ml-auto cursor-pointer"
+                  @click="choixAtelier(stepChoix.valueOf(), atelier.id, tabJours.valueOf())"
+                >
+                  Choisir
+                </UButton>
+              </div>
+            </template>
+            <MDC :value="atelier.description || ''" />
+          </LazyUCard>
+        </div>
+      </ClientOnly>
     </div>
     <div v-else>
       <UPageCard
@@ -117,6 +119,12 @@
               <MDC :value="ateliers?.find(el => el.id === choix.a2choix)?.description || ''" />
             </template>
           </UCollapsible>
+          <UTextarea
+            v-model="choix.commentaire"
+            label="Remarques"
+            placeholder="Rendez-vous importants, questions, etc."
+            class="mt-4 w-full"
+          />
         </template>
       </UPageCard>
     </div>
@@ -133,9 +141,7 @@ const props = defineProps<{
   ateliers: AtelierAvecNbChoix[] | undefined
 }>()
 
-const emit = defineEmits<{
-  (e: 'choiceSent'): void
-}>()
+const emit = defineEmits<(e: 'choiceSent') => void>()
 
 const store = useStore()
 const tabJours = ref(1)
@@ -147,6 +153,7 @@ const choix = reactive({
   a1choix: 0,
   a2choix: 0,
   toReset: false,
+  commentaire: '',
 })
 
 const steps = ref([{
@@ -237,9 +244,21 @@ const jourCompat = (id1: number, el: Atelier) => {
   }
 }
 
+function shuffle<T>(array?: T[] | null): T[] {
+  if (!array) return []
+  const copy = [...array]
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = copy[i]!
+    copy[i] = copy[j]!
+    copy[j] = temp
+  }
+  return copy
+}
+
 const filterAteliers = computed(() => {
   if (stepChoix.value === 1) {
-    return props.ateliers?.filter(el => el.id !== choix.a1choix)
+    return shuffle(props.ateliers?.filter(el => el.id !== choix.a1choix)
       .filter(el => !getABI(choix.a1choix)?.isExcluding || !el.isExcluding)
       .filter(el => !getABI(choix.a1choix)?.isCine || !el.isCine)
       .filter(el => jourCompat(choix.a1choix, el))
@@ -255,15 +274,15 @@ const filterAteliers = computed(() => {
           const jour = Number(jourStr)
           return el.nbChoix[jour]! < el.max * count
         })
-      })
+      }))
   }
   else {
-    return props.ateliers?.filter(el => el.jours.includes(tabJours.value))
+    return shuffle(props.ateliers?.filter(el => el.jours.includes(tabJours.value))
       .filter((el) => {
         const jour = tabJours.value
         const sessions = el.jours.filter(j => j === jour).length
         return el.nbChoix[jour]! < el.max * sessions
-      })
+      }))
   }
 })
 

@@ -1,15 +1,24 @@
+import { aliasedTable, like, isNull } from 'drizzle-orm'
+
 export default defineEventHandler(async (event) => {
   interface AtelierAvecNbChoix extends Atelier {
     nbChoix: [number, number, number, number, number] // [a2, jour1, jour2, jour3, jour4]
   }
 
+  const langues = aliasedTable(tables.langues, 'langues')
+  const users = aliasedTable(tables.users, 'users')
+
   const res = await useDrizzle()
     .select()
     .from(tables.ateliers)
-    .leftJoin(tables.langues, or(
-      eq(tables.langues.a1choix, tables.ateliers.id),
-      eq(tables.langues.a2choix, tables.ateliers.id),
+    .leftJoin(langues, or(
+      eq(langues.a1choix, tables.ateliers.id),
+      eq(langues.a2choix, tables.ateliers.id),
     ))
+    .leftJoin(users, eq(users.id, langues.userId))
+    .where(
+      or(isNull(users.id), and(eq(users.teacher, false), like(users.classes, '%2NDE%'))),
+    )
 
   const result = res.reduce<AtelierAvecNbChoix[]>((acc, row) => {
     const { ateliers: atelier, langues: langue } = row
@@ -37,5 +46,6 @@ export default defineEventHandler(async (event) => {
     return acc
   }, [])
 
-  return result
+  return result as AtelierAvecNbChoix[]
+  // return { count: res.length, data: res }
 })

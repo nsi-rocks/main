@@ -1,5 +1,7 @@
+import { like } from 'drizzle-orm'
+
 export default defineEventHandler(async (event) => {
-  const res = await useDrizzle().select().from(tables.langues).leftJoin(tables.users, eq(tables.langues.userId, tables.users.id))
+  const res = await useDrizzle().select().from(tables.langues).leftJoin(tables.users, and(eq(tables.langues.userId, tables.users.id), like(tables.users.classes, '%2NDE%')))
 
   type Row = {
     users: User | null
@@ -7,7 +9,7 @@ export default defineEventHandler(async (event) => {
   }
   type MergedRow = Langue & Partial<User>
 
-  return res.filter(el => JSON.parse(el.users?.classes || '').length === 1).map((row: Row) => ({
+  return res.filter(el => el.users?.teacher === false).map((row: Row) => ({
     ...row.langues,
     ...row.users,
   })) as MergedRow[]

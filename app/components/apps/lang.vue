@@ -18,33 +18,6 @@
                   class="mr-1 cursor-pointer"
                 />
 
-                <template #header>
-                  <div class="flex flex-row justify-end">
-                    <UButton
-                      v-if="simuStatus === 'idle' || simuStatus === 'success'"
-                      icon="i-lucide-dices"
-                      variant="soft"
-                      size="xl"
-                      rounded
-                      class="ml-auto cursor-pointer"
-                      @click="simuRun"
-                    >
-                      Simuler
-                    </UButton>
-                    <UButton
-                      v-else
-                      icon="i-lucide-loader"
-                      variant="soft"
-                      size="xl"
-                      rounded
-                      class="ml-auto cursor-pointer"
-                      :ui="{ leadingIcon: 'animate-spin' }"
-                      disabled
-                    >
-                      Simulation en cours
-                    </UButton>
-                  </div>
-                </template>
                 <template #body>
                   <LangBoard
                     :tabs="tabs"
@@ -77,6 +50,14 @@
         </UDashboardNavbar>
       </template>
       <template #body>
+        <UBanner
+          icon="i-lucide-info"
+          :ui="{ container: 'min-h-12 h-auto', title: 'text-wrap' }"
+        >
+          <template #title>
+            <div>Les inscriptions commenceront ce <strong>mercredi 2 avril à 13h</strong>, tout enregistrement réalisé avant cette date sera supprimé.</div>
+          </template>
+        </UBanner>
         <AuthState>
           <template #default="{ loggedIn, user, clear }">
             <div class="flex flex-col items-center justify-center">
@@ -161,8 +142,6 @@ const tabs = ref([{
 const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
 
 const { data: ateliers, refresh, status, clear } = await useLazyAsyncData('ateliers', () => $fetch('/api/langues/getAteliers'))
-
-const { refresh: simuRefresh, status: simuStatus, execute: simuRun } = await useLazyAsyncData('simu', () => $fetch('/api/langues/simu'), { immediate: false })
 
 function boardMount() {
   intervalId.value = setInterval(() => {

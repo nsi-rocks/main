@@ -16,6 +16,7 @@ export const logs = sqliteTable('logs', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
   logType: text('logType', { enum: ['login', 'first-login'] }).notNull(),
   logData: text('logData').notNull(),
+  userId: text('user_id').references(() => users.id),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
 })
 
@@ -25,6 +26,7 @@ export const langues = sqliteTable('langues', {
   a1choix: integer('a1choix').references(() => ateliers.id).notNull(),
   a1jour: integer('a1jour').notNull(),
   a2choix: integer('a2choix').references(() => ateliers.id).notNull(),
+  commentaire: text('commentaire'),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
   toReset: integer('toReset', { mode: 'boolean' }).default(false),
 })

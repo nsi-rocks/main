@@ -113,6 +113,7 @@ export default defineEventHandler(async (event) => {
       a1jour: body.a1jour,
       a2choix: body.a2choix,
       toReset: body.toReset,
+      commentaire: body.commentaire,
     }).onConflictDoUpdate({
       target: tables.langues.userId,
       set: {
@@ -120,6 +121,7 @@ export default defineEventHandler(async (event) => {
         a1choix: body.a1choix,
         a2choix: body.a2choix,
         toReset: body.toReset,
+        commentaire: body.commentaire,
       },
     }).returning()
 

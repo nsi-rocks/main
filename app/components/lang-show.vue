@@ -14,6 +14,12 @@
           :choix="props.vote"
           class="w-full"
         />
+        <UCard
+          variant="outline"
+          class="mt-4"
+        >
+          <strong>Commentaire : </strong>{{ props.vote.commentaire }}
+        </UCard>
       </template>
       <template #footer>
         <div class="flex flex-row items-center justify-around w-full">
@@ -40,6 +46,38 @@
 
 <script lang="ts" setup>
 import { LazyLangConfirmReset } from '#components'
+
+const { onLoaded } = useScriptNpm({
+  packageName: 'js-confetti',
+  file: 'dist/js-confetti.browser.js',
+  version: '0.12.0',
+  scriptOptions: {
+    use() {
+      return { JSConfetti: window.JSConfetti }
+    },
+
+  },
+})
+onLoaded(({ JSConfetti }) => {
+  // using the real API instance
+  const confetti = new JSConfetti()
+  confetti.addConfetti({
+    emojis: [
+      '🇫🇷', '🇺🇸', '🇪🇸', '🇩🇪', '🇮🇹', '🇯🇵', '🇨🇳', '🇬🇧', '🇰🇷', '🇧🇷',
+      '🇨🇦', '🇦🇺', '🇮🇳', '🇷🇺', '🇲🇽', '❤️', '💖', '🎆', '✨', '⭐',
+    ],
+    emojiSize: 100,
+    confettiNumber: 20,
+  })
+  confetti.addConfetti({
+    emojis: [
+      '🇫🇷', '🇺🇸', '🇪🇸', '🇩🇪', '🇮🇹', '🇯🇵', '🇨🇳', '🇬🇧', '🇰🇷', '🇧🇷',
+      '🇨🇦', '🇦🇺', '🇮🇳', '🇷🇺', '🇲🇽', '❤️', '💖', '🎆', '✨', '⭐',
+    ],
+    emojiSize: 40,
+    confettiNumber: 100,
+  })
+})
 
 type LangueAvecAteliers = Langue & {
   atelier1: Atelier | null
