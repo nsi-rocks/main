@@ -12,7 +12,7 @@
   </div>
   <UTable
     v-if="votes.length > 0"
-    :data="votes"
+    :data="sortedVotes"
     :columns="columns"
   />
 </template>
@@ -26,6 +26,29 @@ interface DataRecord {
   classe: string
   count: number
 }
+
+const props = defineProps<{
+  ateliers: AtelierAvecNbChoix[] | undefined
+  tabs: Array<{
+    value: number
+    label: string
+  }>
+}>()
+
+const votes = ref<MergedRow[]>([])
+
+onMounted(async () => {
+  emit('dashboardMount')
+  votes.value = await $fetch('/api/langues/getVotes')
+})
+
+const sortedVotes = computed(() => {
+  return [...votes.value].sort((a, b) => {
+    const tsA = Number(a.timestamp ?? 0)
+    const tsB = Number(b.timestamp ?? 0)
+    return tsB - tsA // décroissant : les plus récents d'abord
+  })
+})
 
 const columns = [
   { accessorKey: 'user', label: 'Utilisateur' },
@@ -41,24 +64,10 @@ const columns = [
   { accessorKey: 'classes', label: 'Classe', cell: ({ cell }) => JSON.parse(cell.getValue())[0] },
   { accessorKey: 'commentaire', label: 'Commentaire' },
 ]
-const props = defineProps<{
-  ateliers: AtelierAvecNbChoix[] | undefined
-  tabs: Array<{
-    value: number
-    label: string
-  }>
-}>()
 
 const emit = defineEmits<(e: 'dashboardMount' | 'dashboardUnmount') => void>()
 
 type MergedRow = Langue & Partial<User>
-
-const votes = ref<MergedRow[]>([])
-
-onMounted(async () => {
-  emit('dashboardMount')
-  votes.value = await $fetch('/api/langues/getVotes')
-})
 
 onBeforeUnmount(() => {
   emit('dashboardUnmount')
