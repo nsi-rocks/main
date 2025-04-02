@@ -54,6 +54,7 @@ export default defineEventHandler(async (event) => {
       const log: Partial<Log> = {
         logType: res.length === 0 ? 'login' : 'first-login',
         logData: 'user : ' + user.user,
+        userId: user.id,
       }
 
       await useDrizzle().insert(tables.logs).values(log as Log).returning()

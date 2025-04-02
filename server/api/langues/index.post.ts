@@ -125,6 +125,12 @@ export default defineEventHandler(async (event) => {
       },
     }).returning()
 
+    await db.insert(tables.logs).values({
+      logType: 'langues',
+      logData: 'Vote langues',
+      userId: session.user?.id || '0daa3203-4e69-45d9-bafe-5f201aedabe6',
+    })
+
     setResponseStatus(event, 200)
     return res
   }

@@ -9,6 +9,38 @@
       <template #header>
         <UDashboardNavbar title="Accueil">
           <template #right>
+            <Can :ability="userOrDev">
+              <UModal
+                title="Un peu d'aide ?"
+              >
+                <UButton
+                  label="Aide"
+                  color="error"
+                  variant="subtle"
+                />
+
+                <template #body>
+                  <MDC :value="aideContent" />
+                  <UInput
+                    v-model="aide.eleve"
+                    placeholder="Nom et prénom"
+                    class="w-full"
+                  />
+                  <UTextarea
+                    v-model="aide.message"
+                    label="Message"
+                    placeholder="J'ai rencontré un problème..."
+                    class="mt-4 w-full"
+                  />
+                  <UButton
+                    label="Envoyer"
+                    color="primary"
+                    class="mt-4"
+                    @click="sendHelp"
+                  />
+                </template>
+              </UModal>
+            </Can>
             <Can :ability="adminOrDev">
               <UDrawer>
                 <UButton
@@ -51,11 +83,15 @@
       </template>
       <template #body>
         <UBanner
+          id="ent-1"
           icon="i-lucide-info"
           :ui="{ container: 'min-h-12 h-auto', title: 'text-wrap' }"
+          close
         >
           <template #title>
-            <div>Les inscriptions commenceront ce <strong>mercredi 2 avril à 13h</strong>, tout enregistrement réalisé avant cette date sera supprimé.</div>
+            <div>
+              L'ENT est souvent en maintenance le mercredi après-midi. Si vous ne pouvez pas vous connecter, rééssayez régulièrement.
+            </div>
           </template>
         </UBanner>
         <AuthState>
@@ -65,12 +101,15 @@
                 <UPageCard
                   orientation="vertical"
                   title="S'identifier"
-                  description="Veuillez vous identifier grâce à l'ENT Hauts-de-France"
+                  description="Veuillez vous identifier grâce à l'ENT Hauts-de-France en cliquant sur le logo ci-dessous."
                   class="cursor-pointer"
                   variant="subtle"
                   @click="login"
                 >
-                  <img src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png">
+                  <img
+                    src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png"
+                    class="m-auto"
+                  >
                 </UPageCard>
               </Cannot>
               <Can :ability="userNotSecond">
@@ -123,6 +162,10 @@ type LangueAvecAteliers = Langue & {
   atelier2: Atelier | null
 }
 
+const toast = useToast()
+
+const aideContent = `Si vous rencontrez un bug, si vous n'arrivez pas à vous identifier, ou si vous n'arrivez pas à obtenir ce que vous voulez, vous pouvez remplir le formulaire ci-dessous en précisant bien vos nom et prénom.`
+
 const intervalId = ref(0)
 
 const tabs = ref([{
@@ -138,6 +181,28 @@ const tabs = ref([{
   label: 'Vendredi',
   value: 4,
 }])
+
+const aide = reactive({
+  eleve: '',
+  message: '',
+})
+
+const sendHelp = async () => {
+  const { data, error } = await useFetch('/api/langues/help', {
+    method: 'POST',
+    body: {
+      eleve: aide.eleve,
+      message: aide.message,
+    },
+  })
+
+  if (error.value) {
+    toast.add({ title: 'Une erreur est survenue lors de l\'envoi du message.' })
+  }
+  else {
+    toast.add({ title: 'Votre message a bien été envoyé.' })
+  }
+}
 
 const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
 

@@ -14,7 +14,7 @@ export const users = sqliteTable('users', {
 
 export const logs = sqliteTable('logs', {
   id: text('id').primaryKey().$defaultFn(() => createId()),
-  logType: text('logType', { enum: ['login', 'first-login'] }).notNull(),
+  logType: text('logType', { enum: ['login', 'first-login', 'langues'] }).notNull(),
   logData: text('logData').notNull(),
   userId: text('user_id').references(() => users.id),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
@@ -39,4 +39,11 @@ export const ateliers = sqliteTable('ateliers', {
   jours: text('jours', { mode: 'json' }).$type<number[]>().notNull(),
   isExcluding: integer('isExcluding', { mode: 'boolean' }).default(false),
   isCine: integer('isCine', { mode: 'boolean' }).default(false),
+})
+
+export const help = sqliteTable('help', {
+  id: integer({ mode: 'number' }).primaryKey({ autoIncrement: true }),
+  eleve: text('eleve'),
+  message: text('message'),
+  date: text('date').$defaultFn(() => Date.now().toString()),
 })
