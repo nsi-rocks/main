@@ -24,25 +24,31 @@ interface DataRecord {
 }
 const props = defineProps<{ data: DataRecord[] }>()
 
-const sorted: DataRecord[] = [...props.data].sort((a, b) => {
-  const [niveauA, numA] = a.classe.split(' ')
-  const [niveauB, numB] = b.classe.split(' ')
+const sorted = computed(() => {
+  return [...props.data]
+    .sort((a, b) => {
+      const [niveauA, numA] = a.classe.split(' ')
+      const [niveauB, numB] = b.classe.split(' ')
 
-  const niveauxOrdre = ['2NDE', '1ERE', 'TERMINALE']
+      const niveauxOrdre = ['2NDE', '1ERE', 'TERMINALE']
+      const niveauIndexA = niveauxOrdre.indexOf(niveauA || '')
+      const niveauIndexB = niveauxOrdre.indexOf(niveauB || '')
+      if (niveauIndexA !== niveauIndexB) {
+        return niveauIndexA - niveauIndexB
+      }
 
-  const niveauIndexA = niveauxOrdre.indexOf(niveauA || '')
-  const niveauIndexB = niveauxOrdre.indexOf(niveauB || '')
-  if (niveauIndexA !== niveauIndexB) {
-    return niveauIndexA - niveauIndexB
-  }
-
-  return parseInt(numA!, 10) - parseInt(numB!, 10)
-}).filter(d => d.classe.includes('2NDE'))
+      return parseInt(numA!, 10) - parseInt(numB!, 10)
+    })
+    .filter(d => d.classe.includes('2NDE'))
+})
 
 const x = (d: DataRecord, i: number) => i
 const y = [(d: DataRecord) => d.count]
 
-const tickFormat = (d: number) => `${sorted[d]?.classe} \n ${sorted[d]?.count}`
+const tickFormat = (d: number) => {
+  const value = sorted.value[d]
+  return value ? `${value.classe} \n ${value.count}` : ''
+}
 
 const triggers = {
   [GroupedBar.selectors.bar]: (d: DataRecord) => `
