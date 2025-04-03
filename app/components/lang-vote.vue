@@ -263,17 +263,25 @@ const filterAteliers = computed(() => {
       .filter(el => !getABI(choix.a1choix)?.isCine || !el.isCine)
       .filter(el => jourCompat(choix.a1choix, el))
       .filter((el) => {
-        const jourCounts = el.jours?.reduce((acc, jour) => {
+        const totalChoix = el.nbChoix.reduce((a, b) => a + b, 0)
+        const totalPlaces = el.jours.length * el.max
+        const remainingPlaces = totalPlaces - totalChoix
+
+        const jourCounts = el.jours.reduce((acc, jour) => {
           if (jour >= 1 && jour <= 4) {
             acc[jour] = (acc[jour] || 0) + 1
           }
           return acc
-        }, {} as Record<number, number>) ?? {}
+        }, {} as Record<number, number>)
 
-        return Object.entries(jourCounts).some(([jourStr, count]) => {
+        const isDispoSurUnJour = Object.entries(jourCounts).some(([jourStr, count]) => {
           const jour = Number(jourStr)
           return el.nbChoix[jour]! < el.max * count
         })
+
+        // atelier à afficher uniquement s’il reste des places globales
+        // ET s’il reste au moins un jour avec place
+        return remainingPlaces > 0 && isDispoSurUnJour
       }))
   }
   else {
