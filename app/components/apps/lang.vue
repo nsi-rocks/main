@@ -78,6 +78,7 @@
               </UDrawer>
             </Can>
             <UColorModeSwitch />
+            <UserButton redirect-app="lang" />
           </template>
         </UDashboardNavbar>
         <Can :ability="adminOrDev">
