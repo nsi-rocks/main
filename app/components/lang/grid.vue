@@ -34,10 +34,7 @@
 <script lang="ts" setup>
 import { LazyLangAssign } from '#components'
 
-const props = defineProps<{
-  ateliers: AtelierAvecNbChoix[] | undefined
-  votes: MergedRow[]
-}>()
+const { data: ateliers } = useNuxtData('ateliers')
 
 const jours = ['Choix2', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi']
 
@@ -48,8 +45,7 @@ const assignAtelier = (id: number) => {
   console.log('Atelier ID:', id)
   slideover.open({
     atelierId: id,
-    atelier: props.ateliers?.find(atelier => atelier.id === id),
-    votes: props.votes.filter(vote => vote.a1choix === id || vote.a2choix === id),
+    atelier: ateliers.value?.find(atelier => atelier.id === id),
   })
 }
 </script>

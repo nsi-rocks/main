@@ -101,7 +101,7 @@
                 :color="adminPanel === 1 ? 'primary' : 'neutral'"
                 @click="adminPanel = 1"
               />
-              <UButton
+              <!-- <UButton
                 icon="i-lucide-bar-chart-2"
                 label="Statistiques"
                 variant="link"
@@ -109,7 +109,7 @@
                 class="mr-4 cursor-pointer"
                 :color="adminPanel === 2 ? 'primary' : 'neutral'"
                 @click="adminPanel = 2"
-              />
+              /> -->
             </template>
             <template #right>
               <USelect
@@ -166,7 +166,7 @@ const toast = useToast()
 
 const aideContent = `Si vous rencontrez un bug, si vous n'arrivez pas à vous identifier, ou si vous n'arrivez pas à obtenir ce que vous voulez, vous pouvez remplir le formulaire ci-dessous en précisant bien vos nom et prénom.`
 
-const adminPanel = ref(-1)
+const adminPanel = ref(0)
 const classe = ref<string>('Toutes')
 
 const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')

@@ -1,4 +1,5 @@
 <template>
+  {{ sortedVotes.length }} votes
   <UTable
     v-if="votes.length > 0"
     :data="sortedVotes"

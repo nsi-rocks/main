@@ -21,3 +21,11 @@ export type AffectationJ2 = {
 }
 
 export type Affectation = AffectationJ1 & AffectationJ2
+
+export type updateData = {
+  userId: string
+  assignJ1atelier?: number
+  assignJ1jour?: number
+  assignJ2atelier?: number
+  assignJ2jour?: number
+}

@@ -14,11 +14,14 @@
 
 <script lang="ts" setup>
 const props = defineProps<{
-  ateliers: AtelierAvecNbChoix[]
-  votes: MergedRow[]
   panel: number
   classe: string
 }>()
+
+const { data: votes } = useNuxtData('votes')
+const { data: ateliers } = useNuxtData('ateliers')
+
+const modifs = useState<updateData[]>('modifs', () => [])
 </script>
 
 <style scoped>
