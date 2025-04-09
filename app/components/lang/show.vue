@@ -24,6 +24,7 @@
       <template #footer>
         <div class="flex flex-row items-center justify-around w-full">
           <UButton
+            v-if="false"
             class="cursor-pointer"
             variant="outline"
             color="neutral"

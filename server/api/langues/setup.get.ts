@@ -225,9 +225,9 @@ export default defineEventHandler(async (event) => {
     },
   ]
 
-  for (const atelier of ateliers) {
-    const { id, ...atelierData } = atelier
-    await useDrizzle().insert(tables.ateliers).values(atelierData)
-  }
+  // for (const atelier of ateliers) {
+  //   const { id, ...atelierData } = atelier
+  //   await useDrizzle().insert(tables.ateliers).values(atelierData)
+  // }
   return 'Hello Nitro'
 })

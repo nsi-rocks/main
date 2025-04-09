@@ -29,6 +29,10 @@ export const langues = sqliteTable('langues', {
   commentaire: text('commentaire'),
   timestamp: text('created_at').$defaultFn(() => Date.now().toString()),
   toReset: integer('toReset', { mode: 'boolean' }).default(false),
+  assignJ1atelier: integer('assignJ1atelier').references(() => ateliers.id),
+  assignJ2atelier: integer('assignJ2atelier').references(() => ateliers.id),
+  assignJ1jour: integer('assignJ1jour'),
+  assignJ2jour: integer('assignJ2jour'),
 })
 
 export const ateliers = sqliteTable('ateliers', {

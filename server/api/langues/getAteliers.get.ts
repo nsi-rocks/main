@@ -1,10 +1,6 @@
 import { aliasedTable, like, isNull } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
-  interface AtelierAvecNbChoix extends Atelier {
-    nbChoix: [number, number, number, number, number] // [a2, jour1, jour2, jour3, jour4]
-  }
-
   const langues = aliasedTable(tables.langues, 'langues')
   const users = aliasedTable(tables.users, 'users')
 
@@ -27,7 +23,7 @@ export default defineEventHandler(async (event) => {
     let existingAtelier = acc.find(item => item.id === atelier.id)
 
     if (!existingAtelier) {
-      existingAtelier = { ...atelier, nbChoix: [0, 0, 0, 0, 0] }
+      existingAtelier = { ...atelier, nbChoix: [0, 0, 0, 0, 0], assignedChoix: [0, 0, 0, 0] }
       acc.push(existingAtelier)
     }
 
@@ -39,6 +35,18 @@ export default defineEventHandler(async (event) => {
         const jour = langue.a1jour
         if (jour >= 1 && jour <= 4) {
           existingAtelier.nbChoix[jour]++
+        }
+      }
+      if (langue.assignJ1atelier === atelier.id) {
+        const jour = langue.assignJ1jour || 0
+        if (jour >= 1 && jour <= 4) {
+          existingAtelier.assignedChoix[jour]++
+        }
+      }
+      if (langue.assignJ2atelier === atelier.id) {
+        const jour = langue.assignJ2jour || 0
+        if (jour >= 1 && jour <= 4) {
+          existingAtelier.assignedChoix[jour]++
         }
       }
     }

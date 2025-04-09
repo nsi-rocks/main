@@ -80,47 +80,6 @@
             <UColorModeSwitch />
           </template>
         </UDashboardNavbar>
-        <Can :ability="adminOrDev">
-          <UDashboardToolbar>
-            <template #left>
-              <UButton
-                icon="i-lucide-table"
-                label="Visualisation des votes"
-                variant="link"
-                rounded
-                class="mr-1 cursor-pointer"
-                :color="adminPanel === 0 ? 'primary' : 'neutral'"
-                @click="adminPanel = 0"
-              />
-              <UButton
-                icon="i-lucide-layout-grid"
-                label="Ateliers"
-                variant="link"
-                rounded
-                class="mr-1 cursor-pointer"
-                :color="adminPanel === 1 ? 'primary' : 'neutral'"
-                @click="adminPanel = 1"
-              />
-              <UButton
-                icon="i-lucide-bar-chart-2"
-                label="Statistiques"
-                variant="link"
-                rounded
-                class="mr-4 cursor-pointer"
-                :color="adminPanel === 2 ? 'primary' : 'neutral'"
-                @click="adminPanel = 2"
-              />
-            </template>
-            <template #right>
-              <USelect
-                v-if="adminPanel === 0"
-                v-model="classe"
-                :items="classes"
-                label="Classe"
-              />
-            </template>
-          </UDashboardToolbar>
-        </Can>
       </template>
       <template #body>
         <UBanner
@@ -131,26 +90,61 @@
         >
           <template #title>
             <div>
-              Les inscriptions pour la semaine des langues sont terminées.
+              L'ENT est souvent en maintenance le mercredi après-midi. Si vous ne pouvez pas vous connecter, rééssayez régulièrement.
             </div>
           </template>
         </UBanner>
         <AuthState>
           <template #default="{ loggedIn, user, clear }">
-            <UPageCard
-              v-if="false"
-              title="Les inscriptions sont terminées"
-              description="Les inscriptions à la semaine des langues sont terminées pour cette année, vous recevrez bientôt des informations relatives à vos voeux."
-            />
-            <Can :ability="adminOrDev">
-              <LangAdmin
-                v-if="votes && ateliers"
-                :panel="adminPanel"
-                :votes="votes"
-                :ateliers="ateliers"
-                :classe="classe"
-              />
-            </Can>
+            <div class="flex flex-col items-center justify-center">
+              <Cannot :ability="userOrDev">
+                <UPageCard
+                  orientation="vertical"
+                  title="S'identifier"
+                  description="Veuillez vous identifier grâce à l'ENT Hauts-de-France en cliquant sur le logo ci-dessous."
+                  class="cursor-pointer"
+                  variant="subtle"
+                  @click="login"
+                >
+                  <img
+                    src="https://cdn.enthdf.fr/assets/themes/hdf2d/img/illustrations/logo.png"
+                    class="m-auto"
+                  >
+                </UPageCard>
+              </Cannot>
+              <Can :ability="userNotSecond">
+                <UPageCard
+                  orientation="vertical"
+                  title="Vous n'avez pas accès à cette page"
+                  description="Les inscriptions à la semaine des langues sont réservées aux élèves de Seconde."
+                  class="cursor-pointer"
+                  variant="subtle"
+                >
+                  <Imago
+                    :src="'capy-gros-plan.png'"
+                    :nodark="true"
+                  />
+                </UPageCard>
+              </Can>
+              <Can :ability="allowLangues">
+                <div
+                  v-if="ownVoteStatus === 'success'"
+                  class="w-full"
+                >
+                  <LangVote
+                    v-if="ownVote?.timestamp === null || ownVote?.toReset"
+                    :user="user"
+                    :ateliers="ateliers"
+                    @choice-sent="ownVoteRefresh"
+                  />
+                  <LangShow
+                    v-else
+                    :vote="ownVote!"
+                    @vote-again="ownVoteRefresh"
+                  />
+                </div>
+              </Can>
+            </div>
           </template>
           <template #placeholder>
             Chargement...
@@ -162,32 +156,17 @@
 </template>
 
 <script lang="ts" setup>
+// TODO : intégrer l'information d'une inscription en cours de modification
+type LangueAvecAteliers = Langue & {
+  atelier1: Atelier | null
+  atelier2: Atelier | null
+}
+
 const toast = useToast()
 
 const aideContent = `Si vous rencontrez un bug, si vous n'arrivez pas à vous identifier, ou si vous n'arrivez pas à obtenir ce que vous voulez, vous pouvez remplir le formulaire ci-dessous en précisant bien vos nom et prénom.`
 
-const adminPanel = ref(-1)
-const classe = ref<string>('Toutes')
-
-const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
-
-const { data: ateliers, refresh, status, clear } = await useLazyAsyncData('ateliers', () => $fetch('/api/langues/getAteliers'))
-
-const { data: votes, refresh: votesRefresh, status: votesStatus } = await useLazyAsyncData('votes', () => $fetch('/api/langues/getVotes'))
-
-const classes = computed(() => {
-  const allClasses = votes.value?.flatMap((entry) => {
-    try {
-      return JSON.parse(entry.classes) // convertit "[\"2NDE 08\"]" → ["2NDE 08"]
-    }
-    catch (e) {
-      return [] // en cas d'erreur de parsing
-    }
-  })
-
-  const uniqueClasses = [...new Set(allClasses)]
-  return ['Toutes', ...uniqueClasses.sort((a, b) => a.localeCompare(b))]
-})
+const intervalId = ref(0)
 
 const tabs = ref([{
   label: 'Lundi',
@@ -224,6 +203,10 @@ const sendHelp = async () => {
     toast.add({ title: 'Votre message a bien été envoyé.' })
   }
 }
+
+const { data: ownVote, refresh: ownVoteRefresh, status: ownVoteStatus } = await useFetch<LangueAvecAteliers>('/api/langues/getOwnVote')
+
+const { data: ateliers, refresh, status, clear } = await useLazyAsyncData('ateliers', () => $fetch('/api/langues/getAteliers'))
 
 function boardMount() {
   // intervalId.value = setInterval(() => {
