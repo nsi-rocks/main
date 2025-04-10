@@ -38,7 +38,11 @@
             >
               <span class="">{{ vote.firstName }}</span>
               <span class="truncate">{{ vote.lastName }}</span>
-              <span class="">{{ JSON.parse(vote.classes!)[0] }}</span>
+              <span>{{ (() => {
+                try { return JSON.parse(vote.classes || '[""]')[0] }
+                catch (e) { return '' }
+              })() }}</span>
+
               <UButton
                 v-if="vote.a1choix !== 33 || vote.a2choix !== 33"
                 :label="getLabel(vote)"
@@ -126,7 +130,8 @@
                   />
 
                   <UBadge
-                    :label="'assignJ1jour' in modifs.find(el => el.userId === vote.userId) ? 'jour 1' : 'jour 2'"
+                    :label="modifs.find(el => el.userId === vote.userId)?.assignJ1jour !== undefined ? 'jour 1' : 'jour 2'"
+
                     variant="soft"
                   />
                 </span>
@@ -245,16 +250,19 @@ const cancelVote = (vote: MergedRow) => {
 
 const saveModifs = async () => {
   try {
+    const body = modifs.value.map(el => ({
+      assignJ1atelier: (el.assignJ1atelier !== undefined && el.assignJ1atelier !== null) ? el.assignJ1atelier : el.shJ1atelier,
+      assignJ2atelier: (el.assignJ2atelier !== undefined && el.assignJ2atelier !== null) ? el.assignJ2atelier : el.shJ2atelier,
+      assignJ1jour: el.assignJ1jour,
+      assignJ2jour: el.assignJ2jour,
+      userId: el.userId,
+    }))
+
     const res = await $fetch.raw('/api/langues/updateVotes', {
       method: 'PATCH',
-      body: modifs.value.map(el => ({
-        assignJ1atelier: el.assignJ1atelier ?? el.shJ1atelier,
-        assignJ2atelier: el.assignJ2atelier ?? el.shJ2atelier,
-        assignJ1jour: el.assignJ1jour,
-        assignJ2jour: el.assignJ2jour,
-        userId: el.userId,
-      })),
+      body,
     })
+
     modifs.value = []
     toast.add({ title: 'Modifications enregistrées' })
     await refreshNuxtData('votes')
@@ -267,48 +275,84 @@ const saveModifs = async () => {
 }
 
 const votesByClass = computed(() => {
-  return [...votes.value]
+  return votes.value
+    .slice()
     .filter((el) => {
-      return ((el.assignJ2atelier === props.atelierId && el.assignJ2jour === null) || ((el.a1choix === 33 || el.a2choix === 33) && noninscrits.value))
-        && !((el.assignJ1atelier === props.atelierId && el.assignJ1jour !== null) || (el.assignJ2atelier === props.atelierId && el.assignJ2jour !== null)) && (el.assignJ1jour !== jourActuel.value && el.assignJ2jour !== jourActuel.value)
+      return (
+        (el.assignJ2atelier === props.atelierId && el.assignJ2jour === null)
+        || ((el.a1choix === 33 || el.a2choix === 33) && noninscrits.value)
+      )
+      && !(
+        (el.assignJ1atelier === props.atelierId && el.assignJ1jour !== null)
+        || (el.assignJ2atelier === props.atelierId && el.assignJ2jour !== null)
+      )
+      && (el.assignJ1jour !== jourActuel.value && el.assignJ2jour !== jourActuel.value)
     })
     .filter((el) => {
       if (classe.value === 'Toutes') return true
-      return JSON.parse(el.classes)[0] === classe.value
+      try {
+        return JSON.parse(el.classes)[0] === classe.value
+      }
+      catch (e) {
+        return false
+      }
     })
     .sort((a, b) => {
-      const tsA = a.lastName
-      const tsB = b.lastName
-      return tsA.localeCompare(tsB) // décroissant : les plus récents d'abord
-    })
-    .sort((a, b) => {
-      const tsA = JSON.parse(a.classes ?? '')[0].split(' ')[1]
-      const tsB = JSON.parse(b.classes ?? '')[0].split(' ')[1]
-      return tsA - tsB // décroissant : les plus récents d'abord
+      let classA = '', classB = ''
+      try {
+        classA = JSON.parse(a.classes || '[""]')[0].split(' ')[1] || ''
+        classB = JSON.parse(b.classes || '[""]')[0].split(' ')[1] || ''
+      }
+      catch (e) {}
+
+      // Comparaison par classe (numérique si possible)
+      const numA = parseInt(classA, 10)
+      const numB = parseInt(classB, 10)
+      const classDiff = !isNaN(numA) && !isNaN(numB)
+        ? numA - numB
+        : classA.localeCompare(classB)
+
+      if (classDiff !== 0) return classDiff
+
+      // Si les classes sont égales, on trie par nom
+      return a.lastName.localeCompare(b.lastName)
     })
 })
 
 const assignedVotes = computed(() => {
-  return [...votes.value].filter(el => (el.assignJ1atelier === props.atelierId && el.assignJ1jour === jourActuel.value) || (el.assignJ2atelier === props.atelierId && el.assignJ2jour === jourActuel.value)).sort((a, b) => {
-    const tsA = a.lastName
-    const tsB = b.lastName
-    return tsA.localeCompare(tsB) // décroissant : les plus récents d'abord
-  }).sort((a, b) => {
-    const tsA = JSON.parse(a.classes ?? '')[0].split(' ')[1]
-    const tsB = JSON.parse(b.classes ?? '')[0].split(' ')[1]
-    return tsA - tsB // décroissant : les plus récents d'abord
-  })
+  return votes.value
+    .slice()
+    .filter(el =>
+      (el.assignJ1atelier === props.atelierId && el.assignJ1jour === jourActuel.value)
+      || (el.assignJ2atelier === props.atelierId && el.assignJ2jour === jourActuel.value),
+    )
+    .sort((a, b) => {
+      const tsA = a.lastName
+      const tsB = b.lastName
+      return tsA.localeCompare(tsB)
+    })
+    .sort((a, b) => {
+      let tsA = '', tsB = ''
+      try {
+        tsA = JSON.parse(a.classes || '[""]')[0].split(' ')[1]
+        tsB = JSON.parse(b.classes || '[""]')[0].split(' ')[1]
+      }
+      catch (e) {}
+      return tsA - tsB
+    })
 })
 
 const classes = computed(() => {
-  const allClasses = votes.value.flatMap((entry) => {
-    try {
-      return JSON.parse(entry.classes) // convertit "[\"2NDE 08\"]" → ["2NDE 08"]
-    }
-    catch (e) {
-      return [] // en cas d'erreur de parsing
-    }
-  })
+  const allClasses = votes.value
+    .map((entry) => {
+      try {
+        return JSON.parse(entry.classes) // ["2NDE 08"]
+      }
+      catch (e) {
+        return [] // en cas d'erreur
+      }
+    })
+    .reduce((acc, val) => acc.concat(val), []) // concatène tous les tableaux
 
   const uniqueClasses = [...new Set(allClasses)]
   return ['Toutes', ...uniqueClasses.sort((a, b) => a.localeCompare(b))]

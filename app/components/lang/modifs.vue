@@ -41,13 +41,19 @@ const props = defineProps<{
   classe: string
 }>()
 
-const bmodifs = computed(() => modifs.value.map(el => ({
-  assignJ1atelier: el.assignJ1atelier ?? el.shJ1atelier,
-  assignJ2atelier: el.assignJ2atelier ?? el.shJ2atelier,
-  assignJ1jour: el.assignJ1jour,
-  assignJ2jour: el.assignJ2jour,
-  userId: el.userId,
-})))
+const bmodifs = computed(() =>
+  modifs.value.map(el => ({
+    assignJ1atelier: (el.assignJ1atelier !== undefined && el.assignJ1atelier !== null)
+      ? el.assignJ1atelier
+      : el.shJ1atelier,
+    assignJ2atelier: (el.assignJ2atelier !== undefined && el.assignJ2atelier !== null)
+      ? el.assignJ2atelier
+      : el.shJ2atelier,
+    assignJ1jour: el.assignJ1jour,
+    assignJ2jour: el.assignJ2jour,
+    userId: el.userId,
+  })),
+)
 
 const columns = [
   { accessorKey: 'userId', header: 'élève', cell: ({ cell }) => {
@@ -80,16 +86,19 @@ const columns = [
 
 const saveModifs = async () => {
   try {
+    const body = modifs.value.map(el => ({
+      assignJ1atelier: (el.assignJ1atelier !== undefined && el.assignJ1atelier !== null) ? el.assignJ1atelier : el.shJ1atelier,
+      assignJ2atelier: (el.assignJ2atelier !== undefined && el.assignJ2atelier !== null) ? el.assignJ2atelier : el.shJ2atelier,
+      assignJ1jour: el.assignJ1jour,
+      assignJ2jour: el.assignJ2jour,
+      userId: el.userId,
+    }))
+
     const res = await $fetch.raw('/api/langues/updateVotes', {
       method: 'PATCH',
-      body: modifs.value.map(el => ({
-        assignJ1atelier: el.assignJ1atelier ?? el.shJ1atelier,
-        assignJ2atelier: el.assignJ2atelier ?? el.shJ2atelier,
-        assignJ1jour: el.assignJ1jour,
-        assignJ2jour: el.assignJ2jour,
-        userId: el.userId,
-      })),
+      body,
     })
+
     modifs.value = []
     toast.add({ title: 'Modifications enregistrées' })
     await refreshNuxtData('votes')
@@ -113,7 +122,14 @@ const sortedVotes = computed(() => {
 })
 
 const columns2 = [
-  { accessorKey: 'classes', header: 'Classe', cell: ({ cell }) => JSON.parse(cell.getValue())[0] },
+  { accessorKey: 'classes', header: 'Classe', cell: ({ cell }) => {
+    try {
+      return JSON.parse(cell.getValue())[0]
+    }
+    catch (e) {
+      return 'Classe inconnue'
+    }
+  } },
 
   { accessorKey: 'firstName', header: 'Prénom' },
   { accessorKey: 'lastName', header: 'NOM' },
@@ -121,12 +137,22 @@ const columns2 = [
     const atelier = ateliers.value?.find(atelier => atelier.id === cell.getValue())
     return atelier ? atelier.titre : 'élève sans inscription'
   } },
-  { accessorKey: 'assignJ1jour', header: 'Jour 1', cell: ({ cell }) => ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][cell.getValue()] ?? 'N/A' },
+  { accessorKey: 'assignJ1jour', header: 'Jour 1', cell: ({ cell }) => {
+    const value = cell.getValue()
+    return ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][value] !== undefined
+      ? ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][value]
+      : 'N/A'
+  } },
   { accessorKey: 'assignJ2atelier', header: 'Atelier 2', cell: ({ cell }) => {
     const atelier = ateliers.value?.find(atelier => atelier.id === cell.getValue())
     return atelier ? atelier.titre : 'élève sans inscription'
   } },
-  { accessorKey: 'assignJ2jour', header: 'Jour 2', cell: ({ cell }) => ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][cell.getValue()] ?? 'N/A' },
+  { accessorKey: 'assignJ2jour', header: 'Jour 2', cell: ({ cell }) => {
+    const value = cell.getValue()
+    return ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][value] !== undefined
+      ? ['', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi'][value]
+      : 'N/A'
+  } },
 ]
 
 const cancelVote = (vote: MergedRow) => {
