@@ -78,7 +78,7 @@
               </UDrawer>
             </Can>
             <UColorModeSwitch />
-            <UserButton redirect-app="lang" />
+            <UserButton redirect-app="langues" />
           </template>
         </UDashboardNavbar>
         <Can :ability="adminOrDev">
@@ -164,7 +164,6 @@
 
 <script lang="ts" setup>
 const toast = useToast()
-
 
 const aideContent = `Si vous rencontrez un bug, si vous n'arrivez pas à vous identifier, ou si vous n'arrivez pas à obtenir ce que vous voulez, vous pouvez remplir le formulaire ci-dessous en précisant bien vos nom et prénom.`
 
