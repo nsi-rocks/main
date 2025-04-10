@@ -198,11 +198,11 @@ const confirmVote = async (vote: MergedRow, jour?: number) => {
       userId: vote.userId,
     }
     if (votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier !== props.atelierId) {
-      console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
+      // console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
 
       votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier = props.atelierId
 
-      console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
+      // console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
 
       modif.assignJ2atelier = props.atelierId
     }
@@ -247,7 +247,13 @@ const saveModifs = async () => {
   try {
     const res = await $fetch.raw('/api/langues/updateVotes', {
       method: 'PATCH',
-      body: modifs.value,
+      body: modifs.value.map(el => ({
+        assignJ1atelier: el.assignJ1atelier ?? el.shJ1atelier,
+        assignJ2atelier: el.assignJ2atelier ?? el.shJ2atelier,
+        assignJ1jour: el.assignJ1jour,
+        assignJ2jour: el.assignJ2jour,
+        userId: el.userId,
+      })),
     })
     modifs.value = []
     toast.add({ title: 'Modifications enregistrées' })
@@ -255,6 +261,7 @@ const saveModifs = async () => {
   }
   catch (error) {
     console.error('Error while saving modifications:', error)
+    toast.add({ title: 'Une erreur est survenue, il y a un bug à résoudre !' })
     refreshNuxtData('votes')
   }
 }

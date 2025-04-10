@@ -17,7 +17,6 @@ const props = defineProps<{
 }>()
 
 const { data: votes } = useNuxtData('votes')
-console.log('votes', votes.value.find(el => el.firstName === 'Nawfal'))
 
 // const sortedVotes = computed(() => {
 //   return [...props.votes].sort((a, b) => {
