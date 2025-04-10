@@ -21,8 +21,8 @@
           >
             <strong>{{ jours[j] }}</strong> :
             <ul>
-              <li>{{ atelier.nbChoix[j] }} choix ce jour</li>
-              <li>{{ atelier.nbChoix[0] }} choix à répartir</li>
+              <li>{{ votes.filter(el => (el.assignJ1atelier === atelier.id && el.assignJ1jour === j) || (el.assignJ2atelier === atelier.id && el.assignJ2jour === j)).length }} choix ce jour</li>
+              <li>{{ votes.filter(el => el.assignJ2atelier === atelier.id && el.assignJ2jour === null).length }} choix à répartir</li>
             </ul>
           </div>
         </div>
@@ -33,6 +33,8 @@
 
 <script lang="ts" setup>
 import { LazyLangAssign } from '#components'
+
+const { data: votes } = useNuxtData('votes')
 
 const { data: ateliers } = useNuxtData('ateliers')
 

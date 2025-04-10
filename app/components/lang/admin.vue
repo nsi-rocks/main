@@ -10,6 +10,10 @@
     :ateliers="ateliers"
     :votes="votes"
   />
+  <LangModifs
+    v-else-if="panel === 2"
+    :classe="classe"
+  />
 </template>
 
 <script lang="ts" setup>

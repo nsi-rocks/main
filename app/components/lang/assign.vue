@@ -8,8 +8,14 @@
       <div class="grid grid-cols-2">
         <div class="">
           <ul>
+            <li>
+              <UCheckbox
+                v-model="noninscrits"
+                label="Afficher les non inscrits"
+              />
+            </li>
             <li class="grid grid-cols-[9rem_12rem_6rem_9rem] max-w-[40rem] mb-2 items-center">
-              <strong class="col-span-2">{{ votesByClass.filter(el => el.assignJ1atelier !== props.atelierId && el.assignJ2jour === null).length }} élèves à affecter</strong>
+              <strong class="col-span-2">{{ votesByClass.length }} élèves à affecter</strong>
               <USelect
                 v-model="classe"
                 :items="classes"
@@ -17,28 +23,51 @@
                 class="col-start-3"
               />
               <UButton
+                v-if="!noninscrits"
                 trailing-icon="i-lucide-arrow-right"
                 label="Affecter tous"
                 variant="outline"
                 class="justify-self-center"
-                @click="assignBulkVotes(votesByClass.filter(el => el.assignJ1atelier !== props.atelierId && el.assignJ2jour === null))"
+                @click="assignBulkVotes(votesByClass)"
               />
             </li>
             <li
-              v-for="vote in votesByClass.filter(el => el.assignJ1atelier !== props.atelierId && el.assignJ2jour === null)"
+              v-for="vote in votesByClass"
               :key="vote.id"
-              class="grid grid-cols-[9rem_12rem_6rem_6rem] max-w-[40rem]"
+              class="grid grid-cols-[9rem_12rem_6rem_1fr] max-w-[40rem]"
             >
               <span class="">{{ vote.firstName }}</span>
               <span class="truncate">{{ vote.lastName }}</span>
               <span class="">{{ JSON.parse(vote.classes!)[0] }}</span>
               <UButton
+                v-if="vote.a1choix !== 33 || vote.a2choix !== 33"
                 :label="getLabel(vote)"
                 variant="ghost"
                 class="justify-self-start"
                 trailing-icon="i-lucide-arrow-right"
                 @click="confirmVote(vote)"
               />
+              <div
+                v-else
+                class="grid grid-cols-2 gap-2"
+              >
+                <UButton
+                  v-if="vote.assignJ1jour == null && vote.assignJ2jour !== jourActuel"
+                  label="Affecter J1"
+                  variant="ghost"
+                  class="justify-self-start"
+                  trailing-icon="i-lucide-arrow-right"
+                  @click="confirmVote(vote, 1)"
+                />
+                <UButton
+                  v-if="vote.assignJ2jour == null && vote.assignJ1jour !== jourActuel"
+                  label="Affecter J2"
+                  variant="ghost"
+                  class="justify-self-start col-start-2"
+                  trailing-icon="i-lucide-arrow-right"
+                  @click="confirmVote(vote, 2)"
+                />
+              </div>
             </li>
           </ul>
         </div>
@@ -82,14 +111,25 @@
                 <span class="">{{ vote.firstName }}</span>
                 <span class="truncate">{{ vote.lastName }}</span>
                 <span class="">{{ JSON.parse(vote.classes!)[0] }}</span>
-                <UButton
-                  v-if="vote.assignJ2jour === jourActuel"
-                  icon="i-lucide-x"
-                  variant="ghost"
-                  size="xs"
-                  class="justify-self-start"
-                  @click="cancelVote(vote)"
-                />
+                <span
+                  v-if="modifs.map(el => el.userId).includes(vote.userId)"
+                  class="flex flex-row items-center gap-4"
+                >
+
+                  <UButton
+                    v-if="modifs.map(el => el.userId).includes(vote.userId)"
+                    icon="i-lucide-x"
+                    variant="ghost"
+                    size="xs"
+                    class="justify-self-start"
+                    @click="cancelVote(vote)"
+                  />
+
+                  <UBadge
+                    :label="'assignJ1jour' in modifs.find(el => el.userId === vote.userId) ? 'jour 1' : 'jour 2'"
+                    variant="soft"
+                  />
+                </span>
               </li>
             </ul>
           </UPageCard>
@@ -110,6 +150,7 @@ const props = defineProps<{
 const { data: votes } = useNuxtData('votes')
 const toast = useToast()
 const classe = ref('Toutes')
+const noninscrits = ref(false)
 const modifs = useState<updateData[]>('modifs', () => [])
 const joursRef = ['Choix2', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi']
 const jours = computed(() => {
@@ -135,45 +176,70 @@ const getLabel = (vote: MergedRow) => {
 const assignBulkVotes = async (toAssign: MergedRow[]) => {
   [...toAssign].forEach((vote: MergedRow) => {
     if (vote.assignJ1atelier === props.atelierId) {
-      vote.assignJ1atelier = props.atelierId
       vote.assignJ1jour = jourActuel.value!
       modifs.value.push({
         userId: vote.userId,
-        assignJ1atelier: props.atelierId,
         assignJ1jour: jourActuel.value,
       })
     }
     else {
-      vote.assignJ2atelier = props.atelierId
       vote.assignJ2jour = jourActuel.value!
       modifs.value.push({
         userId: vote.userId,
-        assignJ2atelier: props.atelierId,
         assignJ2jour: jourActuel.value,
       })
     }
   })
   votes.value = [...votes.value]
 }
-const confirmVote = async (vote: MergedRow) => {
-  votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier = props.atelierId
-  votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2jour = jourActuel.value!
-  votes.value = [...votes.value]
+const confirmVote = async (vote: MergedRow, jour?: number) => {
+  if (!jour || jour === 2) {
+    const modif: any = {
+      userId: vote.userId,
+    }
+    if (votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier !== props.atelierId) {
+      console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
 
-  modifs.value.push({
-    userId: vote.userId,
-    assignJ2atelier: props.atelierId,
-    assignJ2jour: jourActuel.value,
-  })
+      votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier = props.atelierId
+
+      console.log('assignJ2atelier', votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2atelier, props.atelierId)
+
+      modif.assignJ2atelier = props.atelierId
+    }
+    else modif.shJ2atelier = props.atelierId
+    votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2jour = jourActuel.value!
+    modif.assignJ2jour = jourActuel.value!
+    votes.value = [...votes.value]
+    modifs.value.push(modif)
+  }
+  else {
+    const modif: any = {
+      userId: vote.userId,
+    }
+    if (votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ1atelier !== props.atelierId) {
+      votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ1atelier = props.atelierId
+      modif.assignJ1atelier = props.atelierId
+    }
+    else modif.shJ1atelier = props.atelierId
+    votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ1jour = jourActuel.value!
+    modif.assignJ1jour = jourActuel.value!
+    votes.value = [...votes.value]
+    modifs.value.push(modif)
+  }
   return
 }
 
 const cancelVote = (vote: MergedRow) => {
-  if (vote.assignJ2jour === jourActuel.value) {
-    votes.value.find((el: MergedRow) => el.userId === vote.userId).assignJ2jour = null
-    votes.value = [...votes.value]
-
+  if (modifs.value.map(el => el.userId).includes(vote.userId)) {
+    const { userId, ...keys } = modifs.value.find((el: updateData) => el.userId === vote.userId)
+    Object.keys(keys).forEach((key) => {
+      if (key !== 'shJ1atelier' && key !== 'shJ2atelier') {
+        votes.value.find((el: MergedRow) => el.userId === vote.userId)[key] = null
+      }
+    })
     modifs.value = modifs.value.filter((el: updateData) => el.userId !== vote.userId)
+    votes.value = [...votes.value]
+    toast.add({ title: `Vote de ${vote.firstName} ${vote.lastName} annulé` })
   }
 }
 
@@ -194,18 +260,25 @@ const saveModifs = async () => {
 }
 
 const votesByClass = computed(() => {
-  return [...votes.value].filter(el => el.assignJ1atelier === props.atelierId || el.assignJ2atelier === props.atelierId).filter((el) => {
-    if (classe.value === 'Toutes') return true
-    return JSON.parse(el.classes)[0] === classe.value
-  }).sort((a, b) => {
-    const tsA = a.lastName
-    const tsB = b.lastName
-    return tsA.localeCompare(tsB) // décroissant : les plus récents d'abord
-  }).sort((a, b) => {
-    const tsA = JSON.parse(a.classes ?? '')[0].split(' ')[1]
-    const tsB = JSON.parse(b.classes ?? '')[0].split(' ')[1]
-    return tsA - tsB // décroissant : les plus récents d'abord
-  })
+  return [...votes.value]
+    .filter((el) => {
+      return ((el.assignJ2atelier === props.atelierId && el.assignJ2jour === null) || ((el.a1choix === 33 || el.a2choix === 33) && noninscrits.value))
+        && !((el.assignJ1atelier === props.atelierId && el.assignJ1jour !== null) || (el.assignJ2atelier === props.atelierId && el.assignJ2jour !== null)) && (el.assignJ1jour !== jourActuel.value && el.assignJ2jour !== jourActuel.value)
+    })
+    .filter((el) => {
+      if (classe.value === 'Toutes') return true
+      return JSON.parse(el.classes)[0] === classe.value
+    })
+    .sort((a, b) => {
+      const tsA = a.lastName
+      const tsB = b.lastName
+      return tsA.localeCompare(tsB) // décroissant : les plus récents d'abord
+    })
+    .sort((a, b) => {
+      const tsA = JSON.parse(a.classes ?? '')[0].split(' ')[1]
+      const tsB = JSON.parse(b.classes ?? '')[0].split(' ')[1]
+      return tsA - tsB // décroissant : les plus récents d'abord
+    })
 })
 
 const assignedVotes = computed(() => {

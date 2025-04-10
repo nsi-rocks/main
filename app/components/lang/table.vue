@@ -1,18 +1,23 @@
 <template>
-  {{ sortedVotes.length }} votes
-  <UTable
-    v-if="votes.length > 0"
-    :data="sortedVotes"
-    :columns="columns"
-  />
+  <div>
+    <p>{{ sortedVotes.length }} votes</p>
+    <p>Ce sont les votes bruts affichés pour référence, ils sont indépendants des modifications que tu apporteras. Pour voir l'état des lieux au fur et à mesure de tes attributions d'ateliers, tu peux aller dans "Modifications".</p>
+    <UTable
+      v-if="votes.length > 0"
+      :data="sortedVotes"
+      :columns="columns"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
 const props = defineProps<{
   ateliers: AtelierAvecNbChoix[] | undefined
-  votes: MergedRow[]
   classe: string
 }>()
+
+const { data: votes } = useNuxtData('votes')
+console.log('votes', votes.value.find(el => el.firstName === 'Nawfal'))
 
 // const sortedVotes = computed(() => {
 //   return [...props.votes].sort((a, b) => {
@@ -23,7 +28,7 @@ const props = defineProps<{
 // })
 
 const sortedVotes = computed(() => {
-  return [...props.votes].filter((el) => {
+  return [...votes.value].filter((el) => {
     if (props.classe === 'Toutes') return true
     return JSON.parse(el.classes)[0] === props.classe
   }).sort((a, b) => {
