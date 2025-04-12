@@ -180,23 +180,37 @@ const getLabel = (vote: MergedRow) => {
 
 const assignBulkVotes = async (toAssign: MergedRow[]) => {
   [...toAssign].forEach((vote: MergedRow) => {
+    const modif: any = { userId: vote.userId }
+
     if (vote.assignJ1atelier === props.atelierId) {
       vote.assignJ1jour = jourActuel.value!
-      modifs.value.push({
-        userId: vote.userId,
-        assignJ1jour: jourActuel.value,
-      })
+      modif.assignJ1jour = jourActuel.value!
+      if (vote.assignJ1atelier !== props.atelierId) {
+        vote.assignJ1atelier = props.atelierId
+        modif.assignJ1atelier = props.atelierId
+      }
+      else {
+        modif.shJ1atelier = props.atelierId
+      }
     }
     else {
       vote.assignJ2jour = jourActuel.value!
-      modifs.value.push({
-        userId: vote.userId,
-        assignJ2jour: jourActuel.value,
-      })
+      modif.assignJ2jour = jourActuel.value!
+      if (vote.assignJ2atelier !== props.atelierId) {
+        vote.assignJ2atelier = props.atelierId
+        modif.assignJ2atelier = props.atelierId
+      }
+      else {
+        modif.shJ2atelier = props.atelierId
+      }
     }
+
+    modifs.value.push(modif)
   })
+
   votes.value = [...votes.value]
 }
+
 const confirmVote = async (vote: MergedRow, jour?: number) => {
   if (!jour || jour === 2) {
     const modif: any = {
@@ -257,6 +271,7 @@ const saveModifs = async () => {
       assignJ2jour: el.assignJ2jour,
       userId: el.userId,
     }))
+    console.log('body', body)
 
     const res = await $fetch.raw('/api/langues/updateVotes', {
       method: 'PATCH',

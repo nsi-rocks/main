@@ -5,12 +5,28 @@ function isValidPayload(obj: updateData): boolean {
   return hasUserId && (hasJ1 || hasJ2)
 }
 
+function deepCleanUndefined(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(deepCleanUndefined)
+  }
+  if (typeof obj === 'object' && obj !== null) {
+    return Object.fromEntries(
+      Object.entries(obj)
+        .filter(([_, value]) => value !== undefined)
+        .map(([key, value]) => [key, deepCleanUndefined(value)]),
+    )
+  }
+  return obj
+}
+
 export default defineEventHandler(async (event) => {
   if (await denies(event, adminOrDev)) {
     setResponseStatus(event, 401, 'Unauthorized')
     return
   }
-  const body = await readBody(event)
+  let body = await readBody(event)
+  body = deepCleanUndefined(body)
+
   console.log('body :', body)
 
   if (!body.every(isValidPayload)) {
