@@ -125,7 +125,7 @@
                     icon="i-lucide-x"
                     variant="ghost"
                     size="xs"
-                    class="justify-self-start"
+                    class="justify-self-start p-0"
                     @click="cancelVote(vote)"
                   />
 
@@ -137,10 +137,11 @@
 
                 </span>
                 <UButton
+                  v-else
                   icon="i-lucide-x"
                   variant="ghost"
                   size="xs"
-                  class="justify-self-start"
+                  class="justify-self-start p-0"
                   label="Supprimer l'affectation"
                   @click="suppAffectation(vote)"
                 />
@@ -258,7 +259,7 @@ const confirmVote = async (vote: MergedRow, jour?: number) => {
   return
 }
 
-const cancelVote = (vote: MergedRow) => {
+const cancelVote = async (vote: MergedRow) => {
   if (modifs.value.map(el => el.userId).includes(vote.userId)) {
     const { userId, ...keys } = modifs.value.find((el: updateData) => el.userId === vote.userId)
     Object.keys(keys).forEach((key) => {
@@ -267,6 +268,7 @@ const cancelVote = (vote: MergedRow) => {
       }
     })
     modifs.value = modifs.value.filter((el: updateData) => el.userId !== vote.userId)
+    await refreshNuxtData('votes')
     votes.value = [...votes.value]
     toast.add({ title: `Vote de ${vote.firstName} ${vote.lastName} annulé` })
   }
