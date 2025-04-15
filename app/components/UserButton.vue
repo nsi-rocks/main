@@ -31,10 +31,9 @@
 
 <script lang="ts" setup>
 const props = defineProps<{ redirectApp?: string }>()
-const store = useStore()
 
 const logout = async () => {
-  store.session.clear()
+  useUserSession().clear()
   await navigateTo('/')
 }
 
@@ -46,7 +45,10 @@ const login = async () => {
     })
     cookie.value = props.redirectApp
   }
-  await navigateTo('https://enthdf.fr/cas/login?service=https://nsi.rocks', { external: true })
+  if (import.meta.dev)
+    await navigateTo('https://localhost.com:3000/api/auth/adminLogin', { external: true })
+  else
+    await navigateTo('https://enthdf.fr/cas/login?service=https://nsi.rocks', { external: true })
 }
 </script>
 

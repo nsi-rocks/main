@@ -91,11 +91,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'voteAgain'): void
 }>()
-const store = useStore()
 const overlay = useOverlay()
 
 const logout = async () => {
-  store.session.clear()
+  useUserSession().clear()
   await navigateTo('https://langues.nsi.rocks')
 }
 

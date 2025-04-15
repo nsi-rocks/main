@@ -21,6 +21,9 @@
           />
         </Can>
       </template>
+      <template #footer>
+        <UserDropdown />
+      </template>
     </UDashboardSidebar>
 
     <slot />
@@ -28,8 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-const { loggedIn } = useUserSession()
-
 if (await denies(userOrDev)) {
   navigateTo('/')
 }

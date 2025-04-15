@@ -1,24 +1,8 @@
 <template>
-  <ClientOnly>
-    <div class="flex flex-row justify-between">
-      <DevOnly>
-        <UBadge
-          variant="soft"
-          size="lg"
-        >
-          <Icon name="ph:student-fill" />
-          Mathieu
-        </UBadge>
-
-        <UButton
-          variant="ghost"
-          @click="logout"
-        >
-          Déconnexion
-        </UButton>
-      </DevOnly>
+  <AuthState>
+    <template #default="{ loggedIn, user }">
       <div
-        v-if="store.session.loggedIn"
+        v-if="loggedIn"
         class="flex flex-row justify-between w-full"
       >
         <UBadge
@@ -26,7 +10,7 @@
           size="lg"
         >
           <Icon name="ph:student-fill" />
-          {{ store.session.user?.firstName }}
+          {{ user?.firstName }}
         </UBadge>
 
         <UButton
@@ -36,15 +20,13 @@
           Déconnexion
         </UButton>
       </div>
-    </div>
-  </ClientOnly>
+    </template>
+  </AuthState>
 </template>
 
 <script lang="ts" setup>
-const store = useStore()
-
 const logout = async () => {
-  store.session.clear()
+  useUserSession().clear()
   await navigateTo('/')
 }
 </script>

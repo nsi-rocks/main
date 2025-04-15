@@ -21,8 +21,9 @@
       <UCard
         v-for="log in data?.filter(el => el.logData.includes(search))"
         :key="log.id"
+        hydrate-on-view
       >
-        <div class="flex items-center gap-4">
+        <div class="grid grid-cols-3 justify-items-start">
           <UBadge
             variant="soft"
             size="lg"
@@ -35,7 +36,7 @@
             size="lg"
             color="warning"
           >
-            {{ log.timestamp }}
+            {{ formatDate(log.timestamp) }}
           </UBadge>
           <span class="ml-auto">{{ log.logData }}</span>
         </div>

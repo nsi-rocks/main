@@ -143,7 +143,6 @@ const props = defineProps<{
 
 const emit = defineEmits<(e: 'choiceSent') => void>()
 
-const store = useStore()
 const tabJours = ref(1)
 const stepChoix = ref(0)
 const toast = useToast()
@@ -295,7 +294,7 @@ const filterAteliers = computed(() => {
 })
 
 const logout = async () => {
-  store.session.clear()
+  useUserSession().clear()
   await navigateTo('https://langues.nsi.rocks')
 }
 </script>

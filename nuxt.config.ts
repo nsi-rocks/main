@@ -1,3 +1,4 @@
+const cookieDomain = process.env.NODE_ENV === 'development' ? '.localhost.com' : '.nsi.rocks'
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
@@ -22,7 +23,13 @@ export default defineNuxtConfig({
       remote: true,
     },
   },
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   app: {
     head: {
       link: [
@@ -64,12 +71,16 @@ export default defineNuxtConfig({
     mistralAPI: process.env.MISTRAL_API_KEY,
     session: {
       cookie: {
-        domain: '.nsi.rocks',
+        domain: cookieDomain,
       },
     },
   },
   devServer: {
     host: 'localhost.com',
+    https: {
+      key: process.env.CAPDEV_SSL_KEY,
+      cert: process.env.CAPDEV_SSL_CERT,
+    },
   },
   future: { compatibilityVersion: 4 },
   compatibilityDate: '2024-07-30',

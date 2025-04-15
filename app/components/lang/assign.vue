@@ -134,7 +134,16 @@
 
                     variant="soft"
                   />
+
                 </span>
+                <UButton
+                  icon="i-lucide-x"
+                  variant="ghost"
+                  size="xs"
+                  class="justify-self-start"
+                  label="Supprimer l'affectation"
+                  @click="suppAffectation(vote)"
+                />
               </li>
             </ul>
           </UPageCard>
@@ -145,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Affectation, MergedRow } from '~~/shared/types/langues'
+import { LazyLangConfirmSupp } from '#components'
 
 const props = defineProps<{
   atelierId: number
@@ -154,6 +163,7 @@ const props = defineProps<{
 
 const { data: votes } = useNuxtData('votes')
 const toast = useToast()
+const overlay = useOverlay()
 const classe = ref('Toutes')
 const noninscrits = ref(false)
 const modifs = useState<updateData[]>('modifs', () => [])
@@ -248,6 +258,43 @@ const cancelVote = (vote: MergedRow) => {
   }
 }
 
+const suppAffectation = async (vote: any) => {
+  const data = {
+    vote: vote,
+    atelierId: props.atelierId,
+  }
+  const modal = overlay.create(LazyLangConfirmSupp, {
+    props: {
+      data: data,
+    },
+  })
+
+  const confirm = await modal.open()
+  if (confirm === true) {
+    try {
+      const data = await $fetch.raw('/api/langues/deleteVote', {
+        method: 'DELETE',
+        body: {
+          userId: vote.userId,
+          atelierId: props.atelierId,
+        },
+      })
+
+      if (data.status === 204) {
+        toast.add({ title: 'Affectation supprimée avec succès', color: 'success' })
+        refreshNuxtData('votes')
+      }
+      else {
+        toast.add({ title: 'Une erreur est survenue lors de la suppression', color: 'error' })
+      }
+    }
+    catch (error) {
+      console.error('Error while deleting vote:', error)
+      toast.add({ title: 'Une erreur est survenue, il y a un bug à résoudre !', color: 'error' })
+    }
+  }
+}
+
 const saveModifs = async () => {
   try {
     const body = modifs.value.map(el => ({
@@ -280,7 +327,7 @@ const votesByClass = computed(() => {
     .filter((el) => {
       return (
         (el.assignJ2atelier === props.atelierId && el.assignJ2jour === null)
-        || ((el.a1choix === 33 || el.a2choix === 33) && noninscrits.value)
+        || ((el.assignJ1atelier === 33 || el.assignJ2atelier === 33) && noninscrits.value)
       )
       && !(
         (el.assignJ1atelier === props.atelierId && el.assignJ1jour !== null)
