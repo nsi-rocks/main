@@ -33,6 +33,9 @@ export default defineEventHandler(async (event) => {
         setResponseStatus(event, 500)
         return { error: 'Failed to update J2' }
       }
+    } ekse {
+      setResponseStatus(event, 404)
+      return { error: 'Vote not found' }
     }
   }
   catch (error) {
