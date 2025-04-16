@@ -289,7 +289,7 @@ const suppAffectation = async (vote: any) => {
   if (confirm === true) {
     try {
       const data = await $fetch.raw('/api/langues/deleteVote', {
-        method: 'DELETE',
+        method: 'PATCH',
         body: {
           userId: vote.userId,
           atelierId: props.atelierId,
