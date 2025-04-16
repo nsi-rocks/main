@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
       try {
         await useDrizzle().update(tables.langues).set({ assignJ1atelier: 33, assignJ1jour: null }).where(eq(tables.langues.userId, userId))
         setResponseStatus(event, 204)
+        return 'ok'
       }
       catch (error) {
         console.error('Error updating J1:', error)
