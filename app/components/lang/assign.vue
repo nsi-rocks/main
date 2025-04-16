@@ -296,7 +296,7 @@ const suppAffectation = async (vote: any) => {
         },
       })
 
-      if (data.status === 204) {
+      if (data.status === 200) {
         toast.add({ title: 'Affectation supprimée avec succès', color: 'success' })
         refreshNuxtData('votes')
       }

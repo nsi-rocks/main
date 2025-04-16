@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
       console.log('suppression J1')
       try {
         await useDrizzle().update(tables.langues).set({ assignJ1atelier: 33, assignJ1jour: null }).where(eq(tables.langues.userId, userId))
-        setResponseStatus(event, 204)
-        return null
+        setResponseStatus(event, 200)
+        return 'ok'
       }
       catch (error) {
         console.error('Error updating J1:', error)
@@ -26,8 +26,8 @@ export default defineEventHandler(async (event) => {
       console.log('suppression J2')
       try {
         await useDrizzle().update(tables.langues).set({ assignJ2atelier: 33, assignJ2jour: null }).where(eq(tables.langues.userId, userId))
-        setResponseStatus(event, 204)
-        return null
+        setResponseStatus(event, 200)
+        return 'ok'
       }
       catch (error) {
         console.error('Error updating J2:', error)
@@ -45,4 +45,5 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, 500)
     return { error: 'Failed to delete vote' }
   }
+  return { error: 'Unknown error' }
 })
