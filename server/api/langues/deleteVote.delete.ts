@@ -1,5 +1,7 @@
 export default defineEventHandler(async (event) => {
   const { userId, atelierId } = await readBody(event)
+  console.log('deleteVote', userId, atelierId)
+
   try {
     const res = await useDrizzle().select().from(tables.langues).where(eq(tables.langues.userId, userId))
     console.log('deleteVote', res)
@@ -24,6 +26,7 @@ export default defineEventHandler(async (event) => {
       try {
         await useDrizzle().update(tables.langues).set({ assignJ2atelier: 33, assignJ2jour: null }).where(eq(tables.langues.userId, userId))
         setResponseStatus(event, 204)
+        return 'ok'
       }
       catch (error) {
         console.error('Error updating J2:', error)
