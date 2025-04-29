@@ -14,7 +14,7 @@ const dada = datest?.children.find((el: any) => el.path == route.path) || []
 <template>
   <UPage>
     <UPageHeader
-      v-if="!page.landing"
+      v-if="!page?.landing"
       :title="page?.title"
       :links="page?.links"
     />
