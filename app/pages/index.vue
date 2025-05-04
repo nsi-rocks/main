@@ -57,6 +57,11 @@ const route = useRoute()
 
 const linksnsi = ref([
   {
+    label: 'Algorithmique',
+    icon: 'i-lucide-arrow-down-0-1',
+    to: '/nsi/algorithmique',
+  },
+  {
     label: 'Architecture',
     icon: 'i-lucide-cpu',
     to: '/nsi/architecture',
@@ -70,11 +75,6 @@ const linksnsi = ref([
     label: 'Python',
     icon: 'i-vscode-icons-file-type-python',
     to: '/nsi/python',
-  },
-  {
-    label: 'IHM',
-    icon: 'i-lucide-clipboard-list',
-    to: '/nsi/ihm',
   },
   {
     label: 'Capytale',
