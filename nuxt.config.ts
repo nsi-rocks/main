@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/eslint',
     'nuxt-authorization',
+    '@vueuse/nuxt',
   ],
   // icon: {
   //   clientBundle: {

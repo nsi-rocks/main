@@ -9,29 +9,37 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, nextTick } from 'vue'
+const props = withDefaults(defineProps<{
+  data: any
+  darkMode?: boolean
+}>(), {
+  darkMode: false,
+})
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: any): void
+}>()
+
+const latestElements = ref<any[]>([])
+const latestAppState = ref<any>({})
+
+const throttledEmit = useThrottleFn(() => {
+  emit('update:modelValue', {
+    elements: latestElements.value,
+    appState: latestAppState.value,
+  })
+}, 500)
 
 const loading = ref(true)
 const container = ref<HTMLElement | null>(null)
-
-const props = withDefaults(defineProps<{
-  drawFilePath: string
-  darkMode?: boolean
-  background?: boolean
-}>(), {
-  darkMode: false,
-  background: false,
-})
+let reactRoot = null
 
 async function loadScript(src: string) {
-  // bien entourer le sélecteur de guillemets ET utiliser des backticks
   if (document.querySelector(`script[src="${src}"]`)) return
-
   return new Promise<void>((resolve, reject) => {
     const s = document.createElement('script')
     s.src = src
     s.onload = () => resolve()
-    // idem, backticks pour la template string
     s.onerror = () => reject(new Error(`Failed to load ${src}`))
     document.head.appendChild(s)
   })
@@ -39,7 +47,6 @@ async function loadScript(src: string) {
 
 async function loadStyle(href: string) {
   if (document.querySelector(`link[href="${href}"]`)) return
-
   return new Promise<void>((resolve, reject) => {
     const l = document.createElement('link')
     l.rel = 'stylesheet'
@@ -59,33 +66,36 @@ function loadDependencies() {
   ])
 }
 
+function mountExcalidraw(data: any, theme: string) {
+  const React = (window as any).React
+  const ReactDOM = (window as any).ReactDOM
+  const { Excalidraw } = (window as any).ExcalidrawLib
+
+  // si on avait déjà monté un Excalidraw, on le démonte d'abord
+  if (reactRoot) {
+    reactRoot.unmount()
+  }
+
+  reactRoot = ReactDOM.createRoot(container.value!)
+  reactRoot.render(
+    React.createElement(Excalidraw, {
+      initialData: data,
+      theme,
+      onChange: (elements: any[], appState: any) => {
+        latestElements.value = elements
+        latestAppState.value = appState
+        throttledEmit()
+      },
+      UIOptions: { welcomeScreen: false },
+    }),
+  )
+}
+
 onMounted(async () => {
   try {
-    // 1) charger React/ReactDOM/Excalidraw
     await loadDependencies()
-
-    // 2) récupérer le JSON
-    const url = new URL(props.drawFilePath, window.location.href).href
-    const initialData = await (await fetch(url)).json()
-
-    // 3) attendre le rendu du container
     await nextTick()
-
-    // 4) monter Excalidraw
-    const React = (window as any).React
-    const ReactDOM = (window as any).ReactDOM
-    const { Excalidraw } = (window as any).ExcalidrawLib
-
-    const root = ReactDOM.createRoot(container.value!)
-    root.render(
-      React.createElement(Excalidraw, {
-        initialData,
-        onChange: (elements: any[], state: any) => {
-          console.log('Excalidraw state:', state, elements)
-        },
-        UIOptions: { welcomeScreen: false },
-      }),
-    )
+    mountExcalidraw(props.data, props.darkMode ? 'dark' : 'light')
   }
   catch (err) {
     console.error(err)
@@ -93,5 +103,15 @@ onMounted(async () => {
   finally {
     loading.value = false
   }
+})
+
+onBeforeUnmount(() => {
+  if (reactRoot) {
+    reactRoot.unmount()
+  }
+})
+
+watch(() => props.darkMode, (dark) => {
+  mountExcalidraw(props.data, dark ? 'dark' : 'light')
 })
 </script>
