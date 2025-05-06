@@ -1,66 +1,165 @@
 ---
 addons:
-    - slidev-addon-python-runner
+  - slidev-addon-python-runner
+title: Tri par sélection — Création pas à pas
+description: Diaporama NSI Première — Algorithme de tri par sélection et notion
+  de complexité
+theme: ./theme
+drawings:
+  persist: true
+mdc: true
 ---
 
-# Algorithmique
+# Tri par sélection
+<v-drag pos="745,60,119,143">
+<LogoPython />
+</v-drag>
 
-Introduction aux algorithmes appliquée au langage Python.
-Test
-
----
-
-## Algorithmes
-### Qu'est-ce qu'un algorithme ?
-Un algorithme est une suite d'instructions permettant de résoudre un problème ou d'accomplir une tâche. Il peut être exprimé sous différentes formes : langage naturel, pseudo-code, diagramme de flux, etc.
-### Caractéristiques d'un algorithme
-- **Finitude** : Un algorithme doit se terminer après un nombre fini d'étapes.
-- **Précision** : Chaque étape doit être clairement définie et compréhensible.
-- **Entrées et sorties** : Un algorithme peut avoir des entrées (données) et doit produire des sorties (résultats).
-### Exemples d'algorithmes
-- **Recherche d'un élément dans une liste** : Trouver un élément donné dans une liste de nombres.
-- **Tri d'une liste** : Organiser une liste de nombres dans un ordre croissant ou décroissant.
-- **Calcul de la somme d'une liste** : Additionner tous les éléments d'une liste de nombres.
+#### Création pas à pas & notion de complexité
 
 ---
 
-## Notation algorithmique
+## Objectifs du diaporama
 
-ceci est un test
+* Comprendre le fonctionnement du tri par sélection
+* Développer pas à pas l’algorithme
+* Analyser sa complexité temporelle et spatiale
+* Mettre en perspective avec d’autres tris vus ou à venir
 
+---
 
-```python {monaco-run}{autorun: false, editorOptions:{lineNumbers:'on'}}
-print("Hello, Slidev!", "blue")
-data = [1, 2, 3, 4, 5]
-for i in data:
-    print(i)
+## Pourquoi trier ?
+
+* Faciliter la recherche <span v-mark.highlight.yellow>(dichotomie)</span>
+* Présenter des données à l’utilisateur
+* Pré‑traiter avant d’autres algorithmes (ex : éliminer doublons)
+
+<v-drag-arrow v-after pos="379,121,81,1"/>
+
+<v-drag v-after pos="473,104,171,34">
+<span>On en parle vendredi !</span>
+</v-drag>
+
+---
+
+## Exemple de liste à trier
+
+<span v-drag="[295,252,409,62]" class="text-5xl">`[7, 4, 9, 2, 5]`</span>
+
+---
+
+## Idée générale du tri par sélection
+
+1. Parcourir la partie non triée pour trouver le **minimum**
+2. Le placer au **début** de cette partie
+3. Répéter jusqu’à ce que la liste soit triée
+
+<tri-selection v-drag="[294,231,400,160]" class="w-100 h-40" :list="[7, 4, 9, 2, 5]" />
+
+---
+layout: center
+---
+
+## Étape 1
+
+Liste : **\[7, 4, 9, 2, 5]**  
+Minimum trouvé : **2**  
+Échange avec première position  
+Résultat : **\[2]** | \[7, 4, 9, 5]  
+
+---
+layout: center
+---
+
+## Étape 2
+
+Partie non triée : **\[7, 4, 9, 5]**  
+Minimum trouvé : **4**  
+Échange avec premier élément non trié  
+Résultat : \[2, **4**] | \[7, 9, 5]  
+
+---
+layout: center
+---
+
+## Étape 3
+
+Partie non triée : **\[7, 9, 5]**  
+Minimum : **5**  
+Échange  
+Résultat : \[2, 4, **5**] | \[7, 9]  
+
+---
+layout: center
+---
+
+## Étape 4
+
+Partie non triée : **\[7, 9]**  
+Minimum : **7**  
+Échange (inutile car déjà en place)  
+Résultat : \[2, 4, 5, **7**] | \[9]  
+
+---
+layout: center
+---
+
+## Étape 5
+
+Partie non triée : **\[9]**  
+Un seul élément → fin de l’algorithme  
+Liste triée : **\[2, 4, 5, 7, 9]**
+
+---
+
+## Pseudocode
+
+```
+pour i de 0 à n-2
+    ind_min ← i
+    pour j de i+1 à n-1
+        si L[j] < L[ind_min] alors
+            ind_min ← j
+    échanger L[i] et L[ind_min]
+fin pour
 ```
 
-```python {lines:true}
-print("Hello, Slidev!", "blue")
-data = [1, 2, 3, 4, 5]
-for i in data:
-    print(i)
+---
+
+## Implémentation Python
+
+```python
+def tri_selection(L):
+    n = len(L)
+    for i in range(n - 1):
+        ind_min = i
+        for j in range(i + 1, n):
+            if L[j] < L[ind_min]:
+                ind_min = j
+        L[i], L[ind_min] = L[ind_min], L[i]
 ```
 
+---
+
+## Complexité temporelle
+
+* Boucle externe : n − 1 itérations
+* Boucle interne : ≈ n − i − 1 comparaisons
+* Nombre total de comparaisons :
+
+  $$
+  \sum_{i=0}^{n-2} (n-i-1) = \frac{n(n-1)}{2} = \Theta(n^2)
+  $$
+* **Meilleur, moyen, pire cas : O(n²)**
+* Échanges : au plus n − 1
 
 ---
-### Notation algorithmique
-La notation algorithmique est un langage formel utilisé pour décrire les algorithmes de manière précise et concise. Elle utilise des symboles et des conventions spécifiques pour représenter les instructions, les conditions, les boucles, etc.
-### Pseudo-code
-Le pseudo-code est une représentation informelle d'un algorithme, utilisant un langage proche du langage naturel. Il permet de décrire les étapes d'un algorithme sans se soucier de la syntaxe d'un langage de programmation spécifique.
-### Diagrammes de flux
-Les diagrammes de flux sont des représentations graphiques d'un algorithme. Ils utilisent des symboles standard pour représenter les différentes étapes, les décisions et les flux de contrôle. Les flèches indiquent la direction du flux d'exécution.
-### Langages de programmation
-Les algorithmes peuvent être implémentés dans différents langages de programmation, tels que Python, Java, C++, etc. Chaque langage a sa propre syntaxe et ses propres conventions, mais les concepts algorithmiques restent les mêmes.
-### Complexité algorithmique
-La complexité algorithmique mesure l'efficacité d'un algorithme en termes de temps et d'espace. Elle permet de comparer différents algorithmes et de choisir celui qui est le plus adapté à un problème donné.
-### Analyse de la complexité
-L'analyse de la complexité consiste à évaluer le temps et l'espace nécessaires à l'exécution d'un algorithme en fonction de la taille des données d'entrée. On utilise souvent la notation Big O pour exprimer la complexité temporelle et spatiale.
-### Exemples de complexité
-- **Complexité constante** : O(1) - L'algorithme prend un temps constant, quel que soit la taille des données d'entrée.
-- **Complexité linéaire** : O(n) - Le temps d'exécution augmente linéairement avec la taille des données d'entrée.
-- **Complexité quadratique** : O(n^2) - Le temps d'exécution augmente de manière quadratique avec la taille des données d'entrée.
-### Conclusion
-L'algorithmique est un domaine fondamental de l'informatique qui permet de résoudre des problèmes complexes de manière efficace. En comprenant les concepts algorithmiques, vous serez en mesure de concevoir des solutions optimisées et de mieux appréhender le fonctionnement des programmes informatiques.
 
+## Complexité spatiale
+
+* Algorithme **in place**
+* Mémoire supplémentaire : **O(1)**
+
+<span v-drag="[220,242,565,72]">Cela signifie que l’algorithme ne nécessite pas d’espace mémoire supplémentaire proportionnel à la taille de la liste à trier.
+<br />
+Il utilise seulement un nombre constant de variables pour effectuer les échanges et les comparaisons.</span>

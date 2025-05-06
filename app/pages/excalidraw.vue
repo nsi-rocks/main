@@ -18,9 +18,6 @@ const data = ref<any>((await fetch(url)).json())
 const updateData = (newData: any) => {
   data.value = newData
 }
-watchEffect(() => {
-  console.log('data', data.value)
-})
 </script>
 
 <style scoped>
