@@ -32,6 +32,9 @@ jobs:
       - name: Ensure NuxtHub module is installed
         run: pnpx nuxthub@latest ensure
 
+      - name: Build Slidev decks
+        run: pnpm run build:slides
+
       - name: Build application
         run: pnpm build
         env: 

@@ -1,0 +1,1 @@
+import{f as s,o as t,g as o,j as a}from"./modules/vue-Dsad4557.js";import{u as r}from"./slidev/context-xcSdvv19.js";const c={class:"slidev-layout center"},n={class:"my-auto"},m={__name:"center",setup(_){return r(),(e,l)=>(t(),s("div",c,[o("div",n,[a(e.$slots,"default")])]))}};export{m as _};

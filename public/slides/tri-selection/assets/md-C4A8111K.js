@@ -1,7 +1,0 @@
-import{_ as r}from"./slidev/CodeBlockWrapper.vue_vue_type_script_setup_true_lang-BW1GuYTs.js";import{b as p,o as d,w as a,g as s,e as m,m as c,ad as n,v as u,x as f,S as i}from"./modules/vue-DK_XcZCS.js";import{_}from"./default-CCDaiH0b.js";import{u as g,f as k}from"./slidev/context-bhaDL2hs.js";import"./modules/unplugin-icons-Bsyu1OEP.js";import"./index-BnSekVdH.js";import"./modules/shiki-Duyy_nqC.js";const j={__name:"algo.md__slidev_11",setup(h){const{$clicksContext:l,$frontmatter:t}=g();return l.setup(),(x,e)=>{const o=r;return d(),p(_,u(f(i(k)(i(t),10))),{default:a(()=>[e[1]||(e[1]=s("h2",null,"Pseudocode",-1)),m(o,c({},{ranges:[]}),{default:a(()=>e[0]||(e[0]=[s("pre",{class:"shiki shiki-themes vitesse-dark vitesse-light slidev-code",style:{"--shiki-dark":"#dbd7caee","--shiki-light":"#393a34","--shiki-dark-bg":"#121212","--shiki-light-bg":"#ffffff"}},[s("code",{class:"language-text"},[s("span",{class:"line"},[s("span",null,"pour i de 0 à n-2")]),n(`
-`),s("span",{class:"line"},[s("span",null,"    ind_min ← i")]),n(`
-`),s("span",{class:"line"},[s("span",null,"    pour j de i+1 à n-1")]),n(`
-`),s("span",{class:"line"},[s("span",null,"        si L[j] < L[ind_min] alors")]),n(`
-`),s("span",{class:"line"},[s("span",null,"            ind_min ← j")]),n(`
-`),s("span",{class:"line"},[s("span",null,"    échanger L[i] et L[ind_min]")]),n(`
-`),s("span",{class:"line"},[s("span",null,"fin pour")])])],-1)])),_:1},16)]),_:1},16)}}};export{j as default};
