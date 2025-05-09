@@ -158,62 +158,18 @@ $$
 
 ---
 
-## Démo Python — qui gagne ?
-
-```python {runner=true}
-from random import randint
-from time import perf_counter
-
-def linear_search(L, x):
-    for i, v in enumerate(L):
-        if v == x:
-            return i
-    return -1
-
-def binary_search(L, x):
-    deb, fin = 0, len(L) - 1
-    while deb <= fin:
-        m = (deb + fin) // 2
-        if L[m] == x:
-            return m
-        elif L[m] < x:
-            deb = m + 1
-        else:
-            fin = m - 1
-    return -1
-
-n = 1_000_000
-L = list(range(n))
-x = randint(0, n - 1)
-
-# Chrono recherche linéaire
-start = perf_counter()
-linear_search(L, x)
-stop = perf_counter()
-print(f"Recherche linéaire : {(stop - start)*1e6:.0f} µs")
-
-# Chrono recherche dichotomique
-start = perf_counter()
-binary_search(L, x)
-stop = perf_counter()
-print(f"Recherche dichotomique : {(stop - start)*1e6:.0f} µs")
-```
-
----
-
 ## En résumé
 
 * **Pré‑condition** : structure **triée**
 * Découpage en **moitiés successives**
 * Complexité **logarithmique**
-* Un grand classique — même Siri y pense quand il cherche vos playlists 🎵
 
 ---
 
 ## Pour aller plus loin
 
-* Recherche ternaire (on coupe en trois) — spoiler : c’est moins rentable 🤔
+* Recherche ternaire (on coupe en trois) <span v-click>(spoiler : c’est moins rentable)</span>
 * Arbres de recherche binaires
 * Index B‑tree (bases de données)
 * Pourquoi log₂ et pas log₁₀ ?
-  → Parce qu’on coupe *en deux*, voyons 😉
+  → Parce qu’on coupe *en deux*
