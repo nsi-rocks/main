@@ -1,6 +1,6 @@
 <template>
   <div class="slidev-layout center">
-    <div class="my-auto">
+    <div class="m-auto">
       <slot />
     </div>
   </div>
@@ -13,7 +13,7 @@
   background-position: center;
   background-size: cover;
 
-  @apply text-left py-15 pl-90 h-full grid;
+  @apply text-left py-15 h-full grid;
 
   h1 {
     @apply text-6xl leading-15;
