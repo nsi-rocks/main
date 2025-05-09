@@ -21,20 +21,20 @@ base: /slides/tri-selection
 
 ---
 
-## Objectifs du diaporama
+## Objectifs
 
 * Comprendre le fonctionnement du tri par sélection
-* Développer pas à pas l’algorithme
+* Développer pas à pas l'algorithme
 * Analyser sa complexité temporelle et spatiale
-* Mettre en perspective avec d’autres tris vus ou à venir
+* Mettre en perspective avec d'autres tris vus ou à venir
 
 ---
 
-## Pourquoi trier ?
+## Pourquoi trier ?
 
 * Faciliter la recherche <span v-mark.highlight.yellow>(dichotomie)</span>
-* Présenter des données à l’utilisateur
-* Pré‑traiter avant d’autres algorithmes (ex : éliminer doublons)
+* Présenter des données à l'utilisateur
+* Pré‑traiter avant d'autres algorithmes (ex : éliminer doublons)
 
 <v-drag-arrow v-after pos="379,121,81,1"/>
 
@@ -54,7 +54,7 @@ base: /slides/tri-selection
 
 1. Parcourir la partie non triée pour trouver le **minimum**
 2. Le placer au **début** de cette partie
-3. Répéter jusqu’à ce que la liste soit triée
+3. Répéter jusqu'à ce que la liste soit triée
 
 <tri-selection v-drag="[294,231,400,160]" class="w-100 h-40" :list="[7, 4, 9, 2, 5]" />
 
@@ -62,55 +62,55 @@ base: /slides/tri-selection
 layout: center
 ---
 
-## Étape 1
+## Étape 1
 
-Liste : **\[7, 4, 9, 2, 5]**  
-Minimum trouvé : **2**  
+Liste : **\[7, 4, 9, 2, 5]**  
+Minimum trouvé : **2**  
 Échange avec première position  
-Résultat : **\[2]** | \[7, 4, 9, 5]  
+Résultat : **\[2]** | \[7, 4, 9, 5]  
 
 ---
 layout: center
 ---
 
-## Étape 2
+## Étape 2
 
-Partie non triée : **\[7, 4, 9, 5]**  
-Minimum trouvé : **4**  
+Partie non triée : **\[7, 4, 9, 5]**  
+Minimum trouvé : **4**  
 Échange avec premier élément non trié  
-Résultat : \[2, **4**] | \[7, 9, 5]  
+Résultat : \[2, **4**] | \[7, 9, 5]  
 
 ---
 layout: center
 ---
 
-## Étape 3
+## Étape 3
 
-Partie non triée : **\[7, 9, 5]**  
-Minimum : **5**  
+Partie non triée : **\[7, 9, 5]**  
+Minimum : **5**  
 Échange  
-Résultat : \[2, 4, **5**] | \[7, 9]  
+Résultat : \[2, 4, **5**] | \[7, 9]  
 
 ---
 layout: center
 ---
 
-## Étape 4
+## Étape 4
 
-Partie non triée : **\[7, 9]**  
-Minimum : **7**  
+Partie non triée : **\[7, 9]**  
+Minimum : **7**  
 Échange (inutile car déjà en place)  
-Résultat : \[2, 4, 5, **7**] | \[9]  
+Résultat : \[2, 4, 5, **7**] | \[9]  
 
 ---
 layout: center
 ---
 
-## Étape 5
+## Étape 5
 
-Partie non triée : **\[9]**  
-Un seul élément → fin de l’algorithme  
-Liste triée : **\[2, 4, 5, 7, 9]**
+Partie non triée : **\[9]**  
+Un seul élément → fin de l'algorithme  
+Liste triée : **\[2, 4, 5, 7, 9]**
 
 ---
 
@@ -145,23 +145,23 @@ def tri_selection(L):
 
 ## Complexité temporelle
 
-* Boucle externe : n − 1 itérations
-* Boucle interne : ≈ n − i − 1 comparaisons
-* Nombre total de comparaisons :
+* Boucle externe : n − 1 itérations
+* Boucle interne : ≈ n − i − 1 comparaisons
+* Nombre total de comparaisons :
 
   $$
   \sum_{i=0}^{n-2} (n-i-1) = \frac{n(n-1)}{2} = \Theta(n^2)
   $$
-* **Meilleur, moyen, pire cas : O(n²)**
-* Échanges : au plus n − 1
+* **Meilleur, moyen, pire cas : O(n²)**
+* Échanges : au plus n − 1
 
 ---
 
 ## Complexité spatiale
 
 * Algorithme **in place**
-* Mémoire supplémentaire : **O(1)**
+* Mémoire supplémentaire : **O(1)**
 
-<span v-drag="[220,242,565,72]">Cela signifie que l’algorithme ne nécessite pas d’espace mémoire supplémentaire proportionnel à la taille de la liste à trier.
+<span v-drag="[220,242,565,72]">Cela signifie que l'algorithme ne nécessite pas d'espace mémoire supplémentaire proportionnel à la taille de la liste à trier.
 <br />
 Il utilise seulement un nombre constant de variables pour effectuer les échanges et les comparaisons.</span>

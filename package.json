@@ -6,6 +6,7 @@
     "build": "nuxt build",
     "build:slides": "./build-slides.sh",
     "dev": "nuxt dev",
+    "dev:slides": "pnpm --filter slides dev",
     "generate": "NODE_OPTIONS='--max-old-space-size=4096' nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",

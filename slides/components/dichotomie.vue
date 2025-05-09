@@ -57,8 +57,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { useSlideContext } from '@slidev/client'
 
+const { $clicks } = useSlideContext()
 /* -------- props -------- */
 const props = defineProps({
   list: {
@@ -68,6 +70,10 @@ const props = defineProps({
   speed: {
     type: Number,
     default: 300,
+  },
+  autoPlay: {
+    type: [Boolean, Number],
+    default: false,
   },
 })
 
@@ -84,6 +90,16 @@ const foundIndex = ref(null)
 const run = ref(false)
 
 const maxVal = computed(() => Math.max(...numbers.value.map(n => n.val)))
+
+watch(
+  () => $clicks.value,
+  (val) => {
+    if (props.autoPlay !== false && val === props.autoPlay) {
+      reset()
+      runBinarySearch()
+    }
+  },
+)
 
 /* -------- utils -------- */
 const sleep = ms => new Promise(r => setTimeout(r, ms))
