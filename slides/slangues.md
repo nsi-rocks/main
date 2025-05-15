@@ -54,6 +54,8 @@ base: /slides/slangues
 - génération de textes
 - [mise en commun](https://codimd.apps.education.fr/FEe-fLq1Rt-OOQXDZXE2nA?both)
 
+![](/shot1.png)
+
 ---
 
 ## En pratique
