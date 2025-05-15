@@ -7,8 +7,8 @@ theme: ./theme
 drawings:
     persist: true
 mdc: true
-out: ../public/slides/semaine-langues
-base: /slides/semaine-langues
+out: ../public/slides/slangues
+base: /slides/slangues
 ---
 # Semaine des langues - 2025
 ## Intelligence artificielle
