@@ -21,7 +21,7 @@ base: /slides/recherche-dichotomie
 
 ---
 
-# Usages de l'IA
+## Usages de l'IA
 <v-clicks>
 
 - Assistants de conversation
@@ -33,6 +33,127 @@ base: /slides/recherche-dichotomie
 - Vision par ordinateur
 
 </v-clicks>
+
+---
+
+## Usages de l'IA
+
+- <span v-after v-mark.highlight.yellow>Assistants de conversation</span>
+- Traduction automatique
+- Création d'images, de vidéos
+- Recommandations personnalisées
+- Diagnostic médical, aide à la recherche
+- Reconnaissance vocale
+- Vision par ordinateur
+
+---
+
+## En pratique
+
+Première mise en pratique : générer un conte en un paragraphe, <span v-mark.highlight.yellow>naïf</span>.
+
+```py 
+from chat import SessionDiscussion
+chat = SessionDiscussion()
+conte = await chat.demander("Écris un conte en un paragraphe.")
+print(conte)
+```
+
+<span v-click v-mark.box.blue="2" v-drag="[358,328,208,40]" class="text-xl">Quel est le résultat ?</span>
+
+<span v-click v-drag="[306,428,478,27]"><lucide-arrow-right /> Très peu d'originalité, un peu de magie, une morale.</span>
+
+<div class="p-4 flex items-center text-3xl gap-4" v-click v-drag="[812,283,195,139]">
+<a href="https://codimd.apps.education.fr/FEe-fLq1Rt-OOQXDZXE2nA" style="text-decoration: none; border: 0;">
+<lucide-external-link />
+</a>
+</div>
+
+---
+
+## Pourquoi ?
+- **Probabilités** : un conte, en un paragraphe, c'est un peu court pour être original.
+- **Personnalisation** : on peut ajouter des éléments de personnalisation, pour orienter la génération.
+
+<span v-click v-mark.box.blue="1" v-drag="[411,246,267,40]" class="text-xl">Comment personnaliser ?</span>
+
+<v-clicks at="2" v-drag="[253,316,133,178]">
+
+- personnages
+- époque
+- ambiance
+- style
+- ton
+
+</v-clicks>
+
+
+---
+
+## On rééssaie !
+
+Objectif : générer un conte en un paragraphe, <span v-mark.highlight.yellow>avec du contexte</span>.
+
+```py 
+from chat import SessionDiscussion
+chat = SessionDiscussion()
+conte = await chat.demander("Écris un conte en un paragraphe, (continuer avec vos propres mots)")
+print(conte)
+```
+
+<span v-click v-mark.box.blue="2" v-drag="[358,328,208,40]" class="text-xl">Quel est le résultat ?</span>
+
+<span v-click v-drag="[306,428,478,27]"><lucide-arrow-right /> Un simple contexte a suffi à casser l'uniformité des résultats.</span>
+
+---
+
+## On partage !
+
+<div class="text-2xl" v-click v-mark.box.blue="1" v-drag="[256,220,421,40]"><lucide-rss /> Qui veut partager son conte ?</div>
+
+<div class="p-4 text-3xl" v-click v-drag="[467,380,498,139]">
+<a href="https://codimd.apps.education.fr/cZFtrCh4QhGceaqSCikG_w" style="text-decoration: none; border: 0;" class="flex items-center gap-4">
+<lucide-external-link />
+<span>Lien vers les contes</span>
+</a>
+</div>
+
+---
+
+## On fait le point
+- l'IA fonctionne sur des probabilités
+- plus on lui donne de contexte, plus elle est originale
+- on peut lui donner des instructions précises
+- maintenant, allons plus loin !
+
+---
+
+## L'instruction mystère
+
+<span v-click v-drag="[220,139,499,41]">**Petit jeu** : utilisation de la fonction `chat.mystere`</span>
+
+<div v-click v-drag="[250,221,364,110]">
+```py
+from chat import SessionDiscussion
+chat = SessionDiscussion()
+num, texte = await chat.mystere()
+print(num)
+print(texte)
+```
+</div>
+
+<div v-click v-drag="[273,405,448,30]">
+<lucide-arrow-right />
+<span>Pour chaque numéro, essayons de deviner le style !</span>
+</div>
+
+<div class="p-4 flex items-center text-3xl gap-4" v-click v-drag="[812,283,195,139]">
+<a href="https://codimd.apps.education.fr/ZTBPaiZtTOe-o4pmWVUnew" style="text-decoration: none; border: 0;">
+<lucide-external-link />
+</a>
+</div>
+
+
 
 ---
 
@@ -115,4 +236,3 @@ On spécialise le modèle sur un domaine précis pour qu'il soit plus performant
 - Affichage du résultat
 
 </v-clicks>
-
