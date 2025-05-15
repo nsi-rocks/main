@@ -7,8 +7,8 @@ theme: ./theme
 drawings:
     persist: true
 mdc: true
-out: ../public/slides/recherche-dichotomie
-base: /slides/recherche-dichotomie
+out: ../public/slides/semaine-langues
+base: /slides/semaine-langues
 ---
 # Semaine des langues - 2025
 ## Intelligence artificielle
