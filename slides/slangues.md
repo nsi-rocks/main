@@ -48,6 +48,16 @@ base: /slides/recherche-dichotomie
 
 ---
 
+## Aujourd'hui
+
+- utilisation de Python
+- génération de textes
+- [mise en commun](https://codimd.apps.education.fr/FEe-fLq1Rt-OOQXDZXE2nA?both)
+
+![](./shot1.png)
+
+---
+
 ## En pratique
 
 Première mise en pratique : générer un conte en un paragraphe, <span v-mark.highlight.yellow>naïf</span>.
@@ -132,11 +142,11 @@ print(conte)
 
 <span v-click v-drag="[220,139,499,41]">**Petit jeu** : utilisation de la fonction `chat.mystere`</span>
 
-<div v-click v-drag="[250,221,364,110]">
+<div v-click v-drag="[224,219,560,110]">
 ```py
 from chat import SessionDiscussion
 chat = SessionDiscussion()
-num, texte = await chat.mystere()
+num, texte = await chat.mystere("Qui a remporté le prix Nobel en 2028 ?")
 print(num)
 print(texte)
 ```
@@ -152,8 +162,6 @@ print(texte)
 <lucide-external-link />
 </a>
 </div>
-
-
 
 ---
 
@@ -227,12 +235,83 @@ On spécialise le modèle sur un domaine précis pour qu'il soit plus performant
 
 ---
 
-# Génération de texte
+## Les biais
+- "hallucination" : l'IA invente des choses
+- pas de conscience ou d'esprit critique
+- pas de compréhension du monde
+- mise en évidence
 
-<v-clicks>
+<div v-click v-drag="[205,264,560,76]">
+```py
+chat = SessionDiscussion()
+texte = await chat.demander("Qui a gagné le prix Nobel de chimie en 2028 ?")
+print(texte)
+```
+</div>
 
-- Utilisation de l'API de Mistral
-- Construction de la requête
-- Affichage du résultat
+<v-clicks at="2" v-drag="[106,354,312,36]">
+
+- on ajoute un paramètre `mode`
 
 </v-clicks>
+
+<div v-click v-drag="[197,385,560,147]">
+```py
+rep1 = await chat.demander("...", mode="hallu")
+rep2 = await chat.demander("...", mode="sécurisé")
+
+print(rep1)
+print(rep2)
+```
+</div>
+
+---
+
+## Essayons
+
+<div v-click v-mark.box.blue="1" v-drag="[256,220,421,96]" class="text-3xl"><lucide-arrow-right-from-line /> Essayez de trouver un biais sympa !</div>
+
+<div v-drag="[517,400,264,65]" v-click="2" class="flex items-center gap-4 text-3xl">
+<lucide-rss  />
+<span>On partage</span>
+</div>
+
+---
+
+## Des histoires plus longues
+
+<span v-click>On a besoin de fournir à l'IA le contexte des échanges précédents.</span>
+
+<div v-click v-mark.highlight.yellow="2" v-drag="[195,177,216,43]" class="text-3xl"><lucide-arrow-right-from-line /> Historique !</div>
+
+<div v-click="3" v-drag="[238,268,436,93]">
+
+```py
+chat = SessionDiscussion()
+texte = await chat.demander("bla bla bla")
+print(texte) # si on veut afficher le texte complet
+chat.historique() # si on veut voir l'historique
+```
+</div>
+
+<div v-click="4" v-drag="[188,394,573,101]"><lucide-arrow-right-from-line /> Chaque appel à la fonction <code>demander</code> ajoute la question et la réponse à l'historique.</div>
+
+---
+
+## Des histoire par groupe de 4
+
+Répartition en groupes de 4, pour produire une petite histoire en 4 parties.
+- chaque groupe choisit un personnage, une époque, une ambiance, un style
+- chaque groupe se met d'accord sur quatre parties à développer
+- chaque membre du groupe s'occupe de générer sa partie
+- on colle les résultats dans le [CodiMD](https://codimd.apps.education.fr/QM7r1z9vRdqVERppkDrHUw?both)
+
+---
+
+## Deux histoire par groupe de 8
+
+Répartition en groupes de 8, pour produire une petite histoire en 8 parties.
+- chaque groupe choisit un personnage, une époque, une ambiance, un style
+- chaque groupe se met d'accord sur huit parties à développer
+- chaque membre du groupe s'occupe de générer sa partie
+- on colle les résultats dans le [CodiMD](https://codimd.apps.education.fr/JiVz3KKeR5GOiYpsKDHhxg?both)
