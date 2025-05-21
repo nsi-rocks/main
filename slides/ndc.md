@@ -39,6 +39,21 @@ base: /slides/ndc
 
 ---
 
+## Conseils
+- moins on planifie, plus on perd de temps
+    - prenez le temps nécessaire pour planifier votre programme
+    - papier + crayon si nécessaire 
+    - Excalidraw si vous voulez rester sur écran
+- une fonction prend des paramètres et renvoie une valeur
+    - répartissez vous les tâches
+    - planifiez votre code
+    - une tâche par fonction, pas grave si vous finissez avec 15 fonctions
+    - écrivez vos fonctions, testez-les
+    - mettez-les ensuite en commun 
+    - (puis résolvez les bugs)
+
+---
+
 <img src="/pyxel.webp" class="absolute top-0 m-auto h-full v-full" />
 
 ---
