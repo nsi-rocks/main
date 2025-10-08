@@ -26,16 +26,13 @@ const links = computed(() => [
 </script>
 
 <template>
-  <UHeader>
-    <template #content>
-      <UContentNavigation :navigation="navigation ?? []" />
-    </template>
+  <UHeader :toggle="false">
     <template #title>
       <Logo class="block w-auto h-10" />
     </template>
     <UNavigationMenu :items="links" />
     <template #right>
-      <UContentSearchButton label="" />
+      <!-- <UContentSearchButton label="" /> -->
       <ClientOnly>
         <UColorModeButton />
         <I18nSwitch />
