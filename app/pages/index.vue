@@ -94,7 +94,7 @@ const linkssnt = [
     <UPageGrid class="lg:grid-cols-2">
       <UPageCard
         title="NSI"
-        description="Numérique et Sciences Informatiques. Cette matière est enseignée en classe de première et de terminale."
+        :description="$t('nsi')"
         variant="subtle"
         orientation="horizontal"
       >
@@ -102,7 +102,7 @@ const linkssnt = [
       </UPageCard>
       <UPageCard
         title="SNT"
-        description="Sciences Numériques et Technologie. Cette matière est enseignée en classe de seconde."
+        :description="$t('snt')"
         variant="subtle"
         orientation="horizontal"
       >
