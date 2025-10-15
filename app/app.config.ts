@@ -1,16 +1,40 @@
 export default defineAppConfig({
   ui: {
     button: {
-      variants: {
-        size: {
-          '2xl': {
-            base: 'px-3 py-2 text-2xl gap-2',
-            leadingIcon: 'size-6',
-            leadingAvatarSize: 'xs',
-            trailingIcon: 'size-6',
-          },
-        },
+      slots: {
+        base: 'cursor-pointer'
       },
     },
-  },
+    pageHero: {
+      slots: {
+        root: 'mt-12',
+        container: "ring ring-default rounded-lg bg-muted py-8 sm:py-12 lg:py-16 animate-wiggle"
+      }
+    },
+    pageSection: {
+      slots: {
+        root: 'mt-12',
+        container: "py-8 sm:py-12 lg:py-16"
+      }
+    },
+    pageCard: {
+      variants: {
+        variant: {
+          subtle: {
+            root: 'bg-muted'
+          }
+        }
+      },
+      compoundVariants: [
+        {
+          variant: 'subtle',
+          to: true,
+          class: {
+            root: 'hover:bg-elevated transition duration-500'
+          }
+        },
+      ]
+    }
+  }
 })
+  

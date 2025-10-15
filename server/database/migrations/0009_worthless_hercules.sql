@@ -1,1 +1,0 @@
-ALTER TABLE `langues` ADD `commentaire` text;

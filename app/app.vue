@@ -1,63 +1,77 @@
-<template>
-  <UApp>
-    <UBanner
-      v-if="isFirefox"
-      title="Ce site n'est pour l'instant pas complètement optimisé pour le navigateur Firefox, veuillez utiliser Google Chrome."
-      close
-    />
-    <NuxtLayout :appid="appid">
-      <NuxtPage />
-    </NuxtLayout>
-  </UApp>
-</template>
-
 <script setup lang="ts">
-import { getSubdomain } from 'tldts'
-import { LazyModalCompat } from '#components'
+const btnVariant = 'ghost'
+const { t, locale, locales } = useI18n()
+const route = useRoute()
 
-const overlay = useOverlay()
+const siteUrl = 'https://nsi.rocks'
 
-const isFirefox = ref(false)
+const localePath = useLocalePath()
+const switchLocalePath = useSwitchLocalePath()
 
-onErrorCaptured((err, instance, info) => {
-  console.error('💥 Erreur capturée dans App.vue', err, info)
-  return false
-})
+const title = computed(() => t('seo.home.title'))
+const description = computed(() => t('seo.home.description'))
 
-onMounted(() => {
-  const browser = useBrowserInfo()
-  console.log(`Browser: ${browser.name}, Version: ${browser.version}`)
+const canonical = computed(() => siteUrl + localePath(route.fullPath))
 
-  // Vérification pour Tailwind v4 (Chrome 111+, Safari 16.4+, Firefox 128+)
-  if (
-    (browser.name === 'Chrome' && browser.version < 111)
-    || (browser.name === 'Firefox' && browser.version < 128)
-    || (browser.name === 'Safari' && browser.version < 16.4)
-  ) {
-    console.warn('Votre navigateur n\'est pas totalement compatible avec Tailwind CSS v4 !')
-    const modal = overlay.create(LazyModalCompat, {
-      props: {
-        nav: browser.name,
-        version: browser.version.toString(),
-      },
-    })
-    modal.open()
-  }
-})
+const ogLocale = computed(() => (locale.value === 'fr' ? 'fr_FR' : 'en_US'))
 
-const ticket = useRoute().query.ticket
-
-const appid = getSubdomain(useRequestURL().hostname) || ''
-
-if (ticket) {
-  await navigateTo('/api/auth/ticket?ticket=' + ticket)
-}
+const ogImage = computed(() =>
+  locale.value === 'fr' ? '/banniere-x.png' : '/banniere-x.png',
+)
 
 useHead({
-  title: 'NSI Rocks !',
-  meta: [
-    { name: 'description', content: 'NSI Rocks !' },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-  ],
+  htmlAttrs: { lang: () => locale.value },
 })
+
+useSeoMeta({
+  title: () => title.value,
+  description: () => description.value,
+  robots: 'index, follow',
+  ogUrl: () => canonical.value,
+  ogTitle: () => title.value,
+  ogDescription: () => description.value,
+  ogImage: () => ogImage.value,
+  ogType: 'website',
+  ogLocale: () => ogLocale.value,
+  twitterCard: 'summary_large_image',
+  twitterTitle: () => title.value,
+  twitterDescription: () => description.value,
+  twitterImage: () => ogImage.value,
+  themeColor: '#6A0DAD',
+  colorScheme: 'light dark',
+})
+
+useHead(() => ({
+  link: [
+    { rel: 'canonical', href: canonical.value },
+    ...locales.value.map((l: any) => ({
+      rel: 'alternate',
+      hreflang: l.code, // ex: "fr", "en"
+      href: siteUrl + switchLocalePath(l.code), // URL équivalente dans chaque langue
+    })),
+    { rel: 'alternate', hreflang: 'x-default', href: siteUrl + switchLocalePath('en') },
+  ],
+}))
+
+const navigation = []
+const files = []
 </script>
+
+<template>
+  <UApp>
+    <Header :navigation="navigation" />
+    <UMain>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </UMain>
+    <Footer />
+    <ClientOnly>
+      <LazyUContentSearch
+        :files="files"
+        :navigation="navigation"
+        :fuse="{ resultLimit: 42 }"
+      />
+    </ClientOnly>
+  </UApp>
+</template>

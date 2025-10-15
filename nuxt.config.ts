@@ -1,36 +1,7 @@
-const cookieDomain = process.env.NODE_ENV === 'development' ? '.localhost.com' : '.nsi.rocks'
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxthub/core',
-    '@nuxt/ui-pro',
-    '@nuxt/content',
-    '@nuxtjs/mdc',
-    'nuxt-auth-utils',
-    '@pinia/nuxt',
-    '@nuxt/scripts',
-    '@nuxt/icon',
-    '@nuxt/eslint',
-    'nuxt-authorization',
-    '@vueuse/nuxt',
-  ],
-  // icon: {
-  //   clientBundle: {
-  //     scan: true,
-  //     sizeLimitKb: 512,
-  //   },
-  // },
-  $development: {
-    hub: {
-      remote: true,
-    },
-  },
-  devtools: {
-    enabled: true,
-
-    timeline: {
-      enabled: true,
-    },
-  },
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/content', '@nuxtjs/i18n'],
+  devtools: { enabled: true },
   app: {
     head: {
       link: [
@@ -40,11 +11,38 @@ export default defineNuxtConfig({
           integrity: 'sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+',
           crossorigin: 'anonymous',
         },
+        { rel: 'icon', type: 'image/png', href: '/favicon-96x96.png', sizes: '96x96' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'shortcut icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' }
       ],
+      meta: [
+        { name: 'apple-mobile-web-app-title', content: 'NSI Rocks !' }
+      ]
     },
   },
   css: ['~/assets/css/main.css'],
+  site: {
+    url: 'https://nsi.rocks',
+    name: 'NSI Rocks !',
+  },
+  i18n: {
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'fr', name: 'Français', file: 'fr.json' },
+    ],
+    defaultLocale: 'fr',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      alwaysRedirect: true,
+      redirectOn: 'root',
+      fallbackLocale: 'fr'
+    }
+  },
   content: {
+    experimental: { sqliteConnector: 'native' },
     build: {
       markdown: {
         remarkPlugins: {
@@ -63,55 +61,44 @@ export default defineNuxtConfig({
             // Theme used if `html.sepia`
             sepia: 'monokai',
           },
-          langs: ['py', 'md', 'http', 'typescript'],
+          langs: ['py', 'md', 'http'],
         },
       },
     },
   },
-  runtimeConfig: {
-    mistralAPI: process.env.MISTRAL_API_KEY,
-    session: {
-      cookie: {
-        domain: cookieDomain,
+
+  compatibilityDate: '2025-01-20',
+  fonts: {
+    provider: 'fontsource',
+    defaults: {
+      subsets: ['latin'],
+      weights: ['400 700'],
+      styles: ['normal', 'italic'],
+    }
+  },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        types: ["@cloudflare/workers-types/2023-07-01"],
       },
     },
   },
-  devServer: {
-    host: 'localhost.com',
-    https: {
-      key: process.env.CAPDEV_SSL_KEY,
-      cert: process.env.CAPDEV_SSL_CERT,
-    },
-  },
-  future: { compatibilityVersion: 4 },
-  compatibilityDate: '2024-07-30',
-  // nitro: {
-  //   prerender: {
-  //     routes: ['/snt', '/nsi'],
-  //     crawlLinks: true,
-  //   },
-  // },
-  hub: {
-    database: true,
-    kv: true,
-    blob: true,
-  },
-  vite: {
-    server: {
-      allowedHosts: ['localhost.com', 'rgb.localhost.com', 'lang.localhost.com'],
-    },
-  },
-  eslint: {
-    config: {
-      stylistic: {
-        quotes: 'single',
-      },
-    },
+
+  nitro: {
+    prerender: { 
+      autoSubfolderIndex: false,
+      crawlLinks: true,
+    }
   },
   icon: {
     customCollections: [{
       prefix: 'custom',
       dir: './app/assets/icons',
     }],
+  },
+  eslint: {
+    config: {
+      stylistic: true,
+    },
   },
 })

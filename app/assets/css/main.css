@@ -1,16 +1,20 @@
-@import "tailwindcss" theme(static);
-@import "@nuxt/ui-pro";
+@import "tailwindcss";
+@import "@nuxt/ui";
+@source "../../../content/**/*.{md,yml}";
+
+
+@theme static {
+  --animate-wiggle: wiggle 1s ease-in-out;
+  @keyframes wiggle {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
 
 @theme {
---container-8xl: 100%;
-}
-@source "../../../content";
-
-:root {
---ui-container: var(--container-8xl);
+  --font-sans: 'Nunito', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-.text-3xl {
-    font-size: var(--text-3xl);
-    line-height: var(--tw-leading, var(--text-3xl--line-height));
-}
+/* Utilitaire global */
+body { @apply antialiased text-default bg-default scheme-light dark:scheme-dark; }

@@ -1,0 +1,11 @@
+{
+  "welcome": "Welcome",
+  "seo": {
+    "home": {
+      "title": "NSI Rocks !",
+      "description": "Website dedicated to computer science in high school: resources, tutorials, and training."
+    }
+  },
+  "nsi": "Digital and Computer Science. This subject is taught in the first and final years of high school.",
+  "snt": "Digital Sciences and Technology. This subject is taught in the second year of high school."
+}

@@ -4,12 +4,11 @@
 .nuxt
 .nitro
 .cache
-.wrangler
 dist
-public/slides
 
 # Node dependencies
 node_modules
+.wrangler
 
 # Logs
 logs
@@ -24,5 +23,3 @@ logs
 .env
 .env.*
 !.env.example
-
-eleves.ts
