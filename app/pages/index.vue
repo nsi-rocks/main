@@ -5,7 +5,11 @@ definePageMeta({
 
 const lp = useLocalePath()
 const dateRentree = new Date('2025-09-01')
-const semaine = weeksElapsedSince(dateRentree.getTime())
+const semaine = ref<number | null>(null)
+
+onMounted(() => {
+  semaine.value = weeksElapsedSince(dateRentree.getTime())
+})
 
 const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 11]
 
@@ -114,7 +118,7 @@ const linkssnt = [
         v-for="i in sum"
         :key="i"
         class="w-8 h-8"
-        :class="[periodesAccumulated.findIndex(el => el >= i) % 2 == 0 ? 'bg-blue-400' : 'bg-slate-700', i === semaine ? 'ring-2 ring-offset-2' : '']"
+        :class="[periodesAccumulated.findIndex(el => el >= i) % 2 == 0 ? 'bg-blue-400' : 'bg-slate-700', semaine !== null && i === semaine ? 'ring-2 ring-offset-2' : '']"
       />
     </div>
   </UPageBody>
