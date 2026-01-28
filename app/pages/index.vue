@@ -11,7 +11,7 @@ onMounted(() => {
   semaine.value = weeksElapsedSince(dateRentree.getTime())
 })
 
-const periodes = [7, 2, 7, 2, 5, 2, 6, 2, 11]
+const periodes = [7, 2, 7, 2, 6, 2, 6, 2, 11]
 
 function weeksElapsedSince(startDate: number) {
   const now = Date.now()
