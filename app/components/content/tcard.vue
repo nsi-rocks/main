@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+  variant?: 'solid' | 'outline' | 'soft' | 'subtle'
+}>()
+</script>
+
 <template>
   <UCard :variant="variant">
     <template
@@ -17,9 +23,3 @@
     </template>
   </UCard>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-  variant?: 'solid' | 'outline' | 'soft' | 'subtle'
-}>()
-</script>

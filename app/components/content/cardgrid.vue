@@ -1,3 +1,10 @@
+<script setup lang="ts">
+const props = defineProps<{
+  cols: number
+  cclass?: any
+}>()
+</script>
+
 <template>
   <div
     class="grid gap-4"
@@ -6,10 +13,3 @@
     <slot />
   </div>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-  cols: number
-  cclass?: any
-}>()
-</script>

@@ -1,12 +1,3 @@
-<template>
-  <div
-    :class="ui.wrapper"
-    v-bind="attrs"
-  >
-    <slot />
-  </div>
-</template>
-
 <script setup lang="ts">
 const config = {
   wrapper: 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8',
@@ -29,3 +20,12 @@ const props = defineProps({
 
 const { ui, attrs } = useUI('pgrid', toRef(props, 'ui'), config, toRef(props, 'class'), true)
 </script>
+
+<template>
+  <div
+    :class="ui.wrapper"
+    v-bind="attrs"
+  >
+    <slot />
+  </div>
+</template>
