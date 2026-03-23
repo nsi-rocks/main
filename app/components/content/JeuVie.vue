@@ -1,40 +1,3 @@
-<template>
-  <div class="content">
-    <div class="buttons">
-      <button
-        v-if="play"
-        class="play-button"
-        @click="playSimulation()"
-      >
-        Play
-      </button>
-      <button
-        v-if="reset"
-        class="reset-button"
-        @click="resetSimulation()"
-      >
-        Reset
-      </button>
-    </div>
-    <div
-      class="unicell"
-      :style="{ 'justify-content': jc }"
-    >
-      <span
-        v-if="gen"
-        class="gen"
-      >Gen. {{ gen }}</span>
-      <div
-        v-for="(cll, index) in arrGen"
-        :key="index"
-        class="cell"
-        :class="{ alive: cll, dead: !cll }"
-        @click="toggleCell(index)"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 
@@ -84,9 +47,48 @@ function resetSimulation() {
 }
 
 function toggleCell(index: string | number) {
-  arrGen.value[index] = !arrGen.value[index]
+  if (props.play) {
+    arrGen.value[index] = !arrGen.value[index]
+  }
 }
 </script>
+
+<template>
+  <div class="content">
+    <div
+      class="unicell"
+      :style="{ 'justify-content': jc }"
+    >
+      <span
+        v-if="gen"
+        class="gen"
+      >Gen. {{ gen }}</span>
+      <div
+        v-for="(cll, index) in arrGen"
+        :key="index"
+        class="cell"
+        :class="{ alive: cll, dead: !cll, clickable: play }"
+        @click="toggleCell(index)"
+      />
+    </div>
+    <div class="buttons">
+      <button
+        v-if="play"
+        class="icon-button play-button"
+        @click="playSimulation()"
+      >
+        <UIcon name="i-lucide-play" />
+      </button>
+      <button
+        v-if="reset"
+        class="icon-button reset-button"
+        @click="resetSimulation()"
+      >
+        <UIcon name="i-lucide-rotate-ccw" />
+      </button>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .content {
@@ -95,30 +97,39 @@ function toggleCell(index: string | number) {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 }
 
 .buttons {
-  position: absolute;
-  left: 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.icon-button {
+  background-color: transparent;
+  color: currentColor;
+  border: 1px solid currentColor;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.icon-button:hover {
+  opacity: 1;
 }
 
 .play-button {
-  background-color: darkgreen;
-  color: white;
-  border: none;
-  padding: 5px 15px;
-  margin-right: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  color: green;
 }
 
 .reset-button {
-  background-color: darkred;
-  color: white;
-  border: none;
-  padding: 5px 15px;
-  border-radius: 5px;
-  cursor: pointer;
+  color: red;
 }
 
 .cell {
@@ -128,6 +139,14 @@ function toggleCell(index: string | number) {
   border: 1px solid black;
   border-radius: 5px;
   margin: 0.2rem;
+}
+
+.cell.clickable {
+  cursor: pointer;
+}
+
+.cell.clickable:hover {
+  opacity: 0.7;
 }
 
 .dead {
